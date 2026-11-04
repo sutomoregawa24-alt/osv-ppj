@@ -1,7 +1,7 @@
 {
-  "name": "Dokumentasi OSV PPJ",
-  "short_name": "OSV PPJ",
-  "description": "Dokumentasi foto verifikasi lapangan (on site visit) BU-PPJ / BU-PBPJ, offline.",
+  "name": "Pemeriksaan Fisik TDBU",
+  "short_name": "OSV TDBU",
+  "description": "Pemeriksaan fisik / on site visit BU-PPJ dan BU-PBPJ - Direktorat Lalu Lintas Jalan. Bekerja offline.",
   "lang": "id",
   "start_url": "./",
   "scope": "./",

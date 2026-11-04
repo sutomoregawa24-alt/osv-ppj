@@ -9,7 +9,7 @@
 <link rel="apple-touch-icon" href="icon-192.png">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<title>Dokumentasi OSV PPJ</title>
+<title>Pemeriksaan Fisik TDBU</title>
 <style>
 :root{
   --bg:#eef1f5; --card:#fff; --ink:#14202e; --mute:#5c6b7c; --line:#d8dee6;
@@ -22,7 +22,8 @@ body{background:var(--bg);color:var(--ink);font:15px/1.4 system-ui,-apple-system
 button,input,select,textarea{font:inherit;color:inherit}
 .top{position:sticky;top:0;z-index:20;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:space-between;padding:10px 16px;padding-top:max(10px,env(safe-area-inset-top))}
 .brand{display:flex;gap:10px;align-items:center}
-.logo{width:34px;height:34px;border-radius:8px;background:var(--amber);display:grid;place-items:center;color:var(--navy);font-weight:900}
+.logo{width:38px;height:38px;border-radius:9px;background:#fff;display:grid;place-items:center;flex:none;padding:3px}
+.logo img{max-width:100%;max-height:100%;display:block}
 .brand b{display:block;font-size:16px}
 .brand small{display:block;opacity:.75;font-size:11.5px}
 .badge{font-size:11.5px;padding:4px 8px;border-radius:99px;background:rgba(255,255,255,.12);white-space:nowrap}
@@ -67,6 +68,12 @@ details.sec>summary .n.full{color:#fff;background:var(--ok);border-color:var(--o
 .item .nm small{display:block;font-weight:400;color:var(--mute);font-size:12px}
 .item .nm .del{border:0;background:none;color:var(--bad);font-size:12px;padding:0;margin:2px 0 0 8px}
 .item .bt{display:flex;gap:6px;flex:none}
+.ex{width:44px;height:44px;border-radius:11px;border:1px solid var(--line);background:#fff;padding:0;overflow:hidden;display:grid;place-items:center;color:var(--blue);font-size:11px;font-weight:700;text-decoration:none;line-height:1.1;text-align:center}
+.ex img{width:100%;height:100%;object-fit:contain;display:block}
+.unit{flex:none;font-size:13.5px;color:var(--mute);font-weight:600}
+.ttd{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.ttd label.f{margin-bottom:6px}
+.sub3{font-size:12.5px;font-weight:700;color:var(--navy);margin:10px 0 6px}
 .ib{width:44px;height:44px;border-radius:11px;border:0;background:var(--navy);color:#fff;display:grid;place-items:center}
 .ib.g{background:#fff;color:var(--navy);border:1px solid var(--line)}
 .ib svg{width:22px;height:22px}
@@ -146,7 +153,7 @@ body.camon #toast{bottom:auto;top:96px}
 <body>
 
 <header class="top">
-  <div class="brand"><div class="logo">▲</div><div><b>Dokumentasi OSV</b><small>Verifikasi Lapangan BU-PPJ / BU-PBPJ · offline</small></div></div>
+  <div class="brand"><div class="logo"><img src="logo.png" alt="Kementerian Perhubungan"></div><div><b>Pemeriksaan Fisik TDBU</b><small>On Site Visit BU-PPJ / BU-PBPJ · Dit. Lalu Lintas Jalan</small></div></div>
   <div id="gpsBadge" class="badge">GPS –</div>
 </header>
 
@@ -176,6 +183,24 @@ body.camon #toast{bottom:auto;top:96px}
     </div>
 
     <div class="card">
+      <h2>Penandatangan Formulir</h2>
+      <label class="f"><span>Tempat penandatanganan (kota)</span><input data-ttd="kota" placeholder="mis. Samarinda"></label>
+      <div class="sub3">Wakil Perusahaan</div>
+      <div class="ttd">
+        <label class="f"><span>1. Nama</span><input data-ttd="wp.0.nama"></label><label class="f"><span>Jabatan</span><input data-ttd="wp.0.jabatan"></label>
+        <label class="f"><span>2. Nama</span><input data-ttd="wp.1.nama"></label><label class="f"><span>Jabatan</span><input data-ttd="wp.1.jabatan"></label>
+      </div>
+      <div class="sub3">Tim Teknis Direktorat Lalu Lintas Jalan</div>
+      <div class="ttd">
+        <label class="f"><span>1. Nama</span><input data-ttd="tt.0.nama"></label><label class="f"><span>Pangkat</span><input data-ttd="tt.0.pangkat"></label>
+        <label class="f"><span>Gol.</span><input data-ttd="tt.0.gol"></label><label class="f"><span>Jabatan</span><input data-ttd="tt.0.jabatan"></label>
+        <label class="f"><span>2. Nama</span><input data-ttd="tt.1.nama"></label><label class="f"><span>Pangkat</span><input data-ttd="tt.1.pangkat"></label>
+        <label class="f"><span>Gol.</span><input data-ttd="tt.1.gol"></label><label class="f"><span>Jabatan</span><input data-ttd="tt.1.jabatan"></label>
+      </div>
+      <p class="hint">Dicetak di kolom tanda tangan formulir checklist. Data Tim Teknis tetap tersimpan untuk kunjungan berikutnya.</p>
+    </div>
+
+    <div class="card">
       <h2>Pengaturan Cap Waktu</h2>
       <label class="chk"><input type="checkbox" id="o-gps" checked><div><b>Sertakan koordinat GPS</b><small>Aktifkan lokasi HP. GPS bekerja tanpa internet.</small></div></label>
       <label class="chk"><input type="checkbox" id="o-stampgal" checked><div><b>Beri cap juga pada foto dari galeri</b><small>Matikan jika foto galeri sudah diambil pakai aplikasi Timestamp Camera (agar tidak ada cap ganda).</small></div></label>
@@ -201,7 +226,7 @@ body.camon #toast{bottom:auto;top:96px}
     <div class="card">
       <h2>Isi Dokumen</h2>
       <label class="chk"><input type="checkbox" id="o-empty" checked><div><b>Tampilkan kotak kosong untuk item tanpa foto</b><small>Seperti contoh lampiran (kotak tetap ada, foto kosong).</small></div></label>
-      <label class="chk"><input type="checkbox" id="o-rekap"><div><b>Sertakan rekap checklist (Ada/Tidak + keterangan)</b><small>Tabel ringkas sebelum tabel foto.</small></div></label>
+      <label class="chk"><input type="checkbox" id="o-rekap"><div><b>Sertakan formulir checklist (sesuai formulir asli)</b><small>Kotak centang terisi (V = ada, X = tidak), luas, kendaraan, dan kolom tanda tangan; dicetak sebelum lampiran foto.</small></div></label>
     </div>
     <div class="stack">
       <button class="btn full" data-act="docx"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13l1.5 5 1.5-4 1.5 4 1.5-5"/></svg>Unduh Tabel Dokumentasi Word (.docx)</button>
@@ -234,7 +259,7 @@ body.camon #toast{bottom:auto;top:96px}
 </div>
 <div id="viewer" hidden>
   <div class="im"><img alt=""></div>
-  <div class="vb"><button class="btn red" data-act="vdel">Hapus foto</button><button class="btn" data-act="vclose">Tutup</button></div>
+  <div class="vb"><button class="btn red" data-act="vdel" id="btnVdel">Hapus foto</button><button class="btn" data-act="vclose">Tutup</button></div>
 </div>
 <div id="toast"></div>
 <div id="busy"><div id="busyTxt">Memproses…</div></div>
@@ -488,9 +513,29 @@ function customBidang(name){
 /* ================= STATE ================= */
 function today(){ const d=new Date(); return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`; }
 let state = freshState();
+function freshTtd(){ return {kota:"", wp:[{nama:"",jabatan:""},{nama:"",jabatan:""}], tt:[{nama:"",pangkat:"",gol:"",jabatan:""},{nama:"",pangkat:"",gol:"",jabatan:""}]}; }
 function freshState(){
-  return { visit:{perusahaan:"", alamat:"", tanggal:today(), buKey:"PPJ", bu:BU.PPJ.label, petugas:""},
-           opt:{gps:true, stampGal:true, empty:true, rekap:false}, bidang:templates(), cur:"konv", collapsed:{} };
+  return { visit:{perusahaan:"", alamat:"", tanggal:today(), buKey:"PPJ", bu:BU.PPJ.label, petugas:"", ttd:freshTtd()},
+           opt:{gps:true, stampGal:true, empty:true, rekap:true}, bidang:templates(), cur:"konv", collapsed:{} };
+}
+/* Jenis isian khusus: luas ruang (m²) dan kendaraan (jenis / type) */
+const isLuas = it => /m²/.test(it.hint||"");
+const isKend = it => /^Kendaraan Operasional \d/.test(it.name);
+const isAlat = s => /^Peralatan/.test(s.title) && !/Keselamatan/.test(s.title);
+function kendParts(ket){ const [j,...t] = String(ket||"").split("/"); return {jenis:j.trim(), type:t.join("/").trim()}; }
+
+/* ================= GAMBAR CONTOH ALAT (dari lampiran formulir asli) ================= */
+const CONTOH = /*CONTOH*/{"Mesin Pemotong Plat": "contoh/pp-mesin-pemotong-plat.jpg", "Mesin Rol Aplikator": "contoh/pp-mesin-rol-aplikator.jpg", "Cutting Plotter": "contoh/pp-cutting-plotter.jpg", "Komputer": "contoh/pp-komputer.jpg", "Rak Pengering": "contoh/pp-rak-pengering.jpg", "Kompresor": "contoh/pp-kompresor.jpg", "Mesin Bor": "contoh/pp-mesin-bor.jpg", "Mesin Las": "contoh/pp-mesin-las.jpg", "Bending Plate": "contoh/pp-bending-plate.jpg", "Cutting Wheel": "contoh/pp-cutting-wheel.jpg", "Grinding Wheel": "contoh/pp-grinding-wheel.jpg", "Meja Perakitan Daun Rambu": "contoh/pp-meja-perakitan-daun-rambu.jpg", "Hand Grinder": "contoh/pp-hand-grinder.jpg", "Solder Manual": "contoh/pp-solder-manual.jpg", "Attractor Rework": "contoh/pp-attractor-rework.jpg", "Tool Sets": "contoh/pp-tool-sets.jpg", "Sigmat Meter": "contoh/pp-sigmat-meter.jpg", "Catu Daya": "contoh/pp-catu-daya.jpg", "Test Pen": "contoh/pp-test-pen.jpg", "Avo Meter": "contoh/pp-avo-meter.jpg", "Alat Pengisi Program": "contoh/pp-alat-pengisi-program.jpg", "Osciloskop": "contoh/pp-osciloskop.jpg", "Timbangan Digital Oven": "contoh/pp-timbangan-digital-oven.jpg", "Automatic Granular Mixer": "contoh/pp-automatic-granular-mixer.jpg", "Automatic Filling Machine": "contoh/pp-automatic-filling-machine.jpg", "Impact Faster": "contoh/pp-impact-faster.jpg", "Mesin Pre Heater": "contoh/pp-mesin-pre-heater.jpg", "Mesin Aplikasi Marka Dorong": "contoh/pp-mesin-aplikasi-marka-dorong.jpg", "Mesin Aplikasi Marka Mobil (opsional)": "contoh/pp-mesin-aplikasi-marka-mobil-opsional.jpg", "Roll Meter": "contoh/pp-roll-meter.jpg", "Pemanas menggunakan gas (LPG)": "contoh/pp-pemanas-menggunakan-gas-lpg.jpg", "Thermo sensor": "contoh/pp-thermo-sensor.jpg", "Roll aplikator": "contoh/pp-roll-aplikator.jpg", "Drilling Machine/ Core Drill": "contoh/pp-drilling-machine-core-drill.jpg", "Genset": "contoh/pp-genset.jpg", "Compressor": "contoh/pp-compressor.jpg", "Electric Hand Driller": "contoh/pp-electric-hand-driller.jpg", "RST tester": "contoh/pp-rst-tester.jpg", "Computer": "contoh/pp-computer.jpg", "Lux Meter": "contoh/pp-lux-meter.jpg", "Mobil Crane": "contoh/pp-mobil-crane.jpg", "Chain block": "contoh/pp-chain-block.jpg", "Alat Pengisi Program Siklus": "contoh/pp-alat-pengisi-program-siklus.jpg", "Merger Grounding": "contoh/pp-merger-grounding.jpg", "RST Teater": "contoh/pp-rst-teater.jpg", "Chain Block": "contoh/pp-chain-block.jpg", "Tang Kupas": "contoh/pp-tang-kupas.jpg", "Solder": "contoh/pp-solder.jpg", "Power Supply/ adjaustable": "contoh/pp-power-supply-adjaustable.jpg", "Pyloc Clear": "contoh/pp-pyloc-clear.jpg", "Bor Cun": "contoh/pp-bor-cun.jpg", "Cutter": "contoh/pp-cutter.jpg", "Tang Potong": "contoh/pp-tang-potong.jpg", "Bor Duduk & Mata Bor": "contoh/pp-bor-duduk-mata-bor.jpg", "Tang Buaya": "contoh/pp-tang-buaya.jpg", "Komputer dilengkapi software penghitung kuat cahaya": "contoh/pp-komputer-dilengkapi-software-penghitung-kuat-cahay.jpg", "Tester Charge Cut-off (CCO)": "contoh/pp-tester-charge-cut-off-cco.jpg", "Glue Gun": "contoh/pp-glue-gun.jpg", "Avo Mater": "contoh/pp-avo-mater.jpg", "Osiloskop": "contoh/pp-osiloskop.jpg", "Meger Test": "contoh/pp-meger-test.jpg", "Bor Tangan": "contoh/pp-bor-tangan.jpg", "Kunci Pas": "contoh/pp-kunci-pas.jpg", "Tang Kremping": "contoh/pp-tang-kremping.jpg", "Tang Ampere": "contoh/pp-tang-ampere.jpg", "Mesin las": "contoh/pp-mesin-las.jpg", "Generator set kecil": "contoh/pp-generator-set-kecil.jpg", "Alat pres hidrolik sambungan kabel": "contoh/pp-alat-pres-hidrolik-sambungan-kabel.jpg", "Mini concrete mixer (Molen beton cor)": "contoh/pp-mini-concrete-mixer-molen-beton-cor.jpg", "Kunci set": "contoh/pp-kunci-set.jpg", "Mini concrete mixer (mesin pen gaduk beton mini)": "contoh/pp-mini-concrete-mixer-mesin-pen-gaduk-beton-mini.jpg", "Alat gali tanah": "contoh/pp-alat-gali-tanah.jpg", "Roll meter": "contoh/pp-roll-meter.jpg", "Bor tangan": "contoh/pp-bor-tangan.jpg", "Mobil crane": "contoh/pp-mobil-crane.jpg", "Mesin potong gas (gas cutting)": "contoh/pp-mesin-potong-gas-gas-cutting.jpg", "Airless spray gun": "contoh/pp-airless-spray-gun.jpg", "AVO meter": "contoh/pp-avo-meter.jpg", "Test pen": "contoh/pp-test-pen.jpg", "Tool Sets (Obeng, tang, kunci ring lengkap)": "contoh/pp-tool-sets-obeng-tang-kunci-ring-lengkap.jpg", "Kompresor udara": "contoh/pp-kompresor-udara.jpg"}/*/CONTOH*/;
+const ALIAS = {"genset":"generator set","compressor":"kompresor","computer":"komputer","laptop komputer":"komputer","komputer laptop":"komputer",
+  "osciloskop":"osiloskop","osciloscop":"osiloskop","avo mater":"avo meter","rst teater":"rst tester","power supply adjaustable":"power supply adjustable",
+  "pyloc clear":"pylox clear","system catu daya":"catu daya","kompressor":"kompresor","rak pengering":"rak pengering rak penggantung"};
+const normNm = s => String(s).toLowerCase().replace(/\([^)]*\)/g," ").replace(/[^a-z0-9]+/g," ").trim();
+const CONTOH_N = (()=>{ const m={}; for(const [k,v] of Object.entries(CONTOH)){ let n=normNm(k); n=ALIAS[n]||n; if(!m[n]) m[n]=v; } return m; })();
+function contohFor(name){
+  let n = normNm(name); n = ALIAS[n]||n;
+  if(CONTOH_N[n]) return CONTOH_N[n];
+  let best=null; for(const k of Object.keys(CONTOH_N)) if((n.startsWith(k+" ")||k.startsWith(n+" ")) && (!best||k.length>best.length)) best=k;
+  return best ? CONTOH_N[best] : null;
 }
 const photos = new Map(); // id -> {id, blob, url, time, lat, lon, acc, w, h}
 
@@ -760,6 +805,7 @@ function renderSetup(){
   const v=state.visit;
   $("#f-perusahaan").value=v.perusahaan; $("#f-alamat").value=v.alamat; $("#f-tanggal").value=v.tanggal; $("#f-bu").value=curBu(); $("#f-petugas").value=v.petugas;
   $("#o-gps").checked=state.opt.gps; $("#o-stampgal").checked=state.opt.stampGal; $("#o-empty").checked=state.opt.empty; $("#o-rekap").checked=state.opt.rekap;
+  document.querySelectorAll("[data-ttd]").forEach(el=>{ el.value = ttdGet(el.dataset.ttd); });
   const list = buBidang();
   const soon = BU[curBu()] && BU[curBu()].soon && !list.length
     ? '<p class="hint" style="margin:0 0 10px">Form checklist Aplikator belum tersedia (menyusul). Sementara gunakan "+ Tambah bidang lain".</p>' : "";
@@ -771,14 +817,24 @@ function renderSetup(){
     return `<label class="chk"><input type="checkbox" data-bid="${b.key}" ${b.on?"checked":""}><div style="flex:1;min-width:0"><b>Bidang ${esc(b.name)}</b><small>${n} item checklist${np?` · ${np} foto`:""}</small>${jn}</div></label>`;
   }).join("");
 }
-function itemHTML(it){
+function itemHTML(it, s){
   const th = it.photos.map(pid=>{ const p=photos.get(pid); return p?`<button data-act="view" data-pid="${pid}" data-id="${it.id}"><img src="${p.url}" alt=""></button>`:""; }).join("");
+  let ex = "";
+  if(s && isAlat(s)){
+    const c = contohFor(it.name);
+    ex = c ? `<button class="ex" data-act="contoh" data-src="${esc(c)}" data-nm="${esc(it.name)}" aria-label="Contoh gambar ${esc(it.name)}"><img src="${esc(c)}" alt="" loading="lazy"></button>`
+           : `<a class="ex" href="https://www.google.com/search?tbm=isch&q=${encodeURIComponent(it.name)}" target="_blank" rel="noopener" aria-label="Cari contoh gambar ${esc(it.name)}">Cari<br>gbr</a>`;
+  }
+  const hint = isLuas(it) ? "" : it.hint;
+  const inp = isLuas(it)
+    ? `<input data-ket="${it.id}" value="${esc(it.ket)}" placeholder="Luas" inputmode="decimal"><span class="unit">m²</span>`
+    : `<input data-ket="${it.id}" value="${esc(it.ket)}" placeholder="${esc(isKend(it) ? "Jenis / Type, mis. Pickup / Grandmax" : (it.hint||"Keterangan"))}">`;
   return `<div class="item" id="it-${it.id}">
-    <div class="r1"><div class="nm">${esc(it.name)}${it.photos.length?` <span style="color:var(--ok)">✓ ${it.photos.length}</span>`:""}${it.hint?`<small>${esc(it.hint)}</small>`:""}${it.custom?`<button class="del" data-act="delitem" data-id="${it.id}">hapus item</button>`:""}</div>
-      <div class="bt"><button class="ib" data-act="cam" data-id="${it.id}" aria-label="Kamera">${ICAM}</button><button class="ib g" data-act="gal" data-id="${it.id}" aria-label="Galeri">${IGAL}</button></div></div>
+    <div class="r1"><div class="nm">${esc(it.name)}${it.photos.length?` <span style="color:var(--ok)">✓ ${it.photos.length}</span>`:""}${hint?`<small>${esc(hint)}</small>`:""}${it.custom?`<button class="del" data-act="delitem" data-id="${it.id}">hapus item</button>`:""}</div>
+      <div class="bt">${ex}<button class="ib" data-act="cam" data-id="${it.id}" aria-label="Kamera">${ICAM}</button><button class="ib g" data-act="gal" data-id="${it.id}" aria-label="Galeri">${IGAL}</button></div></div>
     <div class="thumbs">${th}</div>
     <div class="r2"><div class="seg"><button class="ada ${it.status==="ada"?"on":""}" data-act="st" data-v="ada" data-id="${it.id}">Ada</button><button class="tidak ${it.status==="tidak"?"on":""}" data-act="st" data-v="tidak" data-id="${it.id}">Tidak</button></div>
-      <input data-ket="${it.id}" value="${esc(it.ket)}" placeholder="${esc(it.hint||"Keterangan")}"></div>
+      ${inp}</div>
   </div>`;
 }
 function secCount(s){ return s.items.filter(i=>i.photos.length).length; }
@@ -792,7 +848,7 @@ function renderFoto(){
     const n=secCount(s);
     return `<details class="sec" data-sid="${s.id}" ${state.collapsed[s.id]?"":"open"}>
       <summary><span>${esc(s.title)}</span><span class="n ${n&&n===s.items.length?"full":""}" id="sc-${s.id}">${n}/${s.items.length}</span></summary>
-      ${s.items.map(itemHTML).join("")}
+      ${s.items.map(it=>itemHTML(it, s)).join("")}
       <button class="addit" data-act="additem" data-sid="${s.id}">+ Tambah item</button>
     </details>`;
   }).join("");
@@ -800,7 +856,7 @@ function renderFoto(){
 }
 function renderItem(id){
   const el = document.getElementById("it-"+id), f = findItem(id);
-  if(el && f){ el.outerHTML = itemHTML(f.it); const sc=document.getElementById("sc-"+f.s.id); if(sc){ const n=secCount(f.s); sc.textContent=`${n}/${f.s.items.length}`; sc.classList.toggle("full", n&&n===f.s.items.length); } }
+  if(el && f){ el.outerHTML = itemHTML(f.it, f.s); const sc=document.getElementById("sc-"+f.s.id); if(sc){ const n=secCount(f.s); sc.textContent=`${n}/${f.s.items.length}`; sc.classList.toggle("full", n&&n===f.s.items.length); } }
 }
 function renderProgress(){
   const b = activeBidang().find(b=>b.key===state.cur);
@@ -826,6 +882,10 @@ document.querySelectorAll(".tabs button").forEach(b=>b.addEventListener("click",
 [["f-perusahaan","perusahaan"],["f-alamat","alamat"],["f-tanggal","tanggal"],["f-petugas","petugas"]].forEach(([id,k])=>{
   const el=document.getElementById(id); el.addEventListener("input",()=>{ state.visit[k]=el.value; save(); }); el.addEventListener("change",()=>{ state.visit[k]=el.value; save(); });
 });
+/* data-ttd="wp.0.nama" → state.visit.ttd.wp[0].nama */
+function ttdGet(path){ return path.split(".").reduce((o,k)=>o==null?"":o[k], state.visit.ttd) ?? ""; }
+function ttdSet(path, val){ const ks=path.split("."), last=ks.pop(); const o=ks.reduce((o,k)=>o[k], state.visit.ttd); o[last]=val; }
+document.querySelectorAll("[data-ttd]").forEach(el=>el.addEventListener("input",()=>{ ttdSet(el.dataset.ttd, el.value); save(); }));
 $("#f-bu").addEventListener("change", e=>{ state.visit.buKey=e.target.value; state.visit.bu=BU[e.target.value].label; save(); renderSetup(); });
 [["o-gps","gps"],["o-stampgal","stampGal"],["o-empty","empty"],["o-rekap","rekap"]].forEach(([id,k])=>{
   document.getElementById(id).addEventListener("change",e=>{ state.opt[k]=e.target.checked; save(); if(k==="gps") startGPS(); });
@@ -872,8 +932,9 @@ document.addEventListener("click", async e=>{
   }
   else if(a==="view"){
     const p=photos.get(el.dataset.pid); if(!p) return; viewing={pid:p.id, id};
-    $("#viewer img").src=p.url; $("#viewer").hidden=false;
+    $("#viewer img").src=p.url; $("#btnVdel").hidden=false; $("#viewer").hidden=false;
   }
+  else if(a==="contoh"){ viewing=null; $("#viewer img").src=el.dataset.src; $("#btnVdel").hidden=true; $("#viewer").hidden=false; toast("Contoh: "+el.dataset.nm, 2500); }
   else if(a==="vclose"){ $("#viewer").hidden=true; viewing=null; }
   else if(a==="vdel"){
     if(!viewing || !confirm("Hapus foto ini?")) return;
@@ -888,7 +949,8 @@ document.addEventListener("click", async e=>{
   else if(a==="reset"){
     if(!confirm("Hapus semua data & foto kunjungan ini dari HP?\nPastikan file sudah diunduh.")) return;
     for(const p of photos.values()) URL.revokeObjectURL(p.url); photos.clear();
-    await DB.clear("photos"); await DB.clear("kv"); state=freshState(); showTab("setup"); toast("Data dihapus. Siap untuk kunjungan baru.");
+    const tim = state.visit.ttd && state.visit.ttd.tt;
+    await DB.clear("photos"); await DB.clear("kv"); state=freshState(); if(tim) state.visit.ttd.tt=tim; save(); showTab("setup"); toast("Data dihapus. Siap untuk kunjungan baru.");
   }
 });
 
@@ -896,12 +958,15 @@ document.addEventListener("click", async e=>{
 function cellsOf(s, showEmpty){
   const cells=[];
   for(const it of s.items){
+    const ket = isLuas(it) ? "" : it.ket; // luas ruang dicetak di atas tabel, bukan di bawah foto
     const ps = it.photos.map(pid=>photos.get(pid)).filter(Boolean).sort((a,b)=>a.time-b.time);
-    if(ps.length) ps.forEach((p,i)=>cells.push({name: it.name + (ps.length>1?` (${i+1})`:""), ket: i===0?it.ket:"", p}));
-    else if(showEmpty) cells.push({name:it.name, ket:it.ket, p:null});
+    if(ps.length) ps.forEach((p,i)=>cells.push({name: it.name + (ps.length>1?` (${i+1})`:""), ket: i===0?ket:"", p}));
+    else if(showEmpty) cells.push({name:it.name, ket, p:null});
   }
   return cells;
 }
+/* "Ruang Administrasi : 120 m²" untuk ruang yang luasnya diisi */
+function luasRows(s){ return s.items.filter(it=>isLuas(it) && String(it.ket).trim()).map(it=>[it.name, `${String(it.ket).trim()} m²`]); }
 function sectionsForExport(b){
   const showEmpty = state.opt.empty;
   return visSecs(b).map(s=>{
@@ -966,6 +1031,122 @@ function tblXml(cols, rows, borders=true){
 function drawingXml(rid, n, cx, cy){
   return `<w:r><w:drawing><wp:inline distT="0" distB="0" distL="0" distR="0"><wp:extent cx="${cx}" cy="${cy}"/><wp:docPr id="${n}" name="Foto ${n}"/><wp:cNvGraphicFramePr><a:graphicFrameLocks noChangeAspect="1"/></wp:cNvGraphicFramePr><a:graphic><a:graphicData uri="http://schemas.openxmlformats.org/drawingml/2006/picture"><pic:pic><pic:nvPicPr><pic:cNvPr id="${n}" name="foto${n}.jpg"/><pic:cNvPicPr/></pic:nvPicPr><pic:blipFill><a:blip r:embed="${rid}"/><a:stretch><a:fillRect/></a:stretch></pic:blipFill><pic:spPr><a:xfrm><a:off x="0" y="0"/><a:ext cx="${cx}" cy="${cy}"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom></pic:spPr></pic:pic></a:graphicData></a:graphic></wp:inline></w:drawing></w:r>`;
 }
+/* ================= FORMULIR CHECKLIST (meniru formulir asli: Arial Narrow 11, kotak centang, ❖, tanda tangan) ================= */
+const FN = "Arial Narrow";
+const FORM_NAME = {"pp-ao":"APILL (Alat Pemberi Isyarat Lalu Lintas) Otonom Standar/Cerdas","pb-ao":"APILL (Alat Pemberi Isyarat Lalu Lintas) Otonom Standar/Cerdas",
+  "pp-at":"APILL (Alat Pemberi Isyarat Lalu Lintas) Terkoordinasi","pb-at":"APILL (Alat Pemberi Isyarat Lalu Lintas) Terkoordinasi",
+  "pp-pw":"Alat Pengawas dan Pengaman Pengguna Jalan (Alat Penimbangan Kendaraan Bermotor)","pb-pw":"Alat Pengawas dan Pengaman Pengguna Jalan (Alat Penimbangan Kendaraan Bermotor)"};
+const BU_FORM = {PPJ:"BADAN USAHA PEMBUAT PERLENGKAPAN JALAN (BU-PPJ)", PBPJ:"BADAN USAHA PENYEDIA BAHAN PERLENGKAPAN JALAN (BU-PBPJ)", APL:"APLIKATOR PERLENGKAPAN JALAN"};
+const MRG_FORM = {top:1440, right:1440, bottom:1134, left:1440}, MRG_LAMP = {top:1134, right:1134, bottom:1134, left:1134};
+const NIL_BD = '<w:tblBorders><w:top w:val="nil"/><w:left w:val="nil"/><w:bottom w:val="nil"/><w:right w:val="nil"/><w:insideH w:val="nil"/><w:insideV w:val="nil"/></w:tblBorders>';
+const BOX_BD = '<w:tcBorders><w:top w:val="single" w:sz="4" w:color="000000"/><w:left w:val="single" w:sz="4" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:color="000000"/><w:right w:val="single" w:sz="4" w:color="000000"/></w:tcBorders>';
+function rN(t, o={}){
+  const font = o.font || FN;
+  const rpr = `<w:rPr><w:rFonts w:ascii="${font}" w:hAnsi="${font}" w:cs="${font}" w:eastAsia="${font}"/>${o.b?"<w:b/><w:bCs/>":""}${o.i?"<w:i/><w:iCs/>":""}${o.color?`<w:color w:val="${o.color}"/>`:""}<w:sz w:val="${o.sz||22}"/><w:szCs w:val="${o.sz||22}"/></w:rPr>`;
+  return String(t).split("\t").map((part,i)=>`<w:r>${rpr}${i?"<w:tab/>":""}${part!==""?`<w:t xml:space="preserve">${X(part)}</w:t>`:""}</w:r>`).join("");
+}
+function pN(runs, o={}){
+  const bd = o.border ? '<w:pBdr><w:bottom w:val="single" w:sz="4" w:space="1" w:color="000000"/></w:pBdr>' : "";
+  const tabs = o.tabs ? `<w:tabs>${o.tabs.map(p=>`<w:tab w:val="left" w:pos="${p}"/>`).join("")}</w:tabs>` : "";
+  const ind = o.ind ? `<w:ind w:left="${o.ind[0]}" w:hanging="${o.ind[1]||0}"/>` : "";
+  return `<w:p><w:pPr>${o.keep?"<w:keepNext/>":""}${bd}${tabs}<w:spacing w:before="${o.before||0}" w:after="${o.after??160}" w:line="${o.line||259}" w:lineRule="${o.rule||"auto"}"/>${ind}${o.jc?`<w:jc w:val="${o.jc}"/>`:""}</w:pPr>${runs||""}</w:p>`;
+}
+const spacer = () => pN("", {after:0, line:160, rule:"exact"});
+function tcN(w, inner, o={}){
+  return `<w:tc><w:tcPr><w:tcW w:w="${w}" w:type="dxa"/>${o.span?`<w:gridSpan w:val="${o.span}"/>`:""}${o.box?BOX_BD:""}<w:vAlign w:val="${o.v||"top"}"/></w:tcPr>${inner||pN("",{after:0,line:240})}</w:tc>`;
+}
+function tblN(cols, rows){
+  const W = cols.reduce((a,b)=>a+b,0);
+  return `<w:tbl><w:tblPr><w:tblW w:w="${W}" w:type="dxa"/><w:tblInd w:w="0" w:type="dxa"/>${NIL_BD}<w:tblLayout w:type="fixed"/><w:tblCellMar><w:top w:w="0" w:type="dxa"/><w:left w:w="0" w:type="dxa"/><w:bottom w:w="0" w:type="dxa"/><w:right w:w="0" w:type="dxa"/></w:tblCellMar></w:tblPr><w:tblGrid>${cols.map(c=>`<w:gridCol w:w="${c}"/>`).join("")}</w:tblGrid>${rows.join("")}</w:tbl>`;
+}
+const markOf = it => it.status==="ada" ? "V" : it.status==="tidak" ? "X" : "";
+const boxCell = m => tcN(279, pN(m?rN(m,{b:true,sz:20}):"", {after:0, line:240, jc:"center"}), {box:true, v:"center"});
+const rowTr = cells => `<w:tr><w:trPr><w:cantSplit/><w:trHeight w:val="285" w:hRule="atLeast"/></w:trPr>${cells}</w:tr>`;
+/* satu baris checklist: [kotak] teks */
+function ckRow(mark, text, o={}){
+  return tblN([279,180,8567], [rowTr(boxCell(mark) + tcN(180) + tcN(8567, pN(text, {after:0, tabs:o.tabs})))]) + spacer();
+}
+/* baris gedung: [kotak] nama  [luas]  [M2] */
+function luasRow(it){
+  const val = String(it.ket||"").trim();
+  return tblN([279,180,3758,1440,473,620], [rowTr(boxCell(markOf(it)) + tcN(180) + tcN(3758, pN(rN(it.name), {after:0}))
+    + tcN(1440, pN(rN(val), {after:0, line:240, jc:"center"}), {box:true, v:"center"}) + tcN(473)
+    + tcN(620, pN(rN("M2",{font:"Calibri",sz:18}), {after:0, line:240, jc:"center"}), {box:true, v:"center"}))]) + spacer();
+}
+function itemLine(it){
+  if(isLuas(it)) return luasRow(it);
+  if(isKend(it)){
+    const k = kendParts(it.ket), dots = "……………………";
+    return ckRow(markOf(it), rN(`${it.name}\tJenis Kendaraan ${k.jenis||dots}   Type ${k.type||dots}`), {tabs:[2871]});
+  }
+  const ket = String(it.ket||"").trim();
+  return ckRow(markOf(it), rN(it.name + (ket ? ` : ${ket}` : "")));
+}
+function subHead(title){
+  const label = /^Gedung/.test(title) ? "Gedung/ Bangunan" : /^Kendaraan/.test(title) ? "Kendaraan Operasional (Mobilisasi alat, bahan, pekerja)" : title;
+  return pN(rN("❖",{font:"Segoe UI Symbol",sz:18}) + rN("\t"+label), {before:60, ind:[426,360], tabs:[426], border:title!=="Peralatan Pemasangan", keep:true});
+}
+const headN = t => pN(rN(t,{b:true}), {keep:true});
+function ttdTable(v){
+  const t = v.ttd || freshTtd(), dots = "………………………………………………";
+  const C = [421,859,284,2925, 449,879,284,2915];
+  const pp = (txt, o={}) => pN(txt?rN(txt,o):"", {after:0, line:276, jc:o.jc});
+  const half = (a, b, c, d, side) => tcN(C[side], pp(a)) + tcN(C[side+1], pp(b)) + tcN(C[side+2], pp(c)) + tcN(C[side+3], pp(d));
+  const tr = (cells, h) => `<w:tr><w:trPr><w:cantSplit/>${h?`<w:trHeight w:val="${h}" w:hRule="atLeast"/>`:""}</w:trPr>${cells}</w:tr>`;
+  const rows = [
+    tr(tcN(4489, pp("") + pp("Wakil Perusahaan"), {span:4}) + tcN(4527, pp(`${t.kota||"……………………"}, ${fmtTanggal(v.tanggal)||"…………………………"}`,{jc:"center"}) + pp("Tim Teknis Direktorat Lalu Lintas Jalan",{jc:"center"}), {span:4})),
+    tr(tcN(4489, pp(""), {span:4}) + tcN(4527, pp(""), {span:4}))
+  ];
+  [0,1].forEach(i=>{
+    const w = t.wp[i]||{}, m = t.tt[i]||{};
+    rows.push(tr(half(`${i+1}.`,"Nama",":",w.nama||"",0) + half(`${i+1}.`,"Nama",":",m.nama||"",4)));
+    rows.push(tr(half("","Jabatan",":",w.jabatan||"",0) + half("","Pangkat",":",m.pangkat||"",4)));
+    rows.push(tr(half("","","","",0) + half("","Gol.",":",m.gol||"",4)));
+    rows.push(tr(half("","","","",0) + half("","Jabatan",":",m.jabatan||"",4)));
+    rows.push(tr(tcN(4489, pp(""), {span:4}) + tcN(4527, pp(""), {span:4}), 1100));
+    rows.push(tr(tcN(421, pp("")) + tcN(4068, pp(`( ${w.nama||dots} )`), {span:3}) + tcN(449, pp("")) + tcN(4078, pp(`( ${m.nama||dots} )`), {span:3})));
+    rows.push(tr(tcN(4489, pp(""), {span:4}) + tcN(4527, pp(""), {span:4})));
+  });
+  return tblN(C, rows);
+}
+function formXml(b, v){
+  const B = {b:true};
+  let x = "";
+  for(const t of ["", "CHECKLIST VERIFIKASI LAPANGAN (ON SITE VISIT)", BU_FORM[b.bu||"PPJ"]])
+    x += pN(t?rN(t,B):"", {after:0, line:240, jc:"center", border:true});
+  x += pN("");
+  x += pN(rN("# BIDANG ",B) + rN((FORM_NAME[b.key]||b.name).toUpperCase(), {b:true, color:"0070C0"}), {after:0, line:240});
+  x += pN("", {after:0, line:240});
+  for(const [k,val] of [["PERUSAHAAN",v.perusahaan],["ALAMAT",v.alamat],["TANGGAL",fmtTanggal(v.tanggal)]])
+    x += pN(rN(`${k}\t: ${val||""}`, B), {after:0, line:240, tabs:[2880], ind:[3060,3060]});
+  const S = b.sections, L = "ABCDEFG".split(""); let li = 0;
+  const kerja = S.filter(s=>/^Kerja Sama/.test(s.title)), spec = S.filter(s=>/^Spesifikasi/.test(s.title));
+  const adm = S.filter(s=>/^Persyaratan Administrasi/.test(s.title)), sdm = S.filter(s=>/^Sumber Daya/.test(s.title));
+  const alat = S.filter(s=>!kerja.includes(s) && !spec.includes(s) && !adm.includes(s) && !sdm.includes(s));
+  if(b.jenisList){
+    x += pN("", {after:0});
+    for(const [k,nm] of b.jenisList) x += ckRow(b.jenis&&b.jenis[k] ? "V" : "", rN(nm.toUpperCase()));
+    x += pN(rN("Catatan : Pilih sesuai jenis yang dikerjakan",{i:true}));
+    for(const s of kerja) for(const it of s.items) x += itemLine(it);
+  }
+  if(spec.length){
+    const Lt = L[li++];
+    if(spec.length===1){ x += headN(`${Lt}. ${spec[0].title.toUpperCase()}`); for(const it of spec[0].items) x += itemLine(it); }
+    else spec.forEach((s,i)=>{ x += headN(`${Lt}.${i+1}. ${s.title.toUpperCase()}`); for(const it of s.items) x += itemLine(it); });
+    if(!b.jenisList) for(const s of kerja) for(const it of s.items) x += itemLine(it);
+  }
+  for(const s of adm){ x += headN(`${L[li++]}. ${s.title.toUpperCase()}`); for(const it of s.items) x += itemLine(it); }
+  if(alat.length){
+    x += headN(`${L[li++]}. PERLENGKAPAN DAN PERALATAN PRODUKSI`);
+    for(const s of alat){ x += subHead(s.title); for(const it of s.items) x += itemLine(it); }
+  }
+  for(const s of sdm){ x += headN(`${L[li++]}. ${s.title.toUpperCase()}`); for(const it of s.items) x += itemLine(it); }
+  x += pN("") + ttdTable(v);
+  return x;
+}
+const sectXml = m => `<w:sectPr><w:pgSz w:w="11906" w:h="16838"/><w:pgMar w:top="${m.top}" w:right="${m.right}" w:bottom="${m.bottom}" w:left="${m.left}" w:header="708" w:footer="708" w:gutter="0"/></w:sectPr>`;
+const sectBreak = m => `<w:p><w:pPr>${sectXml(m)}</w:pPr></w:p>`;
+
 async function buildDocx(){
   const v = state.visit, act = activeBidang();
   const media=[], rels=[]; let n=0;
@@ -975,23 +1156,18 @@ async function buildDocx(){
   const metaRows = [["Perusahaan", v.perusahaan],["Alamat", v.alamat],["Tanggal", fmtTanggal(v.tanggal)]].map(([k,val])=>
     `<w:tr>${cellXml(1600, para(run(k,{b:true})), {v:"top"})}${cellXml(300, para(run(":",{b:true})), {v:"top"})}${cellXml(TW-1900, para(run(val||"")), {v:"top"})}</w:tr>`);
   act.forEach((b, bi)=>{
-    if(bi>0) body += '<w:p><w:r><w:br w:type="page"/></w:r></w:p>';
+    // formulir & lampiran masing-masing satu section (margin berbeda); section baru selalu mulai di halaman baru
+    if(bi>0) body += state.opt.rekap ? sectBreak(MRG_LAMP) : '<w:p><w:r><w:br w:type="page"/></w:r></w:p>';
+    if(state.opt.rekap) body += formXml(b, v) + sectBreak(MRG_FORM);
     body += para(run("PERLENGKAPAN DAN PERALATAN ",{b:true,sz:22}) + run(docTitle(b).toUpperCase(),{b:true,sz:22,color:"1D5FBF"}), {jc:"center"});
     body += para(run(v.bu.toUpperCase(),{b:true,sz:22}), {jc:"center", after:120, border:true});
     body += tblXml([1600,300,TW-1900], metaRows, false);
     body += para("", {after:80});
-    if(state.opt.rekap){
-      body += para(run("REKAP CHECKLIST",{b:true}), {before:120, after:60, keep:true});
-      const RC=[600,4400,900,900,2838];
-      const rows=[`<w:tr><w:trPr><w:tblHeader/></w:trPr>${["No","Uraian","Ada","Tidak","Keterangan"].map((h,i)=>cellXml(RC[i], para(run(h,{b:true,sz:18}),{jc:"center"}),{fill:"D9E2F3"})).join("")}</w:tr>`];
-      visSecs(b).forEach((s,si)=>{
-        rows.push(`<w:tr>${cellXml(TW, para(run(`${String.fromCharCode(65+si)}. ${s.title.toUpperCase()}`,{b:true,sz:18})), {span:5, fill:"F2F2F2"})}</w:tr>`);
-        s.items.forEach((it,ii)=>rows.push(`<w:tr>${cellXml(RC[0],para(run(String(ii+1),{sz:18}),{jc:"center"}))}${cellXml(RC[1],para(run(it.name,{sz:18})))}${cellXml(RC[2],para(run(it.status==="ada"?"V":"",{sz:18,b:true}),{jc:"center"}))}${cellXml(RC[3],para(run(it.status==="tidak"?"V":"",{sz:18,b:true}),{jc:"center"}))}${cellXml(RC[4],para(run(it.ket,{sz:18})))}</w:tr>`));
-      });
-      body += tblXml(RC, rows) + para("", {after:120});
-    }
     for(const {s, cells} of sectionsForExport(b)){
       body += para(run(s.title.toUpperCase(),{sz:20}), {before:160, after:60, keep:true});
+      for(const [nm, luas] of luasRows(s))
+        body += `<w:p><w:pPr><w:keepNext/><w:tabs><w:tab w:val="left" w:pos="3400"/></w:tabs><w:spacing w:before="0" w:after="20"/></w:pPr>${run(nm,{sz:18})}<w:r><w:tab/></w:r>${run(": "+luas,{sz:18})}</w:p>`;
+      if(luasRows(s).length) body += para("", {after:60, keep:true});
       const rows=[];
       for(let i=0;i<cells.length;i+=3){
         const grp = cells.slice(i,i+3); while(grp.length<3) grp.push(null);
@@ -1096,6 +1272,7 @@ function buildPrint(){
       const v = state.visit;
       if(!v.buKey) v.buKey = /Penyedia/i.test(v.bu||"") ? "PBPJ" : /Aplikator/i.test(v.bu||"") ? "APL" : "PPJ";
       v.bu = BU[v.buKey].label;
+      if(!v.ttd) v.ttd = freshTtd();
       for(const b of state.bidang){ if(!b.bu) b.bu="PPJ"; if(!b.jenis) b.jenis={}; }
       const ada = new Set(state.bidang.map(b=>b.key));
       for(const t of templates()) if(!ada.has(t.key)) state.bidang.push(t);
