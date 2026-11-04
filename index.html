@@ -1,0 +1,1119 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0f2a4a">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Dokumentasi OSV PPJ</title>
+<style>
+:root{
+  --bg:#eef1f5; --card:#fff; --ink:#14202e; --mute:#5c6b7c; --line:#d8dee6;
+  --navy:#0f2a4a; --navy2:#173a63; --amber:#f2b705; --ok:#1f8a4c; --bad:#c23b2b; --blue:#1d5fbf;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font:15px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;padding-bottom:76px}
+button,input,select,textarea{font:inherit;color:inherit}
+.top{position:sticky;top:0;z-index:20;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:space-between;padding:10px 16px;padding-top:max(10px,env(safe-area-inset-top))}
+.brand{display:flex;gap:10px;align-items:center}
+.logo{width:34px;height:34px;border-radius:8px;background:var(--amber);display:grid;place-items:center;color:var(--navy);font-weight:900}
+.brand b{display:block;font-size:16px}
+.brand small{display:block;opacity:.75;font-size:11.5px}
+.badge{font-size:11.5px;padding:4px 8px;border-radius:99px;background:rgba(255,255,255,.12);white-space:nowrap}
+.badge.on{background:#1f8a4c}
+main{max-width:720px;margin:0 auto;padding:12px 16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:12px}
+.card h2{margin:0 0 10px;font-size:15px;color:var(--navy)}
+label.f{display:block;margin-bottom:10px}
+label.f span{display:block;font-size:12.5px;color:var(--mute);margin-bottom:4px}
+label.f input,label.f textarea,label.f select{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:#fbfcfd}
+label.f textarea{min-height:58px;resize:vertical}
+.chk{display:flex;gap:10px;align-items:flex-start;padding:10px;border:1px solid var(--line);border-radius:10px;margin-bottom:8px;background:#fbfcfd}
+.chk input{width:20px;height:20px;margin:1px 0 0;accent-color:var(--navy)}
+.chk small{display:block;color:var(--mute)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:11px;padding:12px 14px;background:var(--navy);color:#fff;font-weight:600;cursor:pointer}
+.btn.full{width:100%}
+.btn.amber{background:var(--amber);color:var(--navy)}
+.btn.ghost{background:#fff;color:var(--navy);border:1px solid var(--line)}
+.btn.red{background:#fff;color:var(--bad);border:1px solid #efc6c0}
+.btn:disabled{opacity:.5}
+.btn svg{width:20px;height:20px}
+.hint{font-size:12.5px;color:var(--mute);margin:6px 0 0}
+.tabs{position:fixed;left:0;right:0;bottom:0;z-index:20;display:flex;background:#fff;border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom)}
+.tabs button{flex:1;border:0;background:none;padding:9px 4px 10px;font-size:12px;color:var(--mute);display:flex;flex-direction:column;align-items:center;gap:2px}
+.tabs button svg{width:22px;height:22px}
+.tabs button.on{color:var(--navy);font-weight:700}
+.chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;margin-bottom:10px}
+.chips button{flex:none;border:1px solid var(--line);background:#fff;border-radius:99px;padding:8px 14px;font-weight:600;color:var(--navy)}
+.chips button.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+.prog{background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-bottom:12px}
+.prog .bar{height:8px;background:#e6eaf0;border-radius:9px;overflow:hidden;margin-top:6px}
+.prog .bar i{display:block;height:100%;background:var(--ok);width:0}
+.prog .t{display:flex;justify-content:space-between;font-size:13px}
+details.sec{background:#fff;border:1px solid var(--line);border-radius:14px;margin-bottom:12px;overflow:hidden}
+details.sec>summary{list-style:none;padding:12px 14px;font-weight:700;color:var(--navy);display:flex;justify-content:space-between;align-items:center;background:#f6f8fb;cursor:pointer}
+details.sec>summary::-webkit-details-marker{display:none}
+details.sec>summary .n{font-size:12px;font-weight:600;color:var(--mute);background:#fff;border:1px solid var(--line);border-radius:99px;padding:2px 9px}
+details.sec>summary .n.full{color:#fff;background:var(--ok);border-color:var(--ok)}
+.item{padding:12px 14px;border-top:1px solid var(--line)}
+.item .r1{display:flex;gap:10px;align-items:flex-start;justify-content:space-between}
+.item .nm{font-weight:600}
+.item .nm small{display:block;font-weight:400;color:var(--mute);font-size:12px}
+.item .nm .del{border:0;background:none;color:var(--bad);font-size:12px;padding:0;margin:2px 0 0 8px}
+.item .bt{display:flex;gap:6px;flex:none}
+.ib{width:44px;height:44px;border-radius:11px;border:0;background:var(--navy);color:#fff;display:grid;place-items:center}
+.ib.g{background:#fff;color:var(--navy);border:1px solid var(--line)}
+.ib svg{width:22px;height:22px}
+.thumbs{display:flex;gap:8px;overflow-x:auto;margin-top:10px}
+.thumbs:empty{display:none}
+.thumbs button{flex:none;width:84px;height:64px;border-radius:9px;border:1px solid var(--line);padding:0;overflow:hidden;background:#ddd;position:relative}
+.thumbs img{width:100%;height:100%;object-fit:cover;display:block}
+.item .r2{display:flex;gap:8px;margin-top:10px;align-items:center}
+.seg{display:flex;border:1px solid var(--line);border-radius:10px;overflow:hidden;flex:none}
+.seg button{border:0;background:#fff;padding:8px 10px;font-size:13px;font-weight:600;color:var(--mute)}
+.seg button.ada.on{background:var(--ok);color:#fff}
+.seg button.tidak.on{background:var(--bad);color:#fff}
+.item .r2 input{flex:1;min-width:0;padding:8px 10px;border:1px solid var(--line);border-radius:10px;font-size:13.5px;background:#fbfcfd}
+.addit{display:block;width:100%;border:0;border-top:1px dashed var(--line);background:#fff;padding:11px;color:var(--blue);font-weight:600}
+.empty{text-align:center;color:var(--mute);padding:30px 10px}
+.stat{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+.stat div{background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px;text-align:center}
+.stat b{display:block;font-size:22px;color:var(--navy)}
+.stat span{font-size:11.5px;color:var(--mute)}
+.stack{display:grid;gap:10px}
+#toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:#14202e;color:#fff;padding:10px 16px;border-radius:10px;font-size:14px;z-index:60;opacity:0;pointer-events:none;transition:opacity .2s;max-width:90vw;text-align:center}
+#toast.show{opacity:1}
+#busy{position:fixed;inset:0;background:rgba(10,20,35,.55);z-index:70;display:none;place-items:center;color:#fff;font-weight:600}
+#busy.show{display:grid}
+#viewer{position:fixed;inset:0;background:#000;z-index:55;display:flex;flex-direction:column}
+#viewer[hidden]{display:none}
+#viewer .im{flex:1;display:grid;place-items:center;overflow:auto}
+#viewer img{max-width:100%;max-height:100%}
+#viewer .vb{display:flex;gap:8px;padding:12px 16px;padding-bottom:max(12px,env(safe-area-inset-bottom));background:#111}
+#viewer .vb .btn{flex:1}
+#cam{position:fixed;inset:0;z-index:45;background:#000;color:#fff;display:flex;flex-direction:column}
+#cam .ch{display:flex;align-items:center;gap:8px;padding:10px 10px;padding-top:max(10px,env(safe-area-inset-top))}
+#cam .ch button{width:42px;height:42px;border-radius:50%;border:0;background:rgba(255,255,255,.14);color:#fff;font-size:22px;flex:none}
+#cam .ct{flex:1;text-align:center;min-width:0}
+#cam .ct small{display:block;font-size:11.5px;opacity:.75}
+#cam .ct b{display:block;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#camArea{flex:1;display:grid;place-items:center;min-height:0;padding:0 6px}
+#camBox{position:relative;overflow:hidden;border-radius:6px;background:#111}
+#camBox video{width:100%;height:100%;object-fit:cover;display:block}
+#camOv{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+#camFlash{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none}
+#camFlash.go{animation:fl .25s}
+@keyframes fl{0%{opacity:.85}100%{opacity:0}}
+#cam .ctools{display:flex;gap:10px;align-items:center;justify-content:center;padding:8px 16px 0}
+#cam .ctools button{border:1px solid rgba(255,255,255,.35);background:none;color:#fff;border-radius:99px;padding:7px 12px;font-size:13px}
+#cam .ctools button.on{background:#f2b705;color:#0f2a4a;border-color:#f2b705}
+#cam .ctools input{flex:1;max-width:220px;accent-color:#f2b705}
+#cam .cb{display:flex;align-items:center;justify-content:space-between;padding:14px 22px;padding-bottom:max(18px,env(safe-area-inset-bottom))}
+#cam .cb .done{width:76px;border:0;background:#f2b705;color:#0f2a4a;font-weight:700;border-radius:99px;padding:10px 0}
+#cam .shut{width:74px;height:74px;border-radius:50%;border:5px solid #fff;background:rgba(255,255,255,.25)}
+#cam .shut:active{background:#fff}
+#cam .cth{width:76px;height:58px;border-radius:8px;border:2px solid #fff;padding:0;background:#222;position:relative;overflow:visible}
+#cam .cth img{width:100%;height:100%;object-fit:cover;border-radius:6px;display:block}
+#cam .cth span{position:absolute;top:-8px;right:-8px;background:#1f8a4c;color:#fff;border-radius:99px;font-size:12px;font-weight:700;padding:1px 7px}
+body.camon #toast{bottom:auto;top:96px}
+#print{display:none}
+@media print{
+  body{background:#fff;padding:0}
+  .top,main,.tabs,#toast,#viewer,#busy,#cam{display:none!important}
+  #print{display:block;font-family:Arial,Helvetica,sans-serif;color:#000;font-size:10pt}
+  @page{size:A4;margin:15mm}
+}
+#print h1{font-size:12pt;text-align:center;margin:0}
+#print h1 .c{color:#1d5fbf}
+#print .sub{text-align:center;font-weight:700;font-size:11pt;border-bottom:1.5px solid #000;padding-bottom:4px;margin-bottom:8px}
+#print .meta td{padding:1px 6px 1px 0;font-size:10pt}
+#print h3{font-size:10pt;margin:12px 0 4px;font-weight:400}
+#print table.g{width:100%;border-collapse:collapse;table-layout:fixed;page-break-inside:auto}
+#print table.g td{border:1px solid #000;text-align:center;vertical-align:middle;padding:3px;font-size:9pt}
+#print table.g tr{page-break-inside:avoid}
+#print table.g td.ph{height:46mm}
+#print table.g img{max-width:100%;max-height:44mm}
+#print .ket{font-style:italic;font-size:8pt;color:#333}
+#print .pb{page-break-before:always}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="brand"><div class="logo">▲</div><div><b>Dokumentasi OSV</b><small>Verifikasi Lapangan BU-PPJ / BU-PBPJ · offline</small></div></div>
+  <div id="gpsBadge" class="badge">GPS –</div>
+</header>
+
+<main>
+  <!-- ========== 1. KUNJUNGAN ========== -->
+  <section id="v-setup" class="view">
+    <div class="card">
+      <h2>Data Kunjungan</h2>
+      <label class="f"><span>Nama Perusahaan</span><input id="f-perusahaan" placeholder="CV / PT ..."></label>
+      <label class="f"><span>Alamat Workshop</span><textarea id="f-alamat" placeholder="Alamat lengkap lokasi workshop"></textarea></label>
+      <label class="f"><span>Tanggal Kunjungan</span><input id="f-tanggal" type="date"></label>
+      <label class="f"><span>Jenis Badan Usaha</span>
+        <select id="f-bu">
+          <option value="PPJ">BU-PPJ (Badan Usaha Pembuat Perlengkapan Jalan)</option>
+          <option value="PBPJ">BU-PBPJ (Badan Usaha Penyedia Bahan Perlengkapan Jalan)</option>
+          <option value="APL">Aplikator Perlengkapan Jalan (form menyusul)</option>
+        </select>
+      </label>
+      <label class="f"><span>Petugas / Tim (opsional, ikut tercetak di cap foto)</span><input id="f-petugas" placeholder="mis. Tim Teknis Dit. Lalu Lintas Jalan"></label>
+    </div>
+
+    <div class="card">
+      <h2>Bidang yang Diperiksa</h2>
+      <div id="bidangList"></div>
+      <button class="btn ghost full" data-act="addbidang">+ Tambah bidang lain</button>
+      <p class="hint">Daftar bidang mengikuti Jenis Badan Usaha. Bidang di luar daftar dibuat dengan kelompok standar; item bisa ditambah sendiri di layar Foto.</p>
+    </div>
+
+    <div class="card">
+      <h2>Pengaturan Cap Waktu</h2>
+      <label class="chk"><input type="checkbox" id="o-gps" checked><div><b>Sertakan koordinat GPS</b><small>Aktifkan lokasi HP. GPS bekerja tanpa internet.</small></div></label>
+      <label class="chk"><input type="checkbox" id="o-stampgal" checked><div><b>Beri cap juga pada foto dari galeri</b><small>Matikan jika foto galeri sudah diambil pakai aplikasi Timestamp Camera (agar tidak ada cap ganda).</small></div></label>
+    </div>
+
+    <button class="btn amber full" data-act="go-foto">Mulai Foto →</button>
+  </section>
+
+  <!-- ========== 2. FOTO ========== -->
+  <section id="v-foto" class="view" hidden>
+    <div class="chips" id="bidangTabs"></div>
+    <div class="prog"><div class="t"><span id="progTxt">0 / 0 item terdokumentasi</span><b id="progPct">0%</b></div><div class="bar"><i id="progBar"></i></div></div>
+    <div id="secList"></div>
+  </section>
+
+  <!-- ========== 3. UNDUH ========== -->
+  <section id="v-unduh" class="view" hidden>
+    <div class="stat">
+      <div><b id="s-foto">0</b><span>foto</span></div>
+      <div><b id="s-item">0</b><span>item terfoto</span></div>
+      <div><b id="s-bid">0</b><span>bidang</span></div>
+    </div>
+    <div class="card">
+      <h2>Isi Dokumen</h2>
+      <label class="chk"><input type="checkbox" id="o-empty" checked><div><b>Tampilkan kotak kosong untuk item tanpa foto</b><small>Seperti contoh lampiran (kotak tetap ada, foto kosong).</small></div></label>
+      <label class="chk"><input type="checkbox" id="o-rekap"><div><b>Sertakan rekap checklist (Ada/Tidak + keterangan)</b><small>Tabel ringkas sebelum tabel foto.</small></div></label>
+    </div>
+    <div class="stack">
+      <button class="btn full" data-act="docx"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13l1.5 5 1.5-4 1.5 4 1.5-5"/></svg>Unduh Tabel Dokumentasi Word (.docx)</button>
+      <button class="btn ghost full" data-act="zip" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2"/><path d="m21 17-5-5-8 7"/></svg>Unduh Semua Foto Ber-cap (.zip)</button>
+      <button class="btn ghost full" data-act="print" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9V3h12v6M6 18H4a1 1 0 0 1-1-1v-6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v6a1 1 0 0 1-1 1h-2"/><rect x="6" y="14" width="12" height="7"/></svg>Simpan sebagai PDF (Cetak)</button>
+      <button class="btn ghost full" data-act="share" id="btnShare" hidden>Bagikan .docx (WhatsApp, Drive, dll.)</button>
+    </div>
+    <div class="card" style="margin-top:14px">
+      <h2>Selesai</h2>
+      <p class="hint" style="margin:0 0 10px">Data hanya tersimpan sementara di HP ini (tidak dikirim ke mana pun) agar foto tidak hilang jika browser tertutup. Setelah file diunduh, hapus untuk kunjungan berikutnya.</p>
+      <button class="btn red full" data-act="reset">Selesai &amp; Hapus Semua Data</button>
+    </div>
+  </section>
+</main>
+
+<nav class="tabs">
+  <button data-tab="setup" class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 4h6v3H9zM6 5H5a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1h-1M8 12h8M8 16h5"/></svg>Kunjungan</button>
+  <button data-tab="foto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 8h3l2-3h6l2 3h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/><circle cx="12" cy="13" r="3.5"/></svg>Foto</button>
+  <button data-tab="unduh"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0-4-4m4 4 4-4M4 17v3h16v-3"/></svg>Unduh</button>
+</nav>
+
+<input type="file" id="inCam" accept="image/*" capture="environment" hidden>
+<input type="file" id="inGal" accept="image/*" multiple hidden>
+
+<div id="cam" hidden>
+  <div class="ch"><button data-act="camprev" aria-label="Item sebelumnya">‹</button><div class="ct"><small id="camSec"></small><b id="camItem"></b></div><button data-act="camnext" aria-label="Item berikutnya">›</button></div>
+  <div id="camArea"><div id="camBox"><video id="vid" playsinline muted autoplay></video><canvas id="camOv"></canvas><div id="camFlash"></div></div></div>
+  <div class="ctools"><button data-act="torch" id="btnTorch" hidden>Lampu</button><input type="range" id="zoom" hidden aria-label="Zoom"><button data-act="camsys">Kamera HP</button></div>
+  <div class="cb"><button class="done" data-act="camclose">Selesai</button><button class="shut" data-act="shoot" aria-label="Ambil foto"></button><button class="cth" data-act="camthumb" aria-label="Lihat foto terakhir"><img id="camThumb" alt="" hidden><span id="camCount" hidden>0</span></button></div>
+</div>
+<div id="viewer" hidden>
+  <div class="im"><img alt=""></div>
+  <div class="vb"><button class="btn red" data-act="vdel">Hapus foto</button><button class="btn" data-act="vclose">Tutup</button></div>
+</div>
+<div id="toast"></div>
+<div id="busy"><div id="busyTxt">Memproses…</div></div>
+<div id="print"></div>
+
+<script>
+"use strict";
+/* ================= UTIL ================= */
+const $ = s => document.querySelector(s);
+const uid = () => Math.random().toString(36).slice(2, 9) + Date.now().toString(36).slice(-4);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const HARI = ["Minggu","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"];
+const BULAN = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
+const pad = n => String(n).padStart(2, "0");
+function tzLabel(d){
+  const off = -d.getTimezoneOffset()/60;
+  return off===7?"WIB":off===8?"WITA":off===9?"WIT":("GMT"+(off>=0?"+":"")+off);
+}
+function fmtTanggal(iso){
+  if(!iso) return "";
+  const [y,m,d] = iso.split("-").map(Number);
+  return `${d} ${BULAN[m-1]} ${y}`;
+}
+function safeName(s){ return String(s||"").replace(/[\\/:*?"<>|]+/g,"").replace(/\s+/g,"_").slice(0,60) || "x"; }
+let toastT;
+function toast(msg, ms=2200){ const t=$("#toast"); t.textContent=msg; t.classList.add("show"); clearTimeout(toastT); toastT=setTimeout(()=>t.classList.remove("show"), ms); }
+function busy(on, txt){ $("#busy").classList.toggle("show", !!on); if(txt) $("#busyTxt").textContent = txt; }
+
+/* ================= TEMPLATE (dari Checklist On Site Visit) ================= */
+function mk(list){ return list.map(s => { const [name,hint] = s.split("|"); return {id:uid(), name, hint:hint||"", status:"", ket:"", photos:[]}; }); }
+/* Jenis badan usaha. Checklist berbeda per jenis; Aplikator: form menyusul. */
+const BU = {
+  PPJ:  {label:"BU-PPJ (Badan Usaha Pembuat Perlengkapan Jalan)"},
+  PBPJ: {label:"BU-PBPJ (Badan Usaha Penyedia Bahan Perlengkapan Jalan)"},
+  APL:  {label:"Aplikator Perlengkapan Jalan", soon:true}
+};
+const gedung = (dasar="Ruang Penyimpanan Bahan Dasar", jadi="Ruang Penyimpanan Bahan Jadi") =>
+  ["Ruang Administrasi|Luas … m²", dasar+"|Luas … m²", "Ruang Perakitan|Luas … m²", jadi+"|Luas … m²"];
+const GEDUNG = gedung();
+const GEDUNG_BJ = gedung(undefined, "Ruang Penyimpanan Barang Jadi");
+const K3 = ["Rambu Sementara","Traffic Cone","Rompi Kerja","Safety Shoes","Safety Helmet","Safety Gloves / Hand Gloves"];
+const K3_5 = ["Rambu Sementara","Traffic Cone","Rompi Kerja","Safety Shoes","Safety Helmet"];
+const K3_PB = ["Baju Kerja","Safety Shoes","Safety Helmet"];
+const KEND = ["Kendaraan Operasional 1|Jenis & type kendaraan","Kendaraan Operasional 2|Jenis & type kendaraan","Kendaraan Operasional 3|Jenis & type kendaraan"];
+const KS = "Kerja Sama dengan Perusahaan Penyedia Bahan (Opsional)|Nama penyedia";
+const SDM_SIPIL = ["Tenaga Administrasi dan Keuangan","Tenaga Ahli min. S1/D3 Sipil","Tenaga Operasional Lapangan min. STM/SMK"];
+const TOOLSET = "Tool Sets (tang potong, obeng lengkap, kunci ring, dll.)";
+const GB_IX = "Sertifikat Uji Manik-Manik Kaca (Glassbead Intermix) AASHTO T250|Uji index clarity, tipe GB, roundness";
+const GB_DO = "Sertifikat Uji Manik-Manik Kaca (Glassbead Drop-On) AASHTO M247|Uji index clarity, tipe GB, roundness";
+const PENGIKAT = "Sertifikat Uji Bahan Pengikat dari Bahan Alam atau Hidrokarbon|Titik nyala, titik bakar";
+const THERMO_PP = ["Resin Ester / Resin Hydrocarbon (Bahan Perekat) / Binder","Calsium Carbonat (CaCO3) dan Inert Fillers","Pigmen Titanium Dioksida (TiO2)","Glassbeads (Manik-Manik Kaca) Drop-On / Intermix","Komposisi Pigmen Campuran Calsium Carbonate dan Inert Filler (khusus marka warna kuning)"];
+const J_MARKA = [["cat","Cat"],["thermo","Thermoplastic"],["cold","Coldplastic"],["prefab","Prefabricated"]];
+const J_PENGENDALI = [["pagar","Pagar Pengaman"],["cermin","Cermin Tikungan"],["delin","Delineator"],["tinggi","Pembatas Tinggi"],["cepat","Pembatas Kecepatan"]];
+/* jenis: section hanya tampil jika jenis tsb dipilih (atau belum ada jenis yang dipilih) */
+function sec(title, items, lamp, jenis){ return {id:uid(), title, lamp, jenis:jenis||"", items:mk(items)}; }
+/* o: {on, title (judul dokumen), jenis: [[key,nama],...]} */
+function bd(bu, key, name, sections, o={}){
+  return {key, bu, name, title:o.title||"", on:!!o.on, jenisList:o.jenis||null, jenis:{}, sections};
+}
+function templates(){
+  return [
+    /* ---------- BU-PPJ (Pembuat Perlengkapan Jalan) ---------- */
+    {key:"konv", bu:"PPJ", name:"Rambu Konvensional", on:true, sections:[
+      sec("Spesifikasi Teknis Bahan", ["Daun Rambu ACP (3 mm) / Aluminium (2 mm)|Coret yang tidak perlu","Tiang Rambu Galvanized Steel Pipe|Ukuran … inch","Lembar Retroreflective ASTM Type IV D 4956|Merek / type","Kerja Sama dengan Perusahaan Penyedia Bahan (Opsional)|Nama penyedia"], false),
+      sec("Gedung dan Bangunan", GEDUNG, true),
+      sec("Peralatan Produksi", ["Mesin Pemotong Plat","Mesin Rol Aplikator","Komputer","Cutting Plotter","Rak Pengering / Rak Penggantung","Kompresor","Mesin Bor","Mesin Las","Bending Plate","Cutting Wheel","Grinding Wheel","Meja Perakitan Daun Rambu","Hand Grinder"], true),
+      sec("Peralatan Keselamatan Kerja", K3, true),
+      sec("Kendaraan Operasional", KEND, true),
+      sec("Sumber Daya Manusia", ["Tenaga Administrasi dan Keuangan","Tenaga Ahli min. S1/D3 Teknik Sipil","Tenaga Operasional Lapangan min. STM/SMK"], false)
+    ]},
+    {key:"elek", bu:"PPJ", name:"Rambu Elektronik", on:false, sections:[
+      sec("Spesifikasi Teknis Bahan", ["Modul Layar Monitor Lampu LED","Bahan Rumah Modul Layar Monitor","Bahan Tiang Rambu Baja Galvanis","Pengisian Program (pesan variabel / software)","Sistem Kelistrikan (PLN / Tenaga Surya)","Kerja Sama dengan Perusahaan Penyedia Bahan (Opsional)|Nama penyedia"], false),
+      sec("Gedung dan Bangunan", GEDUNG, true),
+      sec("Peralatan Produksi", ["Komputer","Solder Manual","Attractor Rework","Tool Sets (obeng, kunci ring, tang, dll.)","Sigmat Meter","Catu Daya","Test Pen","AVO Meter","Alat Pengisi Program","Osiloskop"], true),
+      sec("Peralatan Keselamatan Kerja", K3, true),
+      sec("Kendaraan Operasional", KEND, true),
+      sec("Sumber Daya Manusia", ["Tenaga Administrasi dan Keuangan","Tenaga Ahli min. S1/D3 Teknik Elektro/Informatika/Komputer","Tenaga Lapangan min. STM/SMK"], false)
+    ]},
+    bd("PPJ","pp-mt","Marka Jalan (Tanda)",[
+      sec("Spesifikasi Teknis Bahan Cat", ["Bahan Dasar Resin Acrylic Berpelarut Air yang Cepat Kering sesuai AASHTO M 248-91:2012","ATAU Bahan Dasar Resin Acrylic atau Resin Alkyd Berpelarut Solven (Type F) sesuai AASHTO M 248-91:2012"], false, "cat"),
+      sec("Spesifikasi Teknis Bahan Thermoplastic", THERMO_PP, false, "thermo"),
+      sec("Spesifikasi Teknis Bahan Coldplastic", ["Resin MMA (Methyl Methacrylate) atau PMMA (Poly Methyl Methacrylate)","Aggregate dan Fillers","Benzoyl Peroxide (BPO) Standar ASTM D 3690","Glassbeads AASHTO M 247"], false, "cold"),
+      sec("Spesifikasi Teknis Bahan Prefabricated", THERMO_PP, false, "prefab"),
+      sec("Kerja Sama Penyedia Bahan", [KS], false),
+      sec("Gedung dan Bangunan", GEDUNG, true),
+      sec("Peralatan Produksi dan Pemasangan", ["Timbangan Digital Oven","Automatic Granular Mixer","Automatic Filling Machine","Impact Faster","Mesin Pre Heater","Mesin Aplikasi Marka Dorong","Mesin Aplikasi Marka Mobil (opsional)","Roll Meter","Pemanas Menggunakan Gas (LPG)","Thermo Sensor","Roll Aplikator"], true),
+      sec("Peralatan Keselamatan Kerja", K3_5, true),
+      sec("Kendaraan Operasional", KEND, true),
+      sec("Sumber Daya Manusia", ["Tenaga Administrasi / Keuangan","Tenaga Ahli min. S1/D3 Teknik Kimia/Kimia/Sipil","Tenaga Operasional Lapangan min. STM/SMK"], false)
+    ], {jenis:J_MARKA, title:"Marka Tanda"}),
+    bd("PPJ","pp-mp","Marka Jalan (Peralatan)",[
+      sec("Spesifikasi Teknis Bahan", ["Bahan Polyvinyl Chloride / Medium Density Polyvinyl (Traffic Cone / Water Barrier), Retroreflective Type IV","Bahan Temperglass (Paku Jalan) / Bahan Lainnya",KS], false),
+      sec("Gedung dan Bangunan", GEDUNG, true),
+      sec("Peralatan Pemasangan", ["Drilling Machine / Core Drill","Generator Set","Kompresor","Electric Hand Driller","Roll Meter","Hand Grinder"], true),
+      sec("Peralatan Keselamatan Kerja", K3_5, true),
+      sec("Kendaraan Operasional", KEND, true),
+      sec("Sumber Daya Manusia", SDM_SIPIL, false)
+    ], {title:"Marka Peralatan", jenis:[["cone","Traffic Cone"],["wb","Water Barrier"],["paku","Paku Jalan"]]}),
+    bd("PPJ","pp-ao","APILL Otonom Standar/Cerdas",[
+      sec("Spesifikasi Teknis Bahan", ["Lampu Aspek Intensitas Cahaya min. 500 Candela","Tiang Penyangga dari Baja Karbon Galvanized","Perangkat Kendali / Digital Traffic Controller","Catu Daya Tersuplai / Mandiri","Variable Message System / Display Info System","Alat Penghitung Waktu Mundur (Count Down Timer)","Automatic Traffic Counter","Camera CCTV (Fix atau PTZ)","Processor Program",KS], false),
+      sec("Gedung dan Bangunan", GEDUNG_BJ, true),
+      sec("Peralatan Kerja", ["Solder Manual","Sigmat Meter","System Catu Daya","Test Pen","AVO Meter","Alat Pengisi Program Siklus","Osiloskop","RST Tester",TOOLSET,"Komputer (Laptop/Desktop)","Lux Meter"], true),
+      sec("Peralatan Pemasangan", ["Mobil Crane","Chain Block"], true),
+      sec("Peralatan Keselamatan Kerja", K3_5, true),
+      sec("Kendaraan Operasional", KEND, true),
+      sec("Sumber Daya Manusia", ["Tenaga Administrasi dan Keuangan","Tenaga Ahli min. S1/D3 Elektro","Tenaga Operasional Lapangan min. STM/SMK"], false)
+    ], {title:"APILL Otonom"}),
+    bd("PPJ","pp-at","APILL Terkoordinasi",[
+      sec("Spesifikasi Teknis Bahan", ["Lampu Aspek Intensitas Cahaya min. 500 Candela","Bahan Tiang Penyangga dari Baja Karbon Galvanized","Perangkat Kendali / Digital Traffic Controller","Catu Daya","Sistem Komunikasi antar APILL (FO atau Satelit Komunikasi)","Automatic Traffic Counter","Camera CCTV (Fix / PTZ)",KS], false),
+      sec("Gedung dan Bangunan", GEDUNG, true),
+      sec("Peralatan Kerja", ["Solder Manual","Sigmat Meter","Catu Daya","Test Pen","AVO Meter","Alat Pengisi Program Siklus","Osiloskop","Laptop / Komputer","Merger Grounding","RST Tester",TOOLSET,"Lux Meter"], true),
+      sec("Peralatan Pemasangan", ["Mobil Crane","Chain Block"], true),
+      sec("Peralatan Keselamatan Kerja", K3_5, true),
+      sec("Kendaraan Operasional", KEND, true),
+      sec("Sumber Daya Manusia", ["Tenaga Administrasi dan Keuangan","Tenaga Ahli min. S1 Teknik Elektro/Komputer/Informatika","Tenaga Ahli min. S1/D3 Sipil/Transportasi","Tenaga Operasional Lapangan min. STM/SMK"], false)
+    ]),
+    bd("PPJ","pp-apj","Alat Penerangan Jalan (APJ)",[
+      sec("Spesifikasi Teknis Bahan", ["Luminer (Uji Lengkap: Photometri, IP, IK, THD/EMC Test, Vibrasi, SNI)","Tiang Baja Karbon Galvanis (Ukuran, Bentuk, dan Konstruksinya)","Battery (Uji IP dan Uji Kapasitas)","Panel Surya (Uji Performance Output Tegangan dan Arus) / Energi Suplai Mandiri","Smart System (opsional/tidak wajib)","Charge Controller (MPPT/PWM, Uji IP)","System Catu Daya",KS], false),
+      sec("Gedung dan Bangunan", GEDUNG_BJ, true),
+      sec("Peralatan Kerja", ["Test Pen","Tang Kupas","Solder","Power Supply Adjustable","Pylox Clear","Bor Cun","Cutter","Tang Potong","Bor Duduk & Mata Bor","Tang Buaya","Komputer dilengkapi Software Penghitung Kuat Cahaya","Tester Charge Cut-off","Glue Gun & Hairdryer","AVO Meter","Osiloskop","Meger Test","RST Tester","Bor Tangan","Kunci Pas","Tang Kremping","Tang Ampere","Mesin Las","Generator Set Kecil","Alat Pres Hidrolik Sambungan Kabel","Mini Concrete Mixer"], true),
+      sec("Peralatan Pemasangan", ["Mobil Crane","Chain Block"], true),
+      sec("Peralatan Keselamatan Kerja", K3_5, true),
+      sec("Kendaraan Operasional", KEND, true),
+      sec("Sumber Daya Manusia", ["Tenaga Administrasi dan Keuangan","Tenaga Ahli min. S1/D3 Teknik Elektro/Sipil","Tenaga Operasional Lapangan min. STM/SMK"], false)
+    ], {title:"APJ"}),
+    bd("PPJ","pp-pg","Alat Pengendali dan Pengaman Pengguna Jalan",[
+      sec("Spesifikasi Teknis Bahan Pagar Pengaman", ["W Beam (Post, Blocking, W Beam, Baut Payung, Baut Hexagonal, Reflector)","Thrie Beam (Post, Blocking, W Beam, Baut Payung, Baut Hexagonal, Reflector)","Roller Barrier (Roller, Tiang, Rel, Pin, Baut, Poros)","Crash Cushion (Cathrige, Corrugated Plat, Rel, Base Anchorage, Baut, Cover)"], false, "pagar"),
+      sec("Spesifikasi Teknis Bahan Cermin Tikungan", ["Tiang Penyangga berupa Pipa 2,5 inch Baja Galvanis","Cermin Tikungan Diameter 900 mm Lapisan Stainless","Bracket Adjustable"], false, "cermin"),
+      sec("Spesifikasi Teknis Bahan Delineator", ["Bahan dari Besi|Ukuran sisi, warna, ketebalan, bahan","Bahan Plastik|Diameter, warna, ketebalan, bahan","Reflective Sheet ASTM Type IV"], false, "delin"),
+      sec("Spesifikasi Teknis Bahan Pembatas Tinggi dan Lebar", ["Tiang Vertikal (4 inch s.d. 8 inch)","Tiang Horizontal (3 inch s.d. 6 inch)","Sistem Pengunci","Rambu Larangan Batas Ketinggian 4,2 meter"], false, "tinggi"),
+      sec("Spesifikasi Teknis Bahan Pembatas Kecepatan", ["Speed Bump|Ukuran, bahan, warna","Speed Hump|Ukuran, bahan, warna"], false, "cepat"),
+      sec("Kerja Sama Penyedia Bahan", [KS], false),
+      sec("Gedung dan Bangunan", GEDUNG_BJ, true),
+      sec("Peralatan Kerja", ["Mobil Crane","Chain Block","Kunci Set","Mesin Las","Generator Set Kecil","Mini Concrete Mixer (mesin pengaduk beton mini)","Alat Gali Tanah","Roll Meter","Bor Tangan"], true),
+      sec("Peralatan Keselamatan Kerja", K3_5, true),
+      sec("Kendaraan Operasional", KEND, true),
+      sec("Sumber Daya Manusia", SDM_SIPIL, false)
+    ], {jenis:J_PENGENDALI}),
+    bd("PPJ","pp-pw","Alat Penimbangan Kendaraan Bermotor",[
+      sec("Spesifikasi Teknis Bahan", ["Load Cell|Kapasitas @8 / @10 / @12 ton, uji IP","Komputer Monitoring","Platform Landasan (Baja H Beam dan U Wide Flange)","Perangkat Lunak berupa Software Khusus PKB","Layar Indikator","Junction Box","Camera","External Display","Weight in Motion (jika jenis penimbangan berjalan, uji IP68)","Wheel Load Scale (jika jenis timbangan portable)"], false),
+      sec("Gedung dan Bangunan", GEDUNG_BJ, true),
+      sec("Peralatan Kerja", ["Mobil Crane","Chain Block","Mesin Las","Generator Set Kecil","Mesin Potong Gas (Gas Cutting)","Airless Spray Gun","AVO Meter","Test Pen","Tool Sets (obeng, tang, kunci ring lengkap)","Kompresor Udara"], true),
+      sec("Peralatan Keselamatan Kerja", K3_5, true),
+      sec("Kendaraan Operasional", KEND, true),
+      sec("Sumber Daya Manusia", ["Tenaga Administrasi dan Keuangan","Tenaga Ahli min. S1/D3 Sipil","Tenaga Ahli min. S1/D3 Mesin","Tenaga Operasional Lapangan min. STM/SMK"], false)
+    ], {title:"Alat Pengawas dan Pengaman Pengguna Jalan (Alat Penimbangan Kendaraan Bermotor)"}),
+
+    /* ---------- BU-PBPJ (Penyedia Bahan Perlengkapan Jalan) ---------- */
+    bd("PBPJ","pb-konv","Rambu Konvensional",[
+      sec("Spesifikasi Teknis Bahan", ["Sertifikat Uji Lembaran Retroreflektif|Uji retro, kerekatan, fleksibilitas, penyusutan, aging, warna, dll.","Sertifikat Uji Plat Bahan Daun Rambu (Aluminium Panel atau ACP)","Bahan Tiang Rambu (pipa, barang konstruksi umum)"], false),
+      sec("Gedung dan Bangunan", gedung("Ruang Penyimpanan Bahan (Gudang)","Ruang Penyimpanan Barang Jadi"), true),
+      sec("Peralatan Produksi dan/atau Uji Bahan", ["Sertifikat Keagenan Resmi Lembaran Retroreflektif (lembaran retro tidak diproduksi di lokal)","Peralatan Produksi Plat Aluminium dan ACP"], true),
+      sec("Peralatan Keselamatan Kerja", ["Baju Kerja","Safety Shoes","Safety Gloves","Peralatan Kerja Standar di Pabrik"], true),
+      sec("Kendaraan Operasional", KEND, true),
+      sec("Sumber Daya Manusia", ["Tenaga Ahli min. S1/D3 Teknik Sipil/Industri/Metalurgi"], false)
+    ], {on:true}),
+    bd("PBPJ","pb-elek","Rambu Elektronik",[
+      sec("Spesifikasi Teknis Bahan", ["Sertifikat Uji Layar Monitor & Modul Control|Uji IP, uji pixel, uji kecerahan modul","Catu Daya (Control Gear / Driver)","Papan Sirkuit Pixel","Rumah Layar Monitor|Bahan, tebal, warna, dll."], false),
+      sec("Gedung dan Bangunan", GEDUNG, true),
+      sec("Peralatan Produksi", ["Komputer / Laptop","AVO Meter","Osiloskop","Pengisi Program / Konten","Test Pen","Alat Kelistrikan (obeng, tang, solder)","Papan Circuit Board","Lampu Diode"], true),
+      sec("Peralatan Keselamatan Kerja", ["Baju Kerja","Safety Shoes","Safety Glass","Safety Gloves","Peralatan Kerja Umum untuk Pelindung Diri"], true),
+      sec("Kendaraan Operasional", KEND, true),
+      sec("Sumber Daya Manusia", ["Tenaga Ahli min. S1 Teknik Elektro/Informatika/Komputer"], false)
+    ]),
+    bd("PBPJ","pb-mt","Marka Jalan (Tanda)",[
+      sec("Spesifikasi Teknis Bahan Cat", ["Sertifikat Uji Bahan Cat (AASHTO M 248-91:2012) AASHTO M 249","Sertifikat Uji Warna ASTM 6628-03"], false, "cat"),
+      sec("Spesifikasi Teknis Bahan Thermoplastic", [PENGIKAT,GB_IX,GB_DO,"Sertifikat Uji Bahan Titanium Dioxide ASTM D476","Sertifikat Pigmen Warna untuk Marka Warna Kuning","Uji Warna ASTM D 6628-03","Uji Komposisi AASHTO 249-98"], false, "thermo"),
+      sec("Spesifikasi Teknis Bahan Coldplastic", ["Sertifikat Uji Bahan Campuran Cat MMA (Methyl Methacrylate)","Uji Warna ASTM D 6628-03","Bahan Marka sesuai Standar Uji BS EN 1871:2000","Benzoyl Peroxide (BPO) Standar Uji ASTM D 3690",GB_DO], false, "cold"),
+      sec("Spesifikasi Teknis Bahan Prefabricated", ["Uji Warna ASTM D 6628-03","Uji Komposisi Bahan AASHTO 249-98",PENGIKAT,GB_IX,GB_DO,"Sertifikat Uji Bahan Titanium Dioxide ASTM D476","Sertifikat Pigmen Warna untuk Marka Warna Kuning"], false, "prefab"),
+      sec("Gedung dan Bangunan", GEDUNG, true),
+      sec("Peralatan Produksi dan/atau Peralatan Uji", ["Mixer Pengolah Bahan-Bahan Marka","Alat Penakar Komposisi Bahan-Bahan Marka","Alat Pengemas Bahan Marka","Alat Pencetak Marka Setengah Jadi (khusus marka prefabricated)","Alat Uji Warna Bahan Marka","Piknometer","Apparatus","Ford Cup","Ring and Ball","Impact Faster"], true),
+      sec("Peralatan Keselamatan Kerja", ["Pakaian Kerja (Wear Pack)","Safety Shoes","Safety Helmet","Masker","Hand Gloves","Safety Goggles"], true),
+      sec("Kendaraan Operasional", KEND, true),
+      sec("Sumber Daya Manusia", ["Tenaga Ahli min. S1/D3 Teknik Kimia/Kimia/Sipil"], false)
+    ], {jenis:J_MARKA, title:"Marka Tanda"}),
+    bd("PBPJ","pb-mp","Marka Jalan (Peralatan)",[
+      sec("Spesifikasi Teknis Bahan Paku Jalan", ["Sertifikat Uji Compressive Strength","Sertifikat Uji Flexural Strength","Sertifikat Uji Aluminium Campur dengan Pemantul Cahaya"], false, "paku"),
+      sec("Spesifikasi Teknis Bahan Traffic Cone", ["Sertifikat Uji Ketahanan UV Bahan LDPE","Uji Dimensi","Uji Ketebalan","Uji Berat","Low Temperature Impact Test, Stability, Drop Test sesuai BS 873 Part 8:1985"], false, "cone"),
+      sec("Spesifikasi Teknis Bahan Water Barrier", ["Sertifikat Uji Ketahanan UV Water Barrier Bahan HDPE","Uji Dimensi","Uji Ketebalan Water Barrier","Uji Volume Water Barrier","Uji Berat","Uji Ketahanan Temperatur s.d. 120 °C"], false, "wb"),
+      sec("Gedung dan Bangunan", GEDUNG, true),
+      sec("Peralatan Produksi dan/atau Uji Bahan", ["Mesin Moulding","Mesin Processing","Mesin Line Produksi"], true),
+      sec("Peralatan Keselamatan Kerja", ["Rompi Kerja","Safety Shoes","Safety Helmet"], true),
+      sec("Kendaraan Operasional", KEND, true),
+      sec("Sumber Daya Manusia", ["Tenaga Ahli min. S1/D3 Teknik Kimia/Kimia/Sipil (marka tanda)","Tenaga Ahli min. S1/D3 Teknik Sipil (marka peralatan)"], false)
+    ], {title:"Marka Peralatan", jenis:[["paku","Paku Jalan"],["cone","Traffic Cone"],["wb","Water Barrier"]]}),
+    bd("PBPJ","pb-ao","APILL Otonom Standar/Cerdas",[
+      sec("Spesifikasi Teknis Bahan", ["Kendali (Traffic Controller)","Lampu Aspek beserta Lampu","Tiang Penyangga dan Patok Pengaman","Kabel Instalasi (Kabel Udara atau Kabel Tanah)","Sertifikat Uji Alat Pendeteksi Kendaraan untuk Volume / Kecepatan","Variable Message System / Display Info System","Alat Penghitung Waktu Mundur (Count Down Timer)","Automatic Traffic Counter","Camera CCTV (Fix atau PTZ)","Processor Program"], false),
+      sec("Gedung dan Bangunan", GEDUNG_BJ, true),
+      sec("Peralatan Produksi dan/atau Uji Bahan", ["Uji IP Lampu Aspek","Uji Panjang Gelombang Warna Lampu","Gambar Umum Desain APILL","Diagram Assembling APILL"], true),
+      sec("Peralatan Keselamatan Kerja", K3_PB, true),
+      sec("Kendaraan Operasional", KEND, true),
+      sec("Sumber Daya Manusia", ["Tenaga Ahli min. S1/D3 Elektro"], false)
+    ], {title:"APILL Otonom"}),
+    bd("PBPJ","pb-at","APILL Terkoordinasi",[
+      sec("Spesifikasi Teknis Bahan", ["Perangkat Kendali (Traffic Controller)","Lampu Aspek beserta Lampu","Tiang Penyangga dan Patok Pengaman","Kabel Instalasi (Kabel Udara atau Kabel Tanah)","Sertifikat Uji Alat Pendeteksi Kendaraan untuk Volume / Kecepatan","Variable Message System / Display Info System","Alat Penghitung Waktu Mundur (Count Down Timer)","Automatic Traffic Counter","Camera CCTV (Fix atau PTZ)","Processor Program","Sistem Komunikasi antar Simpang (Kabel FO atau Satelit)"], false),
+      sec("Gedung dan Bangunan", GEDUNG_BJ, true),
+      sec("Peralatan Produksi dan/atau Uji Bahan", ["Uji IP Lampu Aspek","Uji Panjang Gelombang Warna Lampu","Gambar Umum Desain APILL","Diagram Assembling APILL","Diagram Sistem Komunikasi"], true),
+      sec("Peralatan Keselamatan Kerja", K3_PB, true),
+      sec("Kendaraan Operasional", KEND, true),
+      sec("Sumber Daya Manusia", ["Tenaga Ahli min. S1/D3 Teknik Elektro/Komputer/Sipil/Transportasi"], false)
+    ]),
+    bd("PBPJ","pb-apj","Alat Penerangan Jalan (APJ)",[
+      sec("Spesifikasi Teknis Bahan", ["Luminer Lampu Jalan (AC atau DC)","Tiang Lampu","Panel Surya","Baterai Jenis Lithium Iron Phosphate (LiFePO4)","Charge Controller","Kotak Perangkat Kontrol PHBK","Kotak Metering (kWh Meter)"], false),
+      sec("Gedung dan Bangunan", GEDUNG_BJ, true),
+      sec("Peralatan Produksi dan/atau Uji Bahan", ["Uji Luminer Lengkap (SNI, Photometri, IP, IK Rating, THD/EMC, dan Uji Getar)|Lulus / tidak lulus","Uji Bahan Tiang (Uji Kekuatan Tarik dan Uji Coating Galvanis)|Lulus / tidak lulus","Uji Bahan Panel (SNI, Uji Tegangan dan Arus Keluaran)|Lulus / tidak lulus","Uji Baterai (Uji IP, Kapasitas, Tegangan Maksimal, Arus Maksimal)|Lulus / tidak lulus","Charge Controller (Uji IP dan Uji Kinerja)|Lulus / tidak lulus"], true),
+      sec("Peralatan Keselamatan Kerja", K3_PB, true),
+      sec("Kendaraan Operasional", KEND, true),
+      sec("Sumber Daya Manusia", ["Tenaga Ahli min. S1/D3 Elektro"], false)
+    ], {title:"APJ"}),
+    bd("PBPJ","pb-pg","Alat Pengendali dan Pengaman Pengguna Jalan",[
+      sec("Spesifikasi Teknis Bahan Pagar Pengaman (Guardrail)", ["Bahan Lembaran Plat Tebal 2,67 mm, 4,5 mm, dan 6 mm","Lempengan Besi W-Beam (SNI A/B dan AASHTO A/B)","Lempengan Besi Pengikat (SNI A/B dan AASHTO A/B)","Tiang Penyangga (Post) (SNI A/B dan AASHTO A/B)","Baut & Nut Payung","Baut & Nut Hexagonal"], false, "pagar"),
+      sec("Spesifikasi Teknis Bahan Cermin Tikungan", ["Cermin Lengkap berikut Rumah dan Penutup","Bracket Adjustable"], false, "cermin"),
+      sec("Spesifikasi Teknis Bahan Delineator", ["Sertifikat Uji Bahan Pipa Besi dan/atau Pipa Plastik yang Dilengkapi Retroreflektif","Delineator Plastik Segitiga Sama Kaki (dilengkapi lembar pemantul cahaya)"], false, "delin"),
+      sec("Spesifikasi Teknis Bahan Pembatas Tinggi", ["Pembatas Tinggi Lengkap yang Sudah Diproduksi Tinggal Pasang","Kunci Pembatas Tiang Atas"], false, "tinggi"),
+      sec("Spesifikasi Teknis Bahan Pembatas Kecepatan", ["Contoh Bahan Speed Hump dan Speed Bump yang Tinggal Pasang","Baut & Nut untuk Pemasangan"], false, "cepat"),
+      sec("Gedung dan Bangunan", GEDUNG_BJ, true),
+      sec("Peralatan Produksi", ["Mesin Cutting Plat","Mesin Bending Plat","Mesin Stampling Plat","Automatic Electric Welding (GMAW, FCAW, dll.)","Mesin Moulding dan Pemroses Plastik Mentah untuk Delineator Plastik (opsional)","Mesin Las, Mesin Cat, Mesin Potong, Airless Spray (untuk delineator pipa besi)"], true),
+      sec("Uji Bahan", ["Uji Kekuatan Tarik Plat Bahan W Beam","Uji Ketahanan UV Delineator Plastik","Uji Ketebalan Delineator Plastik","Uji Dimensi W Beam","Uji Dimensi Delineator Plastik"], true),
+      sec("Peralatan Keselamatan Kerja", K3_PB, true),
+      sec("Kendaraan Operasional", KEND, true),
+      sec("Sumber Daya Manusia", ["Tenaga Ahli min. S1/D3 Sipil/Metalurgi"], false)
+    ], {jenis:[["pagar","Pagar Pengaman W Beam"],["cermin","Cermin Tikungan"],["delin","Delineator"],["tinggi","Pembatas Tinggi"],["cepat","Pembatas Kecepatan"]]}),
+    bd("PBPJ","pb-pw","Alat Penimbangan Kendaraan Bermotor",[
+      sec("Spesifikasi Teknis Bahan", ["Display Indikator Penimbangan","Load Cell|Merek dan type","Junction Box","Komputer","External Display","Camera","Wheel Load Scale Portable","Perangkat Lunak Hasil Pengembangan Sendiri atau Lisensi"], false),
+      sec("Persyaratan Administrasi", ["Penunjukan sebagai Agen Distributor Load Cell","Lisensi Penggunaan Sistem Penimbangan"], false),
+      sec("Gedung dan Bangunan", GEDUNG_BJ, true),
+      sec("Peralatan Produksi dan/atau Uji Bahan", ["Uji IP Load Cell","Uji IP Junction Box","Uji IP Indikator Layar Monitor"], true),
+      sec("Peralatan Keselamatan Kerja", K3_PB, true),
+      sec("Kendaraan Operasional", KEND, true),
+      sec("Sumber Daya Manusia", ["Tenaga Ahli min. S1/D3 Sipil"], false)
+    ], {title:"Alat Pengawas dan Pengaman Pengguna Jalan (Alat Penimbangan Kendaraan Bermotor)"})
+  ];
+}
+function curBu(){ return state.visit.buKey || "PPJ"; }
+function buBidang(){ return state.bidang.filter(b=>(b.bu||"PPJ")===curBu()); }
+function jenisOn(b){ return b.jenisList ? b.jenisList.filter(([k])=>b.jenis && b.jenis[k]) : []; }
+/* Section yang tampil: tanpa jenis, atau jenisnya dipilih (jika belum ada yang dipilih, semua tampil) */
+function visSecs(b){ const on=jenisOn(b); return b.sections.filter(s=>!s.jenis || !on.length || on.some(([k])=>k===s.jenis)); }
+function docTitle(b){ const on=jenisOn(b); return (b.title||b.name) + (on.length ? ` (${on.map(j=>j[1]).join(", ")})` : ""); }
+function customBidang(name){
+  return {key:"c"+uid(), bu:curBu(), name, on:true, custom:true, sections:[
+    sec("Spesifikasi Teknis Bahan", [], false),
+    sec("Gedung dan Bangunan", GEDUNG, true),
+    sec("Peralatan Produksi", [], true),
+    sec("Peralatan Keselamatan Kerja", K3, true),
+    sec("Kendaraan Operasional", KEND, true),
+    sec("Sumber Daya Manusia", ["Tenaga Administrasi dan Keuangan","Tenaga Ahli","Tenaga Lapangan"], false)
+  ]};
+}
+
+/* ================= STATE ================= */
+function today(){ const d=new Date(); return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`; }
+let state = freshState();
+function freshState(){
+  return { visit:{perusahaan:"", alamat:"", tanggal:today(), buKey:"PPJ", bu:BU.PPJ.label, petugas:""},
+           opt:{gps:true, stampGal:true, empty:true, rekap:false}, bidang:templates(), cur:"konv", collapsed:{} };
+}
+const photos = new Map(); // id -> {id, blob, url, time, lat, lon, acc, w, h}
+
+function findItem(id){
+  for(const b of state.bidang) for(const s of b.sections) for(const it of s.items) if(it.id===id) return {b,s,it};
+  return null;
+}
+function activeBidang(){ return buBidang().filter(b=>b.on); }
+
+/* ================= PENYIMPANAN SEMENTARA (IndexedDB, hanya di HP ini) ================= */
+const DB = {
+  db:null,
+  open(){ return new Promise(res=>{ try{ const r=indexedDB.open("osv-ppj",1);
+    r.onupgradeneeded=()=>{ const d=r.result; d.createObjectStore("kv"); d.createObjectStore("photos"); };
+    r.onsuccess=()=>{ this.db=r.result; res(true); }; r.onerror=()=>res(false); }catch(e){ res(false); } }); },
+  tx(store, mode, fn){ return new Promise(res=>{ if(!this.db) return res(null); try{ const t=this.db.transaction(store,mode); const st=t.objectStore(store); const r=fn(st); t.oncomplete=()=>res(r&&r.result); t.onerror=()=>res(null); }catch(e){ res(null); } }); },
+  put(store,k,v){ return this.tx(store,"readwrite",s=>s.put(v,k)); },
+  get(store,k){ return this.tx(store,"readonly",s=>s.get(k)); },
+  del(store,k){ return this.tx(store,"readwrite",s=>s.delete(k)); },
+  all(store){ return this.tx(store,"readonly",s=>s.getAll()); },
+  clear(store){ return this.tx(store,"readwrite",s=>s.clear()); }
+};
+let saveT;
+function save(){ clearTimeout(saveT); saveT=setTimeout(()=>DB.put("kv","state",JSON.parse(JSON.stringify(state))), 300); }
+
+/* ================= GPS ================= */
+let fix = null, watchId = null;
+function startGPS(){
+  const badge = $("#gpsBadge");
+  if(!state.opt.gps){ if(watchId!==null){ navigator.geolocation.clearWatch(watchId); watchId=null; } badge.textContent="GPS mati"; badge.classList.remove("on"); return; }
+  if(!("geolocation" in navigator)){ badge.textContent="GPS tak tersedia"; return; }
+  if(watchId!==null) return;
+  badge.textContent="GPS mencari…";
+  try{
+    watchId = navigator.geolocation.watchPosition(p=>{
+      fix = {lat:p.coords.latitude, lon:p.coords.longitude, acc:p.coords.accuracy, t:Date.now()};
+      badge.textContent = `GPS ±${Math.round(fix.acc)} m`; badge.classList.add("on");
+    }, err=>{ badge.textContent = err.code===1 ? "GPS ditolak" : "GPS belum dapat"; badge.classList.remove("on"); },
+    {enableHighAccuracy:true, maximumAge:15000, timeout:30000});
+  }catch(e){ badge.textContent="GPS tak tersedia"; }
+}
+
+/* ================= EXIF (tanggal & GPS asli foto) ================= */
+async function readExif(file){
+  try{
+    const buf = await file.slice(0, 256*1024).arrayBuffer();
+    const v = new DataView(buf);
+    if(v.getUint16(0)!==0xFFD8) return {};
+    let off=2;
+    while(off < v.byteLength-4){
+      const m = v.getUint16(off);
+      if(m===0xFFE1 && v.getUint32(off+4)===0x45786966) return parseTiff(v, off+10);
+      if((m & 0xFF00)!==0xFF00) break;
+      off += 2 + v.getUint16(off+2);
+    }
+  }catch(e){}
+  return {};
+}
+function parseTiff(v, t){
+  const le = v.getUint16(t)===0x4949;
+  const u16=o=>v.getUint16(o,le), u32=o=>v.getUint32(o,le);
+  const out={};
+  function ifd(o){ const n=u16(o), r={}; for(let i=0;i<n;i++){ const e=o+2+i*12; r[u16(e)]={type:u16(e+2), cnt:u32(e+4), off:e+8}; } return r; }
+  function ascii(en){ const p = en.cnt<=4 ? en.off : t+u32(en.off); let s=""; for(let i=0;i<en.cnt-1;i++) s+=String.fromCharCode(v.getUint8(p+i)); return s; }
+  function rats(en){ const p=t+u32(en.off), a=[]; for(let i=0;i<en.cnt;i++){ const d=u32(p+i*8+4); a.push(d? u32(p+i*8)/d : 0); } return a; }
+  const i0 = ifd(t+u32(t+4));
+  let dt = i0[0x0132] ? ascii(i0[0x0132]) : null;
+  if(i0[0x8769]){ const ex = ifd(t+u32(i0[0x8769].off)); if(ex[0x9003]) dt = ascii(ex[0x9003]); }
+  if(dt){ const m = dt.match(/(\d{4}):(\d{2}):(\d{2}) (\d{2}):(\d{2}):(\d{2})/); if(m) out.time = new Date(+m[1],m[2]-1,+m[3],+m[4],+m[5],+m[6]).getTime(); }
+  if(i0[0x8825]){
+    const g = ifd(t+u32(i0[0x8825].off));
+    if(g[2] && g[4]){
+      const la=rats(g[2]), lo=rats(g[4]);
+      let lat=la[0]+la[1]/60+la[2]/3600, lon=lo[0]+lo[1]/60+lo[2]/3600;
+      if(g[1] && ascii(g[1])==="S") lat=-lat; if(g[3] && ascii(g[3])==="W") lon=-lon;
+      if(lat||lon){ out.lat=lat; out.lon=lon; }
+    }
+  }
+  return out;
+}
+
+/* ================= CAP WAKTU (TIMESTAMP) ================= */
+function loadImage(file){
+  return new Promise((res,rej)=>{ const u=URL.createObjectURL(file); const im=new Image();
+    im.onload=()=>{ res(im); setTimeout(()=>URL.revokeObjectURL(u), 1000); }; im.onerror=()=>{ URL.revokeObjectURL(u); rej(new Error("Gambar tidak dapat dibaca")); }; im.src=u; });
+}
+function wrap(ctx, text, maxW){
+  const words = String(text).split(/\s+/), lines=[]; let cur="";
+  for(const w of words){ const tst = cur? cur+" "+w : w; if(ctx.measureText(tst).width > maxW && cur){ lines.push(cur); cur=w; } else cur=tst; }
+  if(cur) lines.push(cur); return lines;
+}
+/* Menggambar cap waktu ke kanvas (dipakai untuk foto & pratinjau kamera) */
+function drawStamp(x, w, h, meta){
+  const d = new Date(meta.time), base = Math.max(12, Math.round(Math.min(w,h)*0.04)), P = Math.round(base*0.9), maxW = w - P*2;
+  const font = (sz,b) => `${b?"700":"500"} ${Math.round(sz)}px system-ui,-apple-system,Roboto,Arial,sans-serif`;
+  const rows = [];
+  if(meta.lat!=null) rows.push({t:`${meta.lat.toFixed(6)}, ${meta.lon.toFixed(6)}${meta.acc?`  ±${Math.round(meta.acc)} m`:""}`, sz:base*0.82});
+  if(state.visit.perusahaan) rows.push({t:state.visit.perusahaan, sz:base*0.92, b:true});
+  if(state.visit.alamat) rows.push({t:state.visit.alamat, sz:base*0.78});
+  rows.push({t:`${meta.bidang} · ${meta.section} · ${meta.item}`, sz:base*0.82, b:true, col:"#f2b705"});
+  if(state.visit.petugas) rows.push({t:state.visit.petugas, sz:base*0.74});
+  const lines=[]; for(const r of rows){ x.font=font(r.sz,r.b); for(const l of wrap(x,r.t,maxW).slice(0,2)) lines.push({...r,t:l}); }
+  const timeSz = base*2.1, lh = 1.28;
+  const blockH = timeSz*1.15 + lines.reduce((a,l)=>a+l.sz*lh,0) + P*1.2;
+  const g = x.createLinearGradient(0,h-blockH-P*2,0,h);
+  g.addColorStop(0,"rgba(0,0,0,0)"); g.addColorStop(.35,"rgba(0,0,0,.55)"); g.addColorStop(1,"rgba(0,0,0,.78)");
+  x.fillStyle=g; x.fillRect(0,h-blockH-P*2,w,blockH+P*2);
+  x.shadowColor="rgba(0,0,0,.6)"; x.shadowBlur=base*0.25; x.textBaseline="alphabetic"; x.fillStyle="#fff";
+  let y = h - blockH + timeSz*0.95;
+  x.font = font(timeSz,true); const tStr = `${pad(d.getHours())}:${pad(d.getMinutes())}`; x.fillText(tStr,P,y);
+  const tw = x.measureText(tStr).width;
+  x.shadowBlur=0; x.fillStyle="#f2b705"; x.fillRect(P+tw+base*0.55, y-timeSz*0.82, Math.max(3,base*0.16), timeSz*0.86);
+  x.shadowBlur=base*0.25; x.fillStyle="#fff";
+  const dx = P+tw+base*1.05;
+  x.font=font(base*0.88,true); x.fillText(`${HARI[d.getDay()]} · ${tzLabel(d)}`, dx, y-timeSz*0.42);
+  x.font=font(base*0.88,false); x.fillText(`${pad(d.getDate())} ${BULAN[d.getMonth()]} ${d.getFullYear()}  ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`, dx, y-timeSz*0.02);
+  y += timeSz*0.2;
+  for(const l of lines){ y += l.sz*lh; x.font=font(l.sz,l.b); x.fillStyle=l.col||"#fff"; x.fillText(l.t,P,y); }
+  x.shadowBlur=0;
+}
+/* src = <img> atau <video>; crop {sx,sy,sw,sh} opsional */
+async function renderPhoto(src, sw0, sh0, meta, doStamp, crop){
+  const cr = crop || {sx:0, sy:0, sw:sw0, sh:sh0};
+  const MAX = 1600, sc = Math.min(1, MAX/Math.max(cr.sw,cr.sh));
+  const w = Math.round(cr.sw*sc), h = Math.round(cr.sh*sc);
+  const c = document.createElement("canvas"); c.width=w; c.height=h;
+  const x = c.getContext("2d"); x.drawImage(src, cr.sx, cr.sy, cr.sw, cr.sh, 0, 0, w, h);
+  if(doStamp) drawStamp(x, w, h, meta);
+  const blob = await new Promise(r=>c.toBlob(r,"image/jpeg",0.85));
+  return {blob, w, h};
+}
+async function stampImage(file, meta, doStamp){
+  const im = await loadImage(file);
+  return renderPhoto(im, im.naturalWidth, im.naturalHeight, meta, doStamp);
+}
+function curMeta(f, time){
+  const m = {time: time||Date.now(), lat:null, lon:null, acc:null, bidang:f.b.name, section:f.s.title, item:f.it.name};
+  if(state.opt.gps && fix){ m.lat=fix.lat; m.lon=fix.lon; m.acc=fix.acc; }
+  return m;
+}
+async function addPhoto(f, r, meta){
+  const id = uid();
+  const p = {id, blob:r.blob, w:r.w, h:r.h, time:meta.time, lat:meta.lat, lon:meta.lon};
+  p.url = URL.createObjectURL(r.blob);
+  photos.set(id,p); f.it.photos.push(id);
+  if(!f.it.status) f.it.status="ada";
+  await DB.put("photos", id, {id, blob:r.blob, w:r.w, h:r.h, time:meta.time, lat:meta.lat, lon:meta.lon});
+  save();
+  return p;
+}
+
+/* ================= TAMBAH FOTO (galeri / kamera HP) ================= */
+let target = null;
+async function handleFiles(files, fromCam){
+  if(!target || !files.length) return;
+  const f = findItem(target); if(!f) return;
+  busy(true, files.length>1 ? `Memproses ${files.length} foto…` : "Memberi cap waktu…");
+  try{
+    for(const file of files){
+      const ex = await readExif(file);
+      let time = ex.time || (fromCam ? Date.now() : (file.lastModified || Date.now()));
+      if(fromCam && ex.time && Math.abs(ex.time-Date.now())>6*3600e3) time = Date.now();
+      const meta = curMeta(f, time);
+      if(ex.lat!=null){ meta.lat=ex.lat; meta.lon=ex.lon; meta.acc=null; }
+      else if(!(fromCam || Math.abs(time-Date.now())<15*60e3)){ meta.lat=null; meta.lon=null; meta.acc=null; }
+      if(!state.opt.gps){ meta.lat=null; meta.lon=null; }
+      const r = await stampImage(file, meta, fromCam || state.opt.stampGal);
+      await addPhoto(f, r, meta);
+    }
+    renderItem(f.it.id); renderProgress();
+    if(cam.open) camUpdate();
+    toast(files.length>1 ? `${files.length} foto ditambahkan` : `Foto tersimpan: ${f.it.name}`);
+  }catch(e){ toast("Gagal memproses foto: "+e.message, 4000); }
+  busy(false);
+}
+
+/* ================= KAMERA DALAM APLIKASI (cap waktu terlihat langsung) ================= */
+const cam = {open:false, stream:null, track:null, list:[], idx:0, crop:null, timer:null, torch:false};
+function camItems(){
+  const b = activeBidang().find(b=>b.key===state.cur); const out=[];
+  if(b) for(const s of visSecs(b)) for(const it of s.items) out.push(it.id);
+  return out;
+}
+async function openCam(itemId){
+  if(!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia)){
+    toast("Kamera dalam aplikasi tidak tersedia di sini, memakai kamera HP", 3000); target=itemId; $("#inCam").click(); return;
+  }
+  cam.list = camItems(); cam.idx = Math.max(0, cam.list.indexOf(itemId));
+  $("#cam").hidden = false; cam.open = true; document.body.classList.add("camon"); document.body.style.overflow="hidden";
+  camUpdate();
+  try{
+    cam.stream = await navigator.mediaDevices.getUserMedia({audio:false, video:{facingMode:{ideal:"environment"}, width:{ideal:1920}, height:{ideal:1440}}});
+    cam.track = cam.stream.getVideoTracks()[0];
+    const v = $("#vid"); v.srcObject = cam.stream; await v.play().catch(()=>{});
+    await new Promise(r=>{ if(v.videoWidth) r(); else v.onloadedmetadata=()=>r(); });
+    camLayout(); camTools();
+    clearInterval(cam.timer); cam.timer = setInterval(camPreview, 1000); camPreview();
+  }catch(e){
+    closeCam();
+    toast(e.name==="NotAllowedError" ? "Izin kamera ditolak — memakai kamera HP" : "Kamera dalam aplikasi gagal — memakai kamera HP", 3500);
+    target=itemId; $("#inCam").click();
+  }
+}
+function closeCam(){
+  cam.open=false; clearInterval(cam.timer);
+  if(cam.stream) cam.stream.getTracks().forEach(t=>t.stop());
+  cam.stream=null; cam.track=null; cam.torch=false;
+  $("#cam").hidden = true; document.body.classList.remove("camon"); document.body.style.overflow="";
+  if(!$("#v-foto").hidden) renderFoto();
+}
+function camLayout(){
+  const v=$("#vid"), vw=v.videoWidth, vh=v.videoHeight; if(!vw) return;
+  const ar = vw>=vh ? 4/3 : 3/4;
+  let sw=vw, sh=vh, sx=0, sy=0;
+  if(vw/vh > ar){ sw=Math.round(vh*ar); sx=Math.round((vw-sw)/2); } else { sh=Math.round(vw/ar); sy=Math.round((vh-sh)/2); }
+  cam.crop={sx,sy,sw,sh};
+  const box=$("#camBox"), area=$("#camArea"), aw=area.clientWidth, ah=area.clientHeight;
+  let fw=aw, fh=aw/ar; if(fh>ah){ fh=ah; fw=ah*ar; }
+  box.style.width=Math.floor(fw)+"px"; box.style.height=Math.floor(fh)+"px";
+  const c=$("#camOv"); c.width=Math.floor(fw*devicePixelRatio); c.height=Math.floor(fh*devicePixelRatio);
+  camPreview();
+}
+function camPreview(){
+  if(!cam.open) return; const f=findItem(cam.list[cam.idx]); if(!f) return;
+  const c=$("#camOv"), x=c.getContext("2d"); x.clearRect(0,0,c.width,c.height);
+  if(c.width) drawStamp(x, c.width, c.height, curMeta(f));
+}
+function camTools(){
+  const tr=cam.track, caps = tr && tr.getCapabilities ? tr.getCapabilities() : {};
+  $("#btnTorch").hidden = !caps.torch;
+  const z=$("#zoom");
+  if(caps.zoom && caps.zoom.max>caps.zoom.min){ z.hidden=false; z.min=caps.zoom.min; z.max=caps.zoom.max; z.step=caps.zoom.step||0.1; z.value=(tr.getSettings().zoom||caps.zoom.min); }
+  else z.hidden=true;
+}
+function camUpdate(){
+  const f=findItem(cam.list[cam.idx]); if(!f) return;
+  $("#camSec").textContent = `${f.s.title} · ${cam.idx+1}/${cam.list.length}`;
+  $("#camItem").textContent = f.it.name;
+  const n=f.it.photos.length, last=n?photos.get(f.it.photos[n-1]):null;
+  $("#camCount").textContent = n; $("#camCount").hidden = !n;
+  const t=$("#camThumb"); if(last){ t.src=last.url; t.hidden=false; } else { t.removeAttribute("src"); t.hidden=true; }
+  camPreview();
+}
+async function shoot(){
+  const v=$("#vid"); if(!cam.open || !v.videoWidth || !cam.crop) return;
+  const f=findItem(cam.list[cam.idx]); if(!f) return;
+  const meta = curMeta(f);
+  const fl=$("#camFlash"); fl.classList.remove("go"); void fl.offsetWidth; fl.classList.add("go");
+  try{ navigator.vibrate && navigator.vibrate(30); }catch(e){}
+  try{
+    const r = await renderPhoto(v, v.videoWidth, v.videoHeight, meta, true, cam.crop);
+    await addPhoto(f, r, meta); camUpdate(); toast(`✓ ${f.it.name} (${f.it.photos.length})`, 1200);
+  }catch(e){ toast("Gagal mengambil foto: "+e.message, 3000); }
+}
+$("#zoom").addEventListener("input", e=>{ try{ cam.track.applyConstraints({advanced:[{zoom:Number(e.target.value)}]}); }catch(_){} });
+window.addEventListener("resize", ()=>{ if(cam.open) setTimeout(camLayout, 200); });
+document.addEventListener("visibilitychange", ()=>{ if(document.hidden && cam.open) closeCam(); });
+
+$("#inCam").addEventListener("change", e=>{ const fs=[...e.target.files]; e.target.value=""; handleFiles(fs,true); });
+$("#inGal").addEventListener("change", e=>{ const fs=[...e.target.files]; e.target.value=""; handleFiles(fs,false); });
+
+/* ================= RENDER ================= */
+const ICAM = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 8h3l2-3h6l2 3h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/><circle cx="12" cy="13" r="3.5"/></svg>';
+const IGAL = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m21 16-5-5-9 9"/></svg>';
+
+function renderSetup(){
+  const v=state.visit;
+  $("#f-perusahaan").value=v.perusahaan; $("#f-alamat").value=v.alamat; $("#f-tanggal").value=v.tanggal; $("#f-bu").value=curBu(); $("#f-petugas").value=v.petugas;
+  $("#o-gps").checked=state.opt.gps; $("#o-stampgal").checked=state.opt.stampGal; $("#o-empty").checked=state.opt.empty; $("#o-rekap").checked=state.opt.rekap;
+  const list = buBidang();
+  const soon = BU[curBu()] && BU[curBu()].soon && !list.length
+    ? '<p class="hint" style="margin:0 0 10px">Form checklist Aplikator belum tersedia (menyusul). Sementara gunakan "+ Tambah bidang lain".</p>' : "";
+  $("#bidangList").innerHTML = soon + list.map(b=>{
+    const secs = visSecs(b);
+    const n = secs.reduce((a,s)=>a+s.items.length,0);
+    const np = b.sections.reduce((a,s)=>a+s.items.reduce((c,i)=>c+i.photos.length,0),0);
+    const jn = b.on && b.jenisList ? `<div class="chips" style="flex-wrap:wrap;margin:8px 0 0">${b.jenisList.map(([k,nm])=>`<button type="button" class="${b.jenis&&b.jenis[k]?"on":""}" data-act="jenis" data-k="${b.key}" data-j="${k}">${esc(nm)}</button>`).join("")}</div><small>Pilih jenis yang dikerjakan (kosong = tampilkan semua)</small>` : "";
+    return `<label class="chk"><input type="checkbox" data-bid="${b.key}" ${b.on?"checked":""}><div style="flex:1;min-width:0"><b>Bidang ${esc(b.name)}</b><small>${n} item checklist${np?` · ${np} foto`:""}</small>${jn}</div></label>`;
+  }).join("");
+}
+function itemHTML(it){
+  const th = it.photos.map(pid=>{ const p=photos.get(pid); return p?`<button data-act="view" data-pid="${pid}" data-id="${it.id}"><img src="${p.url}" alt=""></button>`:""; }).join("");
+  return `<div class="item" id="it-${it.id}">
+    <div class="r1"><div class="nm">${esc(it.name)}${it.photos.length?` <span style="color:var(--ok)">✓ ${it.photos.length}</span>`:""}${it.hint?`<small>${esc(it.hint)}</small>`:""}${it.custom?`<button class="del" data-act="delitem" data-id="${it.id}">hapus item</button>`:""}</div>
+      <div class="bt"><button class="ib" data-act="cam" data-id="${it.id}" aria-label="Kamera">${ICAM}</button><button class="ib g" data-act="gal" data-id="${it.id}" aria-label="Galeri">${IGAL}</button></div></div>
+    <div class="thumbs">${th}</div>
+    <div class="r2"><div class="seg"><button class="ada ${it.status==="ada"?"on":""}" data-act="st" data-v="ada" data-id="${it.id}">Ada</button><button class="tidak ${it.status==="tidak"?"on":""}" data-act="st" data-v="tidak" data-id="${it.id}">Tidak</button></div>
+      <input data-ket="${it.id}" value="${esc(it.ket)}" placeholder="${esc(it.hint||"Keterangan")}"></div>
+  </div>`;
+}
+function secCount(s){ return s.items.filter(i=>i.photos.length).length; }
+function renderFoto(){
+  const act = activeBidang();
+  if(!act.length){ $("#bidangTabs").innerHTML=""; $("#secList").innerHTML='<div class="empty">Belum ada bidang dipilih.<br>Pilih bidang di tab Kunjungan.</div>'; renderProgress(); return; }
+  if(!act.find(b=>b.key===state.cur)) state.cur = act[0].key;
+  $("#bidangTabs").innerHTML = act.map(b=>`<button class="${b.key===state.cur?"on":""}" data-act="cur" data-k="${b.key}">${esc(b.name)}</button>`).join("");
+  const b = act.find(b=>b.key===state.cur);
+  $("#secList").innerHTML = visSecs(b).map(s=>{
+    const n=secCount(s);
+    return `<details class="sec" data-sid="${s.id}" ${state.collapsed[s.id]?"":"open"}>
+      <summary><span>${esc(s.title)}</span><span class="n ${n&&n===s.items.length?"full":""}" id="sc-${s.id}">${n}/${s.items.length}</span></summary>
+      ${s.items.map(itemHTML).join("")}
+      <button class="addit" data-act="additem" data-sid="${s.id}">+ Tambah item</button>
+    </details>`;
+  }).join("");
+  renderProgress();
+}
+function renderItem(id){
+  const el = document.getElementById("it-"+id), f = findItem(id);
+  if(el && f){ el.outerHTML = itemHTML(f.it); const sc=document.getElementById("sc-"+f.s.id); if(sc){ const n=secCount(f.s); sc.textContent=`${n}/${f.s.items.length}`; sc.classList.toggle("full", n&&n===f.s.items.length); } }
+}
+function renderProgress(){
+  const b = activeBidang().find(b=>b.key===state.cur);
+  let tot=0, done=0; if(b) for(const s of visSecs(b)){ tot+=s.items.length; done+=secCount(s); }
+  const pct = tot? Math.round(done/tot*100):0;
+  $("#progTxt").textContent = `${done} / ${tot} item terdokumentasi`; $("#progPct").textContent = pct+"%"; $("#progBar").style.width = pct+"%";
+}
+function renderUnduh(){
+  let nf=0, ni=0; const act=activeBidang();
+  for(const b of act) for(const s of visSecs(b)) for(const it of s.items){ nf+=it.photos.length; if(it.photos.length) ni++; }
+  $("#s-foto").textContent=nf; $("#s-item").textContent=ni; $("#s-bid").textContent=act.length;
+  $("#btnShare").hidden = !(navigator.canShare && window.File);
+}
+function showTab(t){
+  document.querySelectorAll(".view").forEach(v=>v.hidden = v.id!=="v-"+t);
+  document.querySelectorAll(".tabs button").forEach(b=>b.classList.toggle("on", b.dataset.tab===t));
+  if(t==="setup") renderSetup(); if(t==="foto") renderFoto(); if(t==="unduh") renderUnduh();
+  window.scrollTo(0,0);
+}
+
+/* ================= EVENT ================= */
+document.querySelectorAll(".tabs button").forEach(b=>b.addEventListener("click",()=>showTab(b.dataset.tab)));
+[["f-perusahaan","perusahaan"],["f-alamat","alamat"],["f-tanggal","tanggal"],["f-petugas","petugas"]].forEach(([id,k])=>{
+  const el=document.getElementById(id); el.addEventListener("input",()=>{ state.visit[k]=el.value; save(); }); el.addEventListener("change",()=>{ state.visit[k]=el.value; save(); });
+});
+$("#f-bu").addEventListener("change", e=>{ state.visit.buKey=e.target.value; state.visit.bu=BU[e.target.value].label; save(); renderSetup(); });
+[["o-gps","gps"],["o-stampgal","stampGal"],["o-empty","empty"],["o-rekap","rekap"]].forEach(([id,k])=>{
+  document.getElementById(id).addEventListener("change",e=>{ state.opt[k]=e.target.checked; save(); if(k==="gps") startGPS(); });
+});
+document.addEventListener("change", e=>{
+  if(e.target.dataset.bid){ const b=state.bidang.find(b=>b.key===e.target.dataset.bid); b.on=e.target.checked; save(); renderSetup(); }
+});
+document.addEventListener("input", e=>{
+  const id=e.target.dataset.ket; if(id){ const f=findItem(id); if(f){ f.it.ket=e.target.value; save(); } }
+});
+document.addEventListener("toggle", e=>{
+  const d=e.target; if(d.matches && d.matches("details.sec")){ state.collapsed[d.dataset.sid] = !d.open; save(); }
+}, true);
+let viewing=null;
+document.addEventListener("click", async e=>{
+  const el = e.target.closest("[data-act]"); if(!el) return;
+  const a = el.dataset.act, id = el.dataset.id;
+  if(a==="go-foto"){ if(!state.visit.perusahaan.trim()){ toast("Isi nama perusahaan dulu"); $("#f-perusahaan").focus(); return; } if(!activeBidang().length){ toast("Pilih minimal satu bidang"); return; } showTab("foto"); }
+  else if(a==="cam"){ openCam(id); }
+  else if(a==="shoot"){ shoot(); }
+  else if(a==="camclose"){ closeCam(); }
+  else if(a==="camprev"||a==="camnext"){ cam.idx = Math.min(cam.list.length-1, Math.max(0, cam.idx + (a==="camnext"?1:-1))); camUpdate(); }
+  else if(a==="camsys"){ target=cam.list[cam.idx]; closeCam(); $("#inCam").click(); }
+  else if(a==="torch"){ cam.torch=!cam.torch; try{ await cam.track.applyConstraints({advanced:[{torch:cam.torch}]}); el.classList.toggle("on",cam.torch); }catch(_){ toast("Lampu tidak didukung"); } }
+  else if(a==="camthumb"){ const f=findItem(cam.list[cam.idx]); if(f&&f.it.photos.length){ const pid=f.it.photos[f.it.photos.length-1]; viewing={pid, id:f.it.id}; $("#viewer img").src=photos.get(pid).url; $("#viewer").hidden=false; } }
+  else if(a==="gal"){ target=id; $("#inGal").click(); }
+  else if(a==="cur"){ state.cur=el.dataset.k; save(); renderFoto(); }
+  else if(a==="jenis"){ e.preventDefault(); const b=state.bidang.find(b=>b.key===el.dataset.k); if(!b) return; b.jenis=b.jenis||{}; b.jenis[el.dataset.j]=!b.jenis[el.dataset.j]; save(); renderSetup(); }
+  else if(a==="st"){ const f=findItem(id); f.it.status = f.it.status===el.dataset.v ? "" : el.dataset.v; save(); renderItem(id); }
+  else if(a==="additem"){
+    const name = prompt("Nama item baru:"); if(!name||!name.trim()) return;
+    for(const b of state.bidang) for(const s of b.sections) if(s.id===el.dataset.sid){ const it=mk([name.trim()])[0]; it.custom=true; s.items.push(it); }
+    save(); renderFoto();
+  }
+  else if(a==="delitem"){
+    const f=findItem(id); if(!f) return;
+    if(!confirm(`Hapus item "${f.it.name}"${f.it.photos.length?` beserta ${f.it.photos.length} fotonya`:""}?`)) return;
+    for(const pid of f.it.photos){ const p=photos.get(pid); if(p) URL.revokeObjectURL(p.url); photos.delete(pid); DB.del("photos",pid); }
+    f.s.items = f.s.items.filter(i=>i.id!==id); save(); renderFoto();
+  }
+  else if(a==="addbidang"){
+    const name = prompt("Nama bidang (mis. Marka Jalan, APILL, Pagar Pengaman):"); if(!name||!name.trim()) return;
+    const b = customBidang(name.trim()); state.bidang.push(b); state.cur=b.key; save(); renderSetup();
+  }
+  else if(a==="view"){
+    const p=photos.get(el.dataset.pid); if(!p) return; viewing={pid:p.id, id};
+    $("#viewer img").src=p.url; $("#viewer").hidden=false;
+  }
+  else if(a==="vclose"){ $("#viewer").hidden=true; viewing=null; }
+  else if(a==="vdel"){
+    if(!viewing || !confirm("Hapus foto ini?")) return;
+    const f=findItem(viewing.id); if(f){ f.it.photos=f.it.photos.filter(x=>x!==viewing.pid); }
+    const p=photos.get(viewing.pid); if(p) URL.revokeObjectURL(p.url); photos.delete(viewing.pid); DB.del("photos",viewing.pid);
+    $("#viewer").hidden=true; save(); renderItem(viewing.id); renderProgress(); if(cam.open) camUpdate(); viewing=null; toast("Foto dihapus");
+  }
+  else if(a==="docx"){ await exportDocx(false); }
+  else if(a==="share"){ await exportDocx(true); }
+  else if(a==="zip"){ await exportZip(); }
+  else if(a==="print"){ buildPrint(); setTimeout(()=>window.print(), 300); }
+  else if(a==="reset"){
+    if(!confirm("Hapus semua data & foto kunjungan ini dari HP?\nPastikan file sudah diunduh.")) return;
+    for(const p of photos.values()) URL.revokeObjectURL(p.url); photos.clear();
+    await DB.clear("photos"); await DB.clear("kv"); state=freshState(); showTab("setup"); toast("Data dihapus. Siap untuk kunjungan baru.");
+  }
+});
+
+/* ================= KUMPULKAN SEL TABEL ================= */
+function cellsOf(s, showEmpty){
+  const cells=[];
+  for(const it of s.items){
+    const ps = it.photos.map(pid=>photos.get(pid)).filter(Boolean).sort((a,b)=>a.time-b.time);
+    if(ps.length) ps.forEach((p,i)=>cells.push({name: it.name + (ps.length>1?` (${i+1})`:""), ket: i===0?it.ket:"", p}));
+    else if(showEmpty) cells.push({name:it.name, ket:it.ket, p:null});
+  }
+  return cells;
+}
+function sectionsForExport(b){
+  const showEmpty = state.opt.empty;
+  return visSecs(b).map(s=>{
+    const hasPhoto = s.items.some(i=>i.photos.length);
+    if(!hasPhoto && !(s.lamp && showEmpty)) return null;
+    const cells = cellsOf(s, showEmpty && (s.lamp || hasPhoto));
+    return cells.length ? {s, cells} : null;
+  }).filter(Boolean);
+}
+function exportBaseName(){ return `Dokumentasi_OSV_${safeName(state.visit.perusahaan||"Perusahaan")}_${state.visit.tanggal||today()}`; }
+
+/* ================= ZIP (tanpa pustaka, metode STORE) ================= */
+const CRC_T = (()=>{ const t=new Uint32Array(256); for(let n=0;n<256;n++){ let c=n; for(let k=0;k<8;k++) c = c&1 ? 0xEDB88320^(c>>>1) : c>>>1; t[n]=c>>>0; } return t; })();
+function crc32(u8){ let c=0xFFFFFFFF; for(let i=0;i<u8.length;i++) c = CRC_T[(c^u8[i])&0xFF]^(c>>>8); return (c^0xFFFFFFFF)>>>0; }
+async function makeZip(files){ // files: [{name, data: Uint8Array|string|Blob}]
+  const enc = new TextEncoder(), parts=[], central=[]; let offset=0;
+  const d=new Date(), dosT=(d.getHours()<<11)|(d.getMinutes()<<5)|(d.getSeconds()>>1), dosD=((d.getFullYear()-1980)<<9)|((d.getMonth()+1)<<5)|d.getDate();
+  for(const f of files){
+    let data = f.data;
+    if(typeof data==="string") data = enc.encode(data);
+    else if(data instanceof Blob) data = new Uint8Array(await data.arrayBuffer());
+    const nm = enc.encode(f.name), crc = crc32(data);
+    const h = new DataView(new ArrayBuffer(30));
+    h.setUint32(0,0x04034b50,true); h.setUint16(4,20,true); h.setUint16(6,0x0800,true); h.setUint16(8,0,true);
+    h.setUint16(10,dosT,true); h.setUint16(12,dosD,true); h.setUint32(14,crc,true); h.setUint32(18,data.length,true); h.setUint32(22,data.length,true);
+    h.setUint16(26,nm.length,true); h.setUint16(28,0,true);
+    parts.push(new Uint8Array(h.buffer), nm, data);
+    const c = new DataView(new ArrayBuffer(46));
+    c.setUint32(0,0x02014b50,true); c.setUint16(4,20,true); c.setUint16(6,20,true); c.setUint16(8,0x0800,true); c.setUint16(10,0,true);
+    c.setUint16(12,dosT,true); c.setUint16(14,dosD,true); c.setUint32(16,crc,true); c.setUint32(20,data.length,true); c.setUint32(24,data.length,true);
+    c.setUint16(28,nm.length,true); c.setUint32(42,offset,true);
+    central.push(new Uint8Array(c.buffer), nm);
+    offset += 30 + nm.length + data.length;
+  }
+  const cdSize = central.reduce((a,u)=>a+u.length,0);
+  const e = new DataView(new ArrayBuffer(22));
+  e.setUint32(0,0x06054b50,true); e.setUint16(8,files.length,true); e.setUint16(10,files.length,true); e.setUint32(12,cdSize,true); e.setUint32(16,offset,true);
+  return [...parts, ...central, new Uint8Array(e.buffer)];
+}
+function download(blob, name){
+  const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download=name; document.body.appendChild(a); a.click();
+  setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); }, 4000);
+}
+
+/* ================= WORD .DOCX ================= */
+const X = s => esc(s);
+function run(t, o={}){
+  return `<w:r><w:rPr><w:rFonts w:ascii="Arial" w:hAnsi="Arial" w:cs="Arial"/>${o.b?"<w:b/>":""}${o.i?"<w:i/>":""}${o.color?`<w:color w:val="${o.color}"/>`:""}<w:sz w:val="${o.sz||20}"/><w:szCs w:val="${o.sz||20}"/></w:rPr><w:t xml:space="preserve">${X(t)}</w:t></w:r>`;
+}
+function para(runs, o={}){
+  return `<w:p><w:pPr>${o.keep?"<w:keepNext/>":""}<w:spacing w:before="${o.before||0}" w:after="${o.after||0}"/>${o.jc?`<w:jc w:val="${o.jc}"/>`:""}${o.border?'<w:pBdr><w:bottom w:val="single" w:sz="12" w:space="1" w:color="000000"/></w:pBdr>':""}</w:pPr>${runs}</w:p>`;
+}
+function cellXml(w, inner, o={}){
+  return `<w:tc><w:tcPr><w:tcW w:w="${w}" w:type="dxa"/>${o.span?`<w:gridSpan w:val="${o.span}"/>`:""}${o.fill?`<w:shd w:val="clear" w:color="auto" w:fill="${o.fill}"/>`:""}<w:vAlign w:val="${o.v||"center"}"/></w:tcPr>${inner}</w:tc>`;
+}
+function tblXml(cols, rows, borders=true){
+  const bd = borders ? '<w:tblBorders><w:top w:val="single" w:sz="6" w:color="000000"/><w:left w:val="single" w:sz="6" w:color="000000"/><w:bottom w:val="single" w:sz="6" w:color="000000"/><w:right w:val="single" w:sz="6" w:color="000000"/><w:insideH w:val="single" w:sz="6" w:color="000000"/><w:insideV w:val="single" w:sz="6" w:color="000000"/></w:tblBorders>'
+                     : '<w:tblBorders><w:top w:val="nil"/><w:left w:val="nil"/><w:bottom w:val="nil"/><w:right w:val="nil"/><w:insideH w:val="nil"/><w:insideV w:val="nil"/></w:tblBorders>';
+  const W = cols.reduce((a,b)=>a+b,0);
+  return `<w:tbl><w:tblPr><w:tblW w:w="${W}" w:type="dxa"/><w:jc w:val="center"/>${bd}<w:tblLayout w:type="fixed"/><w:tblCellMar><w:left w:w="57" w:type="dxa"/><w:right w:w="57" w:type="dxa"/></w:tblCellMar></w:tblPr><w:tblGrid>${cols.map(c=>`<w:gridCol w:w="${c}"/>`).join("")}</w:tblGrid>${rows.join("")}</w:tbl>`;
+}
+function drawingXml(rid, n, cx, cy){
+  return `<w:r><w:drawing><wp:inline distT="0" distB="0" distL="0" distR="0"><wp:extent cx="${cx}" cy="${cy}"/><wp:docPr id="${n}" name="Foto ${n}"/><wp:cNvGraphicFramePr><a:graphicFrameLocks noChangeAspect="1"/></wp:cNvGraphicFramePr><a:graphic><a:graphicData uri="http://schemas.openxmlformats.org/drawingml/2006/picture"><pic:pic><pic:nvPicPr><pic:cNvPr id="${n}" name="foto${n}.jpg"/><pic:cNvPicPr/></pic:nvPicPr><pic:blipFill><a:blip r:embed="${rid}"/><a:stretch><a:fillRect/></a:stretch></pic:blipFill><pic:spPr><a:xfrm><a:off x="0" y="0"/><a:ext cx="${cx}" cy="${cy}"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom></pic:spPr></pic:pic></a:graphicData></a:graphic></wp:inline></w:drawing></w:r>`;
+}
+async function buildDocx(){
+  const v = state.visit, act = activeBidang();
+  const media=[], rels=[]; let n=0;
+  const COL=[3212,3213,3213], TW=9638;
+  const MAXW = 1880000, MAXH = 1750000; // EMU (~5,2 cm × 4,9 cm)
+  let body = "";
+  const metaRows = [["Perusahaan", v.perusahaan],["Alamat", v.alamat],["Tanggal", fmtTanggal(v.tanggal)]].map(([k,val])=>
+    `<w:tr>${cellXml(1600, para(run(k,{b:true})), {v:"top"})}${cellXml(300, para(run(":",{b:true})), {v:"top"})}${cellXml(TW-1900, para(run(val||"")), {v:"top"})}</w:tr>`);
+  act.forEach((b, bi)=>{
+    if(bi>0) body += '<w:p><w:r><w:br w:type="page"/></w:r></w:p>';
+    body += para(run("PERLENGKAPAN DAN PERALATAN ",{b:true,sz:22}) + run(docTitle(b).toUpperCase(),{b:true,sz:22,color:"1D5FBF"}), {jc:"center"});
+    body += para(run(v.bu.toUpperCase(),{b:true,sz:22}), {jc:"center", after:120, border:true});
+    body += tblXml([1600,300,TW-1900], metaRows, false);
+    body += para("", {after:80});
+    if(state.opt.rekap){
+      body += para(run("REKAP CHECKLIST",{b:true}), {before:120, after:60, keep:true});
+      const RC=[600,4400,900,900,2838];
+      const rows=[`<w:tr><w:trPr><w:tblHeader/></w:trPr>${["No","Uraian","Ada","Tidak","Keterangan"].map((h,i)=>cellXml(RC[i], para(run(h,{b:true,sz:18}),{jc:"center"}),{fill:"D9E2F3"})).join("")}</w:tr>`];
+      visSecs(b).forEach((s,si)=>{
+        rows.push(`<w:tr>${cellXml(TW, para(run(`${String.fromCharCode(65+si)}. ${s.title.toUpperCase()}`,{b:true,sz:18})), {span:5, fill:"F2F2F2"})}</w:tr>`);
+        s.items.forEach((it,ii)=>rows.push(`<w:tr>${cellXml(RC[0],para(run(String(ii+1),{sz:18}),{jc:"center"}))}${cellXml(RC[1],para(run(it.name,{sz:18})))}${cellXml(RC[2],para(run(it.status==="ada"?"V":"",{sz:18,b:true}),{jc:"center"}))}${cellXml(RC[3],para(run(it.status==="tidak"?"V":"",{sz:18,b:true}),{jc:"center"}))}${cellXml(RC[4],para(run(it.ket,{sz:18})))}</w:tr>`));
+      });
+      body += tblXml(RC, rows) + para("", {after:120});
+    }
+    for(const {s, cells} of sectionsForExport(b)){
+      body += para(run(s.title.toUpperCase(),{sz:20}), {before:160, after:60, keep:true});
+      const rows=[];
+      for(let i=0;i<cells.length;i+=3){
+        const grp = cells.slice(i,i+3); while(grp.length<3) grp.push(null);
+        let rImg="", rCap="";
+        grp.forEach((c,ci)=>{
+          let inner = para("", {jc:"center", keep:true});
+          if(c && c.p){
+            n++; const rid="rIdImg"+n, fn=`image${n}.jpg`;
+            media.push({name:"word/media/"+fn, data:c.p.blob});
+            rels.push(`<Relationship Id="${rid}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image" Target="media/${fn}"/>`);
+            const sc = Math.min(MAXW/c.p.w, MAXH/c.p.h);
+            inner = para(drawingXml(rid, n, Math.round(c.p.w*sc), Math.round(c.p.h*sc)), {jc:"center", before:40, after:40, keep:true});
+          }
+          rImg += cellXml(COL[ci], inner);
+          rCap += cellXml(COL[ci], c ? para(run(c.name,{sz:17}),{jc:"center", before:20, after:c.ket?0:20}) + (c.ket? para(run(c.ket,{sz:15,i:true,color:"444444"}),{jc:"center",after:20}):"") : para(""));
+        });
+        rows.push(`<w:tr><w:trPr><w:cantSplit/><w:trHeight w:val="3060" w:hRule="exact"/></w:trPr>${rImg}</w:tr>`);
+        rows.push(`<w:tr><w:trPr><w:cantSplit/></w:trPr>${rCap}</w:tr>`);
+      }
+      body += tblXml(COL, rows);
+    }
+  });
+  const doc = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing" xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:pic="http://schemas.openxmlformats.org/drawingml/2006/picture"><w:body>${body}<w:sectPr><w:pgSz w:w="11906" w:h="16838"/><w:pgMar w:top="1134" w:right="1134" w:bottom="1134" w:left="1134" w:header="567" w:footer="567" w:gutter="0"/></w:sectPr></w:body></w:document>`;
+  const styles = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:styles xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:docDefaults><w:rPrDefault><w:rPr><w:rFonts w:ascii="Arial" w:hAnsi="Arial" w:cs="Arial" w:eastAsia="Arial"/><w:sz w:val="20"/><w:szCs w:val="20"/><w:lang w:val="id-ID"/></w:rPr></w:rPrDefault><w:pPrDefault><w:pPr><w:spacing w:after="0" w:line="240" w:lineRule="auto"/></w:pPr></w:pPrDefault></w:docDefaults><w:style w:type="paragraph" w:default="1" w:styleId="Normal"><w:name w:val="Normal"/></w:style></w:styles>`;
+  const ct = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Default Extension="jpg" ContentType="image/jpeg"/><Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/><Override PartName="/word/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml"/><Override PartName="/docProps/core.xml" ContentType="application/vnd.openxmlformats-package.core-properties+xml"/></Types>`;
+  const relsRoot = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/><Relationship Id="rId2" Type="http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties" Target="docProps/core.xml"/></Relationships>`;
+  const docRels = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rIdSt" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/>${rels.join("")}</Relationships>`;
+  const now = new Date().toISOString().replace(/\.\d+Z$/,"Z");
+  const core = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<cp:coreProperties xmlns:cp="http://schemas.openxmlformats.org/package/2006/metadata/core-properties" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><dc:title>${X("Dokumentasi On Site Visit - "+v.perusahaan)}</dc:title><dcterms:created xsi:type="dcterms:W3CDTF">${now}</dcterms:created></cp:coreProperties>`;
+  const parts = await makeZip([
+    {name:"[Content_Types].xml", data:ct}, {name:"_rels/.rels", data:relsRoot},
+    {name:"word/document.xml", data:doc}, {name:"word/styles.xml", data:styles}, {name:"word/_rels/document.xml.rels", data:docRels},
+    {name:"docProps/core.xml", data:core}, ...media
+  ]);
+  return {blob:new Blob(parts,{type:"application/vnd.openxmlformats-officedocument.wordprocessingml.document"}), count:n};
+}
+async function exportDocx(share){
+  if(!activeBidang().length){ toast("Belum ada bidang dipilih"); return; }
+  busy(true,"Menyusun dokumen Word…");
+  try{
+    const {blob, count} = await buildDocx();
+    const name = exportBaseName()+".docx";
+    if(share){
+      const file = new File([blob], name, {type:blob.type});
+      if(navigator.canShare && navigator.canShare({files:[file]})){ busy(false); await navigator.share({files:[file], title:name}); return; }
+      toast("Bagikan tidak didukung, file diunduh");
+    }
+    download(blob, name); toast(`Word diunduh (${count} foto)`);
+  }catch(e){ if(e.name!=="AbortError") toast("Gagal membuat Word: "+e.message, 4000); }
+  busy(false);
+}
+async function exportZip(){
+  const files=[]; let bi=0;
+  for(const b of activeBidang()){ bi++; let si=0;
+    for(const s of visSecs(b)){ si++;
+      for(const it of s.items){ const ps=it.photos.map(p=>photos.get(p)).filter(Boolean).sort((a,b)=>a.time-b.time);
+        ps.forEach((p,i)=>files.push({name:`${pad(bi)}_${safeName(b.name)}/${pad(si)}_${safeName(s.title)}/${safeName(it.name)}${ps.length>1?"_"+(i+1):""}.jpg`, data:p.blob})); } } }
+  if(!files.length){ toast("Belum ada foto"); return; }
+  busy(true,"Menyusun ZIP foto…");
+  try{ const parts = await makeZip(files); download(new Blob(parts,{type:"application/zip"}), exportBaseName()+"_Foto.zip"); toast(`${files.length} foto diunduh (.zip)`); }
+  catch(e){ toast("Gagal membuat ZIP: "+e.message, 4000); }
+  busy(false);
+}
+
+/* ================= CETAK / PDF ================= */
+function buildPrint(){
+  const v=state.visit; let h="";
+  activeBidang().forEach((b,bi)=>{
+    h += `<div class="${bi?"pb":""}"><h1>PERLENGKAPAN DAN PERALATAN <span class="c">${esc(docTitle(b).toUpperCase())}</span></h1><div class="sub">${esc(v.bu.toUpperCase())}</div>
+      <table class="meta"><tr><td><b>Perusahaan</b></td><td>: ${esc(v.perusahaan)}</td></tr><tr><td><b>Alamat</b></td><td>: ${esc(v.alamat)}</td></tr><tr><td><b>Tanggal</b></td><td>: ${esc(fmtTanggal(v.tanggal))}</td></tr></table>`;
+    if(state.opt.rekap){
+      h += `<h3><b>REKAP CHECKLIST</b></h3><table class="g"><tr><td style="width:7%"><b>No</b></td><td style="width:45%"><b>Uraian</b></td><td style="width:9%"><b>Ada</b></td><td style="width:9%"><b>Tidak</b></td><td><b>Keterangan</b></td></tr>`;
+      visSecs(b).forEach((s,si)=>{ h+=`<tr><td colspan="5" style="text-align:left;background:#f2f2f2"><b>${String.fromCharCode(65+si)}. ${esc(s.title.toUpperCase())}</b></td></tr>`;
+        s.items.forEach((it,ii)=>h+=`<tr><td>${ii+1}</td><td style="text-align:left">${esc(it.name)}</td><td>${it.status==="ada"?"V":""}</td><td>${it.status==="tidak"?"V":""}</td><td style="text-align:left">${esc(it.ket)}</td></tr>`); });
+      h += `</table>`;
+    }
+    for(const {s,cells} of sectionsForExport(b)){
+      h += `<h3>${esc(s.title.toUpperCase())}</h3><table class="g">`;
+      for(let i=0;i<cells.length;i+=3){ const g=cells.slice(i,i+3); while(g.length<3) g.push(null);
+        h += `<tr>${g.map(c=>`<td class="ph">${c&&c.p?`<img src="${c.p.url}">`:""}</td>`).join("")}</tr><tr>${g.map(c=>`<td>${c?esc(c.name)+(c.ket?`<div class="ket">${esc(c.ket)}</div>`:""):""}</td>`).join("")}</tr>`; }
+      h += `</table>`;
+    }
+    h += `</div>`;
+  });
+  $("#print").innerHTML = h;
+}
+
+/* ================= MULAI ================= */
+(async function init(){
+  const ok = await DB.open();
+  if(ok){
+    const st = await DB.get("kv","state");
+    if(st && st.bidang){
+      state = Object.assign(freshState(), st);
+      // data dari versi lama: lengkapi jenis BU & bidang baru tanpa mengubah foto yang ada
+      const v = state.visit;
+      if(!v.buKey) v.buKey = /Penyedia/i.test(v.bu||"") ? "PBPJ" : /Aplikator/i.test(v.bu||"") ? "APL" : "PPJ";
+      v.bu = BU[v.buKey].label;
+      for(const b of state.bidang){ if(!b.bu) b.bu="PPJ"; if(!b.jenis) b.jenis={}; }
+      const ada = new Set(state.bidang.map(b=>b.key));
+      for(const t of templates()) if(!ada.has(t.key)) state.bidang.push(t);
+      const all = await DB.all("photos") || [];
+      for(const p of all){ p.url = URL.createObjectURL(p.blob); photos.set(p.id, p); }
+      // bersihkan referensi foto yang tidak ada
+      for(const b of state.bidang) for(const s of b.sections) for(const it of s.items) it.photos = it.photos.filter(id=>photos.has(id));
+      if(photos.size) setTimeout(()=>toast(`Melanjutkan kunjungan: ${photos.size} foto dipulihkan`, 3000), 400);
+    }
+  }
+  showTab(photos.size ? "foto" : "setup");
+  startGPS();
+})();
+</script>
+<script>
+/* PWA: simpan aplikasi di HP agar bisa dibuka tanpa internet */
+if("serviceWorker" in navigator && window.isSecureContext)
+  navigator.serviceWorker.register("service-worker.js").catch(()=>{});
+</script>
+</body>
+</html>
