@@ -1,6 +1,6 @@
 /* Service worker Pemeriksaan Fisik TDBU — cache-first, 100% offline setelah dibuka sekali.
    Setiap kali isi aplikasi diperbarui, naikkan VERSI agar HP mengambil versi baru. */
-const VERSI = "tdbu-v3.1";
+const VERSI = "tdbu-v3.2";
 const FILE = [
 "./",
 "index.html",
@@ -86,7 +86,8 @@ const FILE = [
 ];
 
 self.addEventListener("install", e => {
-  e.waitUntil(caches.open(VERSI).then(c => c.addAll(FILE)).then(() => self.skipWaiting()));
+  // cache: "reload" = abaikan cache HTTP (GitHub Pages max-age 10 menit) agar file yang dipasang benar-benar versi baru
+  e.waitUntil(caches.open(VERSI).then(c => c.addAll(FILE.map(u => new Request(u, {cache: "reload"})))).then(() => self.skipWaiting()));
 });
 
 self.addEventListener("activate", e => {

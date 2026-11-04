@@ -237,6 +237,7 @@ body.camon #toast{bottom:auto;top:96px}
       <h2>Selesai</h2>
       <p class="hint" style="margin:0 0 10px">Data hanya tersimpan sementara di HP ini (tidak dikirim ke mana pun) agar foto tidak hilang jika browser tertutup. Setelah file diunduh, hapus untuk kunjungan berikutnya.</p>
       <button class="btn red full" data-act="reset">Selesai &amp; Hapus Semua Data</button>
+      <p class="hint" id="appVer" style="text-align:center;margin:12px 0 0"></p>
     </div>
   </section>
 </main>
@@ -1286,9 +1287,21 @@ function buildPrint(){
 })();
 </script>
 <script>
-/* PWA: simpan aplikasi di HP agar bisa dibuka tanpa internet */
-if("serviceWorker" in navigator && window.isSecureContext)
-  navigator.serviceWorker.register("service-worker.js").catch(()=>{});
+/* PWA: simpan aplikasi di HP agar bisa dibuka tanpa internet; versi baru dipasang & dimuat otomatis */
+(function(){ const v=document.getElementById("appVer"); if(v) v.textContent="Versi aplikasi: tdbu-v3.2";
+  if(!("serviceWorker" in navigator) || !window.isSecureContext) return;
+  const adaLama = !!navigator.serviceWorker.controller; let sudah = false;
+  navigator.serviceWorker.addEventListener("controllerchange", function muat(){
+    if(!adaLama || sudah) return;
+    if(document.body.classList.contains("camon")){ setTimeout(muat, 3000); return; } // tunggu kamera ditutup
+    sudah = true; try{ sessionStorage.setItem("baruDiperbarui","1"); }catch(e){} setTimeout(()=>location.reload(), 600);
+  });
+  navigator.serviceWorker.register("service-worker.js").then(r=>{
+    r.update().catch(()=>{});
+    document.addEventListener("visibilitychange", ()=>{ if(!document.hidden) r.update().catch(()=>{}); });
+  }).catch(()=>{});
+  try{ if(sessionStorage.getItem("baruDiperbarui")){ sessionStorage.removeItem("baruDiperbarui"); setTimeout(()=>toast("Aplikasi diperbarui ke versi terbaru", 3000), 800); } }catch(e){}
+})();
 </script>
 </body>
 </html>
