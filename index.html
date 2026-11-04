@@ -169,7 +169,6 @@ body.camon #toast{bottom:auto;top:96px}
         <select id="f-bu">
           <option value="PPJ">BU-PPJ (Badan Usaha Pembuat Perlengkapan Jalan)</option>
           <option value="PBPJ">BU-PBPJ (Badan Usaha Penyedia Bahan Perlengkapan Jalan)</option>
-          <option value="APL">Aplikator Perlengkapan Jalan (form menyusul)</option>
         </select>
       </label>
       <label class="f"><span>Petugas / Tim (opsional, ikut tercetak di cap foto)</span><input id="f-petugas" placeholder="mis. Tim Teknis Dit. Lalu Lintas Jalan"></label>
@@ -290,11 +289,10 @@ function busy(on, txt){ $("#busy").classList.toggle("show", !!on); if(txt) $("#b
 
 /* ================= TEMPLATE (dari Checklist On Site Visit) ================= */
 function mk(list){ return list.map(s => { const [name,hint] = s.split("|"); return {id:uid(), name, hint:hint||"", status:"", ket:"", photos:[]}; }); }
-/* Jenis badan usaha. Checklist berbeda per jenis; Aplikator: form menyusul. */
+/* Jenis badan usaha. Checklist berbeda per jenis (aplikator termasuk BU-PPJ). */
 const BU = {
   PPJ:  {label:"BU-PPJ (Badan Usaha Pembuat Perlengkapan Jalan)"},
-  PBPJ: {label:"BU-PBPJ (Badan Usaha Penyedia Bahan Perlengkapan Jalan)"},
-  APL:  {label:"Aplikator Perlengkapan Jalan", soon:true}
+  PBPJ: {label:"BU-PBPJ (Badan Usaha Penyedia Bahan Perlengkapan Jalan)"}
 };
 const gedung = (dasar="Ruang Penyimpanan Bahan Dasar", jadi="Ruang Penyimpanan Bahan Jadi") =>
   ["Ruang Administrasi|Luas … m²", dasar+"|Luas … m²", "Ruang Perakitan|Luas … m²", jadi+"|Luas … m²"];
@@ -807,9 +805,7 @@ function renderSetup(){
   $("#o-gps").checked=state.opt.gps; $("#o-stampgal").checked=state.opt.stampGal; $("#o-empty").checked=state.opt.empty; $("#o-rekap").checked=state.opt.rekap;
   document.querySelectorAll("[data-ttd]").forEach(el=>{ el.value = ttdGet(el.dataset.ttd); });
   const list = buBidang();
-  const soon = BU[curBu()] && BU[curBu()].soon && !list.length
-    ? '<p class="hint" style="margin:0 0 10px">Form checklist Aplikator belum tersedia (menyusul). Sementara gunakan "+ Tambah bidang lain".</p>' : "";
-  $("#bidangList").innerHTML = soon + list.map(b=>{
+  $("#bidangList").innerHTML = list.map(b=>{
     const secs = visSecs(b);
     const n = secs.reduce((a,s)=>a+s.items.length,0);
     const np = b.sections.reduce((a,s)=>a+s.items.reduce((c,i)=>c+i.photos.length,0),0);
@@ -1036,7 +1032,7 @@ const FN = "Arial Narrow";
 const FORM_NAME = {"pp-ao":"APILL (Alat Pemberi Isyarat Lalu Lintas) Otonom Standar/Cerdas","pb-ao":"APILL (Alat Pemberi Isyarat Lalu Lintas) Otonom Standar/Cerdas",
   "pp-at":"APILL (Alat Pemberi Isyarat Lalu Lintas) Terkoordinasi","pb-at":"APILL (Alat Pemberi Isyarat Lalu Lintas) Terkoordinasi",
   "pp-pw":"Alat Pengawas dan Pengaman Pengguna Jalan (Alat Penimbangan Kendaraan Bermotor)","pb-pw":"Alat Pengawas dan Pengaman Pengguna Jalan (Alat Penimbangan Kendaraan Bermotor)"};
-const BU_FORM = {PPJ:"BADAN USAHA PEMBUAT PERLENGKAPAN JALAN (BU-PPJ)", PBPJ:"BADAN USAHA PENYEDIA BAHAN PERLENGKAPAN JALAN (BU-PBPJ)", APL:"APLIKATOR PERLENGKAPAN JALAN"};
+const BU_FORM = {PPJ:"BADAN USAHA PEMBUAT PERLENGKAPAN JALAN (BU-PPJ)", PBPJ:"BADAN USAHA PENYEDIA BAHAN PERLENGKAPAN JALAN (BU-PBPJ)"};
 const MRG_FORM = {top:1440, right:1440, bottom:1134, left:1440}, MRG_LAMP = {top:1134, right:1134, bottom:1134, left:1134};
 const NIL_BD = '<w:tblBorders><w:top w:val="nil"/><w:left w:val="nil"/><w:bottom w:val="nil"/><w:right w:val="nil"/><w:insideH w:val="nil"/><w:insideV w:val="nil"/></w:tblBorders>';
 const BOX_BD = '<w:tcBorders><w:top w:val="single" w:sz="4" w:color="000000"/><w:left w:val="single" w:sz="4" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:color="000000"/><w:right w:val="single" w:sz="4" w:color="000000"/></w:tcBorders>';
@@ -1270,7 +1266,9 @@ function buildPrint(){
       state = Object.assign(freshState(), st);
       // data dari versi lama: lengkapi jenis BU & bidang baru tanpa mengubah foto yang ada
       const v = state.visit;
-      if(!v.buKey) v.buKey = /Penyedia/i.test(v.bu||"") ? "PBPJ" : /Aplikator/i.test(v.bu||"") ? "APL" : "PPJ";
+      if(!v.buKey) v.buKey = /Penyedia/i.test(v.bu||"") ? "PBPJ" : "PPJ";
+      if(!BU[v.buKey]) v.buKey = "PPJ"; // pilihan Aplikator dihapus: aplikator termasuk BU-PPJ
+      for(const b of state.bidang) if(b.bu && !BU[b.bu]) b.bu = "PPJ";
       v.bu = BU[v.buKey].label;
       if(!v.ttd) v.ttd = freshTtd();
       for(const b of state.bidang){ if(!b.bu) b.bu="PPJ"; if(!b.jenis) b.jenis={}; }
