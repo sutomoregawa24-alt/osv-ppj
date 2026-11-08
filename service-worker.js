@@ -1,6 +1,6 @@
 /* Service worker Pemeriksaan Fisik TDBU — cache-first, 100% offline setelah dibuka sekali.
    Setiap kali isi aplikasi diperbarui, naikkan VERSI agar HP mengambil versi baru. */
-const VERSI = "tdbu-v3.2";
+const VERSI = "tdbu-v4.0";
 const FILE = [
 "./",
 "index.html",
@@ -9,6 +9,8 @@ const FILE = [
 "icon-192.png",
 "icon-512.png",
 "icon-maskable-512.png",
+"ba-template.json",
+"ba-kop.jpg",
 "contoh/pp-airless-spray-gun.jpg",
 "contoh/pp-alat-gali-tanah.jpg",
 "contoh/pp-alat-pengisi-program-siklus.jpg",
