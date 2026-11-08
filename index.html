@@ -269,12 +269,14 @@ body.camon #toast{bottom:auto;top:96px}
       <table class="dl">
         <thead><tr><th>Dokumen</th><th>Word</th><th>PDF</th></tr></thead>
         <tbody>
-          <tr><td><b>Berita Acara</b><small>Pemeriksaan Teknis (Workshop)</small></td><td><button class="btn" data-act="dl" data-doc="ba" data-fmt="docx">Word</button></td><td><button class="btn" data-act="dl" data-doc="ba" data-fmt="pdf">PDF</button></td></tr>
-          <tr><td><b>Formulir Ceklis &amp; Dokumentasi</b><small>Checklist + lampiran foto per bidang</small></td><td><button class="btn" data-act="dl" data-doc="form" data-fmt="docx">Word</button></td><td><button class="btn" data-act="dl" data-doc="form" data-fmt="pdf">PDF</button></td></tr>
+          <tr class="pisah"><td><b>Berita Acara</b><small>Pemeriksaan Teknis (Workshop)</small></td><td><button class="btn" data-act="dl" data-doc="ba" data-fmt="docx">Word</button></td><td><button class="btn" data-act="dl" data-doc="ba" data-fmt="pdf">PDF</button></td></tr>
+          <tr class="pisah"><td><b>Formulir Ceklis &amp; Dokumentasi</b><small>Checklist + lampiran foto per bidang</small></td><td><button class="btn" data-act="dl" data-doc="form" data-fmt="docx">Word</button></td><td><button class="btn" data-act="dl" data-doc="form" data-fmt="pdf">PDF</button></td></tr>
+          <tr class="gabung" hidden><td><b>BA + Formulir Ceklis &amp; Dokumentasi</b><small>1 file: Berita Acara, lalu checklist &amp; lampiran foto</small></td><td><button class="btn" data-act="dl" data-doc="gabung" data-fmt="docx">Word</button></td><td><button class="btn" data-act="dl" data-doc="gabung" data-fmt="pdf">PDF</button></td></tr>
           <tr><td><b>Rekap Kekurangan Peralatan</b><small>Item "Susul" dan "Tidak" per bidang/subbidang</small></td><td><button class="btn" data-act="dl" data-doc="rekap" data-fmt="docx">Word</button></td><td><button class="btn" data-act="dl" data-doc="rekap" data-fmt="pdf">PDF</button></td></tr>
         </tbody>
       </table>
-      <label class="chk" style="margin-top:10px"><input type="checkbox" id="o-share"><div><b>Kirim lewat menu Bagikan</b><small>Bila dicentang: dokumen dikirim lewat WhatsApp, Google Drive, Email, Simpan ke File. Bila tidak: langsung diunduh.</small></div></label>
+      <label class="chk" style="margin-top:10px"><input type="checkbox" id="o-gabung"><div><b>Gabungkan BA + Formulir Ceklis &amp; Dokumentasi jadi 1 file</b><small>Tidak perlu unduh satu per satu. Rekap Kekurangan tetap terpisah.</small></div></label>
+      <label class="chk"><input type="checkbox" id="o-share"><div><b>Kirim lewat menu Bagikan</b><small>Bila dicentang: dokumen dikirim lewat WhatsApp, Google Drive, Email, Simpan ke File. Bila tidak: langsung diunduh.</small></div></label>
       <p class="hint" style="margin:2px 0 10px">Lampiran foto otomatis memuat kotak kosong untuk item tanpa foto, dan foto di dokumen otomatis diperkecil agar file ringan (foto asli di HP tidak berubah).</p>
       <div class="sub3">Cadangan foto</div>
       <button class="btn ghost full" data-act="gallery" id="btnGal">Simpan semua foto ke Galeri HP</button>
@@ -1095,8 +1097,11 @@ function renderUnduh(){
   for(const b of act) for(const s of visSecs(b)) for(const it of s.items){ nf+=it.photos.length; if(it.photos.length) ni++; }
   $("#s-foto").textContent=nf; $("#s-item").textContent=ni; $("#s-bid").textContent=act.length;
   $("#inAppWarn").hidden = !IN_APP;
+  $("#o-gabung").checked = !!state.opt.gabung; dlRows();
   storeInfo(); galInfo();
 }
+/* centang "gabungkan": baris BA & Formulir diganti satu baris gabungan */
+function dlRows(){ const g = !!state.opt.gabung; document.querySelectorAll("tr.pisah").forEach(r=>r.hidden=g); document.querySelectorAll("tr.gabung").forEach(r=>r.hidden=!g); }
 /* ================= CADANGAN FOTO KE GALERI HP ================= */
 let galIdx = 0; // iPhone: foto disimpan per 20 (tiap kali tombol diketuk)
 function galList(){ // foto unik (foto bersama hanya sekali), urut bidang → kelompok → item
@@ -1174,8 +1179,8 @@ document.querySelectorAll("[data-v]").forEach(el=>{ const h=()=>{
   }
   save(); }; el.addEventListener("input",h); el.addEventListener("change",h); });
 $("#f-bu").addEventListener("change", e=>{ state.visit.buKey=e.target.value; state.visit.bu=BU[e.target.value].label; save(); renderSetup(); });
-[["o-gps","gps"],["o-stampgal","stampGal"],["o-share","share"]].forEach(([id,k])=>{
-  document.getElementById(id).addEventListener("change",e=>{ state.opt[k]=e.target.checked; save(); if(k==="gps") startGPS(); });
+[["o-gps","gps"],["o-stampgal","stampGal"],["o-share","share"],["o-gabung","gabung"]].forEach(([id,k])=>{
+  document.getElementById(id).addEventListener("change",e=>{ state.opt[k]=e.target.checked; save(); if(k==="gps") startGPS(); if(k==="gabung") dlRows(); });
 });
 document.addEventListener("change", e=>{
   if(e.target.dataset.bid){ const b=state.bidang.find(b=>b.key===e.target.dataset.bid); b.on=e.target.checked; save(); renderSetup(); }
@@ -1326,7 +1331,8 @@ function run(t, o={}){
   return `<w:r><w:rPr><w:rFonts w:ascii="Arial" w:hAnsi="Arial" w:cs="Arial"/>${o.b?"<w:b/>":""}${o.i?"<w:i/>":""}${o.color?`<w:color w:val="${o.color}"/>`:""}<w:sz w:val="${o.sz||20}"/><w:szCs w:val="${o.sz||20}"/></w:rPr><w:t xml:space="preserve">${X(t)}</w:t></w:r>`;
 }
 function para(runs, o={}){
-  return `<w:p><w:pPr>${o.keep?"<w:keepNext/>":""}<w:spacing w:before="${o.before||0}" w:after="${o.after||0}"/>${o.jc?`<w:jc w:val="${o.jc}"/>`:""}${o.border?'<w:pBdr><w:bottom w:val="single" w:sz="12" w:space="1" w:color="000000"/></w:pBdr>':""}</w:pPr>${runs}</w:p>`;
+  // jarak baris & ukuran tanda paragraf ditulis eksplisit agar tampilan sama walau digabung dengan dokumen BA (gaya bawaan berbeda)
+  return `<w:p><w:pPr>${o.keep?"<w:keepNext/>":""}${o.border?'<w:pBdr><w:bottom w:val="single" w:sz="12" w:space="1" w:color="000000"/></w:pBdr>':""}<w:spacing w:before="${o.before||0}" w:after="${o.after||0}" w:line="240" w:lineRule="auto"/>${o.jc?`<w:jc w:val="${o.jc}"/>`:""}<w:rPr><w:rFonts w:ascii="Arial" w:hAnsi="Arial" w:cs="Arial"/><w:sz w:val="20"/><w:szCs w:val="20"/></w:rPr></w:pPr>${runs}</w:p>`;
 }
 function cellXml(w, inner, o={}){
   return `<w:tc><w:tcPr><w:tcW w:w="${w}" w:type="dxa"/>${o.span?`<w:gridSpan w:val="${o.span}"/>`:""}${o.fill?`<w:shd w:val="clear" w:color="auto" w:fill="${o.fill}"/>`:""}<w:vAlign w:val="${o.v||"center"}"/></w:tcPr>${inner}</w:tc>`;
@@ -1518,6 +1524,11 @@ const docPhoto = p => smallCache.get(p.id) || {blob:p.blob, w:p.w, h:p.h}; // se
 
 /* ================= FORMULIR CEKLIS + DOKUMENTASI ================= */
 async function buildFormDocx(){
+  const v = state.visit, {body, media, rels, n} = await formDocxParts(0);
+  return {blob: await docxPackage(body, media, rels, "Formulir Ceklis dan Dokumentasi - "+v.perusahaan), count:n};
+}
+/* isi formulir + lampiran (tanpa pembungkus dokumen); idBase: nomor awal gambar agar unik saat digabung */
+async function formDocxParts(idBase){
   const v = state.visit, act = activeBidang();
   await prepPhotos(act);
   const media=[], rels=[], ridOf=new Map(); let n=0;
@@ -1547,7 +1558,7 @@ async function buildFormDocx(){
               rels.push(`<Relationship Id="${rid}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image" Target="media/${fn}"/>`);
             }
             const dp = docPhoto(c.p), sc = Math.min(MAXW/dp.w, MAXH/dp.h);
-            inner = para(drawingXml(rid, n, Math.round(dp.w*sc), Math.round(dp.h*sc)), {jc:"center", before:40, after:40, keep:true});
+            inner = para(drawingXml(rid, idBase+n, Math.round(dp.w*sc), Math.round(dp.h*sc)), {jc:"center", before:40, after:40, keep:true});
           }
           rImg += cellXml(COL[ci], inner);
           rCap += cellXml(COL[ci], c ? para(run(c.name,{sz:17}),{jc:"center", before:20, after:c.ket?0:20}) + (c.ket? para(run(c.ket,{sz:15,i:true,color:"444444"}),{jc:"center",after:20}):"") : para(""));
@@ -1558,7 +1569,7 @@ async function buildFormDocx(){
       body += tblXml(COL, rows);
     }
   });
-  return {blob: await docxPackage(body, media, rels, "Formulir Ceklis dan Dokumentasi - "+v.perusahaan), count:n};
+  return {body, media, rels, n};
 }
 async function buildRekapDocx(){
   const v = state.visit;
@@ -1651,7 +1662,7 @@ async function loadBaTemplate(){
   BA_TPL = {tpl, kop: new Uint8Array(kop)};
   return BA_TPL;
 }
-async function buildBaDocx(){
+async function baDocxFiles(){
   const {tpl, kop} = await loadBaTemplate(), V = baValues();
   const list = (V.LIST.length ? V.LIST : ["……………"]).map(s=>tpl.item.replace("{{ITEM}}", X(s))).join("");
   const files = [];
@@ -1661,16 +1672,37 @@ async function buildBaDocx(){
     files.push({name, data:x});
   }
   files.push({name:"word/media/kop.jpg", data:kop});
-  return {blob: new Blob(await makeZip(files), {type:"application/vnd.openxmlformats-officedocument.wordprocessingml.document"}), count:0};
+  return files;
+}
+const DOCX_TYPE = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+async function buildBaDocx(){ return {blob: new Blob(await makeZip(await baDocxFiles()), {type:DOCX_TYPE}), count:0}; }
+/* BA + Formulir Ceklis & Dokumentasi dalam 1 file Word: isi formulir disisipkan setelah BA (halaman baru) */
+async function buildGabungDocx(){
+  const files = await baDocxFiles(), {body, media, rels, n} = await formDocxParts(1000);
+  const doc = files.find(f=>f.name==="word/document.xml"), rel = files.find(f=>f.name==="word/_rels/document.xml.rels");
+  let x = doc.data;
+  const j = x.lastIndexOf("</w:body>"), i = x.lastIndexOf("<w:sectPr", j);
+  const baSect = x.slice(i, j); // pengaturan halaman BA → jadi akhir bagian BA
+  x = x.slice(0, i) + `<w:p><w:pPr>${baSect}</w:pPr></w:p>` + body + sectXml(MRG_LAMP) + x.slice(j);
+  // pastikan namespace gambar tersedia di dokumen BA
+  for(const [p, uri] of [["a","http://schemas.openxmlformats.org/drawingml/2006/main"],["pic","http://schemas.openxmlformats.org/drawingml/2006/picture"],["wp","http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing"],["r","http://schemas.openxmlformats.org/officeDocument/2006/relationships"]])
+    if(!new RegExp(`<w:document[^>]*xmlns:${p}=`).test(x)) x = x.replace("<w:document ", `<w:document xmlns:${p}="${uri}" `);
+  doc.data = x;
+  rel.data = rel.data.replace("</Relationships>", rels.join("") + "</Relationships>");
+  return {blob: new Blob(await makeZip([...files, ...media]), {type:DOCX_TYPE}), count:n};
 }
 
 /* ================= UNDUH: 3 dokumen × (Word, PDF) ================= */
-const DOC_NAMA = {ba:"Berita_Acara", form:"Formulir_Ceklis_Dokumentasi", rekap:"Rekap_Kekurangan_Peralatan"};
+const DOC_NAMA = {ba:"Berita_Acara", form:"Formulir_Ceklis_Dokumentasi", rekap:"Rekap_Kekurangan_Peralatan", gabung:"BA_dan_Formulir_Ceklis_Dokumentasi"};
+const BUILD = {
+  docx: {ba:async()=>(await buildBaDocx()).blob, form:async()=>(await buildFormDocx()).blob, rekap:async()=>(await buildRekapDocx()).blob, gabung:async()=>(await buildGabungDocx()).blob},
+  pdf:  {ba:buildBaPdf, form:buildFormPdf, rekap:buildRekapPdf, gabung:buildGabungPdf}
+};
 async function exportDoc(doc, fmt){
   const v = state.visit;
   if(!v.perusahaan.trim()){ toast("Isi nama perusahaan dulu (tab Kunjungan)"); return; }
   if(!activeBidang().length){ toast("Belum ada bidang dipilih"); return; }
-  if(doc==="ba"){
+  if(doc==="ba" || doc==="gabung"){
     const t=v.ttd||{}, kosong=[];
     if(!(v.ba&&String(v.ba.no||"").trim())) kosong.push("Nomor BA");
     if(!((v.ba&&v.ba.p1nama) || (t.tt&&t.tt[0]&&t.tt[0].nama))) kosong.push("Pihak Pertama");
@@ -1682,8 +1714,7 @@ async function exportDoc(doc, fmt){
     await flushSave();
     const name = `${DOC_NAMA[doc]}_${safeName(v.perusahaan)}_${v.tanggal||today()}.${fmt}`;
     let blob;
-    if(fmt==="docx") blob = (doc==="ba" ? await buildBaDocx() : doc==="form" ? await buildFormDocx() : await buildRekapDocx()).blob;
-    else blob = doc==="ba" ? await buildBaPdf() : doc==="form" ? await buildFormPdf() : await buildRekapPdf();
+    blob = await BUILD[fmt][doc]();
     busy(false);
     const how = await deliver(blob, name);
     if(how!=="batal") toast(`${how==="dibagikan"?"Dibagikan":"Diunduh"}: ${name} (${(blob.size/1048576).toFixed(1)} MB)`, 3500);
@@ -1988,15 +2019,16 @@ function pdfRekap(pdf, v, act){
   }
 }
 /* ---------- PDF: Berita Acara (tata letak mengikuti BA asli) ---------- */
-async function buildBaPdf(){
-  const {kop} = await loadBaTemplate(), V = baValues(), pdf = new Pdf();
+async function buildBaPdf(){ const pdf = new Pdf(); await drawBaPdf(pdf); return pdf.output(); }
+async function drawBaPdf(pdf){ // menggambar BA di halaman aktif
+  const {kop} = await loadBaTemplate(), V = baValues();
   pdf.image(pdf.addJpeg(kop), 30, 10, 549.73, 101.65);
   const L=49.65, W=pdf.W-49.65-49.55, S=11, LD=13.6;
   const F = new Flow(pdf, {top:115.9, bottom:40, left:L, right:49.55});
   const P = (runs, o={}) => F.para(runs, {size:S, lead:LD, ...o});
   P([{t:"BERITA ACARA", f:"b"}], {align:"center", after:8});
   P([{t:"Nomor : "}, {t:V.NOMOR, f:"b"}], {align:"center", after:8});
-  P("Tentang Hasil Pemeriksaan Teknis (Workshop) Perusahaan Perlengkapan", {align:"center"});
+  P("Tentang Hasil Pemeriksaan Teknis (Workshop) Perusahaan Perlengkapan Jalan", {align:"center"});
   P(V.PT_UPPER, {align:"center", after:8});
   P(`Pada hari ini, ${V.HARI_TGL}, kami masing-masing pihak :`, {first:18, align:"justify", after:8});
   const num = (lab, x, runs, tx) => { F.need(LD); pdf.text(x, F.y+S*0.9, lab, {size:S}); P(runs, {x:tx, align:"justify"}); };
@@ -2024,18 +2056,19 @@ async function buildBaPdf(){
   ctr("Mengetahui", y); y += 12.6;
   ctr("Ketua Tim Kelompok Substansi Usaha Perlengkapan Jalan", y); y += 63.3;
   ctr(V.MENGETAHUI, y, {f:"b", size:12});
-  return pdf.output();
 }
-async function buildFormPdf(){
-  const v = state.visit, act = activeBidang(), out = new Pdf(), cache = new Map(); // cache: foto bersama disimpan sekali
+async function buildFormPdf(){ const out = new Pdf(); await drawFormPdf(out); return out.output(); }
+async function drawFormPdf(out){ // formulir + lampiran semua bidang, mulai di halaman aktif
+  const v = state.visit, act = activeBidang(), cache = new Map(); // cache: foto bersama disimpan sekali
   await prepPhotos(act);
   for(let i=0;i<act.length;i++){
     if(i>0) out.newPage();
     pdfForm(out, act[i], v); out.newPage();          // formulir checklist
     await pdfLampiran(out, act[i], v, cache);        // lampiran dokumentasi foto
   }
-  return out.output();
 }
+/* BA + Formulir Ceklis & Dokumentasi dalam 1 PDF */
+async function buildGabungPdf(){ const pdf = new Pdf(); await drawBaPdf(pdf); pdf.newPage(); await drawFormPdf(pdf); return pdf.output(); }
 async function buildRekapPdf(){ const pdf = new Pdf(); pdfRekap(pdf, state.visit, activeBidang()); return pdf.output(); }
 
 /* ================= CETAK / PDF ================= */
@@ -2099,7 +2132,7 @@ window.addEventListener("unhandledrejection", e=>{ const r=e && e.reason; if(r &
       if(v.ba.nomor){ const m = String(v.ba.nomor).match(/(\d+)\D+(\d{4})/); if(m){ v.ba.no = v.ba.no||m[1]; v.ba.tahun = v.ba.tahun||m[2]; } delete v.ba.nomor; }
       delete v.ba.mengetahui;
       if(v.telp==null) v.telp = "";
-      state.opt = Object.assign({gps:true, stampGal:true, share:false}, state.opt); delete state.opt.rekap; delete state.opt.empty; delete state.opt.small;
+      state.opt = Object.assign({gps:true, stampGal:true, share:false, gabung:false}, state.opt); delete state.opt.rekap; delete state.opt.empty; delete state.opt.small;
       for(const b of state.bidang){ if(!b.bu) b.bu="PPJ"; if(!b.jenis) b.jenis={}; }
       const ada = new Set(state.bidang.map(b=>b.key));
       for(const t of templates()) if(!ada.has(t.key)) state.bidang.push(t);
@@ -2119,7 +2152,7 @@ window.addEventListener("unhandledrejection", e=>{ const r=e && e.reason; if(r &
 </script>
 <script>
 /* PWA: simpan aplikasi di HP agar bisa dibuka tanpa internet; versi baru dipasang & dimuat otomatis */
-(function(){ const v=document.getElementById("appVer"); if(v) v.textContent="Versi aplikasi: tdbu-v4.3";
+(function(){ const v=document.getElementById("appVer"); if(v) v.textContent="Versi aplikasi: tdbu-v4.4";
   if(!("serviceWorker" in navigator) || !window.isSecureContext) return;
   const adaLama = !!navigator.serviceWorker.controller; let sudah = false;
   navigator.serviceWorker.addEventListener("controllerchange", function muat(){

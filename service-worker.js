@@ -1,6 +1,6 @@
 /* Service worker Pemeriksaan Fisik TDBU — cache-first, 100% offline setelah dibuka sekali.
    Setiap kali isi aplikasi diperbarui, naikkan VERSI agar HP mengambil versi baru. */
-const VERSI = "tdbu-v4.3";
+const VERSI = "tdbu-v4.4";
 const FILE = [
 "./",
 "index.html",
