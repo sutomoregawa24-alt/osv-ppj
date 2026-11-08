@@ -218,7 +218,17 @@ body.camon #toast{bottom:auto;top:96px}
 
     <div class="card">
       <h2>Berita Acara</h2>
-      <label class="f"><span>Nomor BA</span><input data-v="ba.nomor" placeholder="mis. BA 106 TAHUN 2026"></label>
+      <div class="ttd">
+        <label class="f"><span>Nomor BA</span><input data-v="ba.no" inputmode="numeric" placeholder="mis. 106"></label>
+        <label class="f"><span>Tahun</span><input data-v="ba.tahun" inputmode="numeric" placeholder="Otomatis: tahun kunjungan"></label>
+      </div>
+      <p class="hint" id="baNoPrev" style="margin:-4px 0 10px"></p>
+      <div class="sub3">Pihak Pertama (petugas pemeriksa)</div>
+      <label class="f"><span>Nama &amp; gelar</span><input data-v="ba.p1nama" placeholder="Kosong = Tim Teknis 1"></label>
+      <div class="ttd">
+        <label class="f"><span>NIP</span><input data-v="ba.p1nip" inputmode="numeric" placeholder="Kosong = NIP Tim Teknis 1"></label>
+        <label class="f"><span>Jabatan</span><input data-v="ba.p1jabatan" placeholder="Kosong = jabatan Tim Teknis 1"></label>
+      </div>
       <div class="sub3">Surat Permohonan</div>
       <label class="f"><span>Pengirim surat</span><input data-v="ba.pengirim" placeholder="Otomatis: Direktur [nama perusahaan]"></label>
       <div class="ttd">
@@ -227,8 +237,7 @@ body.camon #toast{bottom:auto;top:96px}
       </div>
       <label class="f"><span>Bidang dan subbidang yang disarankan (satu per baris)</span><textarea data-v="ba.sub" rows="4" placeholder="Kosongkan = otomatis dari bidang & jenis yang dipilih"></textarea></label>
       <button class="btn ghost full" data-act="ba-auto" type="button">Isi otomatis dari bidang terpilih</button>
-      <label class="f" style="margin-top:10px"><span>Mengetahui – Ketua Tim Kelompok Substansi Usaha Perlengkapan Jalan</span><input data-v="ba.mengetahui"></label>
-      <p class="hint">Hari, tanggal (dengan terbilang), alamat, dan jenis Tanda Daftar diisi otomatis dari Data Kunjungan.</p>
+      <p class="hint">Hari, tanggal (dengan terbilang), alamat, dan jenis Tanda Daftar diisi otomatis dari Data Kunjungan. Bagian "Mengetahui" (Ketua Tim Kelompok Substansi Usaha Perlengkapan Jalan, ZAKARIYA ANSORI, ST) tetap sesuai format BA. Pihak Kedua = Wakil Perusahaan 1.</p>
     </div>
 
     <div class="card">
@@ -260,11 +269,12 @@ body.camon #toast{bottom:auto;top:96px}
         <thead><tr><th>Dokumen</th><th>Word</th><th>PDF</th></tr></thead>
         <tbody>
           <tr><td><b>Berita Acara</b><small>Pemeriksaan Teknis (Workshop)</small></td><td><button class="btn" data-act="dl" data-doc="ba" data-fmt="docx">Word</button></td><td><button class="btn" data-act="dl" data-doc="ba" data-fmt="pdf">PDF</button></td></tr>
-          <tr><td><b>Formulir Ceklis &amp; Dokumentasi</b><small>Checklist + lampiran foto per bidang + rekap di halaman akhir</small></td><td><button class="btn" data-act="dl" data-doc="form" data-fmt="docx">Word</button></td><td><button class="btn" data-act="dl" data-doc="form" data-fmt="pdf">PDF</button></td></tr>
-          <tr><td><b>Rekap Kekurangan Peralatan</b><small>Ada tapi disusul, tidak ada, belum diisi</small></td><td><button class="btn" data-act="dl" data-doc="rekap" data-fmt="docx">Word</button></td><td><button class="btn" data-act="dl" data-doc="rekap" data-fmt="pdf">PDF</button></td></tr>
+          <tr><td><b>Formulir Ceklis &amp; Dokumentasi</b><small>Checklist + lampiran foto per bidang</small></td><td><button class="btn" data-act="dl" data-doc="form" data-fmt="docx">Word</button></td><td><button class="btn" data-act="dl" data-doc="form" data-fmt="pdf">PDF</button></td></tr>
+          <tr><td><b>Rekap Kekurangan Peralatan</b><small>Item "Susul" dan "Tidak" per bidang/subbidang</small></td><td><button class="btn" data-act="dl" data-doc="rekap" data-fmt="docx">Word</button></td><td><button class="btn" data-act="dl" data-doc="rekap" data-fmt="pdf">PDF</button></td></tr>
         </tbody>
       </table>
       <label class="chk" style="margin-top:10px"><input type="checkbox" id="o-empty" checked><div><b>Tampilkan kotak kosong untuk item tanpa foto</b><small>Pada lampiran dokumentasi (kotak tetap ada, foto kosong).</small></div></label>
+      <label class="chk"><input type="checkbox" id="o-small" checked><div><b>Perkecil foto di dokumen (disarankan)</b><small>Ukuran file jauh lebih kecil, mudah dikirim lewat WhatsApp/email. Foto asli di HP tidak berubah.</small></div></label>
       <label class="chk"><input type="checkbox" id="o-share"><div><b>Kirim lewat menu Bagikan</b><small>WhatsApp, Google Drive, Email, Simpan ke File. Di iPhone menu ini selalu dipakai.</small></div></label>
       <p class="hint" id="inAppWarn" hidden style="color:var(--bad)">Anda membuka aplikasi dari browser di dalam aplikasi lain (mis. Instagram/Facebook). Unduhan bisa gagal — buka link di Chrome atau Safari.</p>
     </div>
@@ -553,10 +563,12 @@ function customBidang(name){
 function today(){ const d=new Date(); return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`; }
 let state = freshState();
 function freshTtd(){ return {kota:"", wp:[{nama:"",jabatan:""},{nama:"",jabatan:""}], tt:[{nama:"",nip:"",pangkat:"",gol:"",jabatan:""},{nama:"",nip:"",pangkat:"",gol:"",jabatan:""}]}; }
-function freshBa(){ return {nomor:"", pengirim:"", noMohon:"", tglMohon:"", sub:"", mengetahui:"ZAKARIYA ANSORI, ST"}; }
+function freshBa(){ return {no:"", tahun:"", pengirim:"", noMohon:"", tglMohon:"", sub:"", p1nama:"", p1nip:"", p1jabatan:""}; }
+const BA_MENGETAHUI = "ZAKARIYA ANSORI, ST"; // tetap, sesuai format BA (Ketua Tim)
+function baNomor(){ const ba = state.visit.ba||{}, y = (state.visit.tanggal||today()).slice(0,4); return `BA ${String(ba.no||"").trim()||"……"} TAHUN ${String(ba.tahun||"").trim()||y}`; }
 function freshState(){
   return { visit:{perusahaan:"", alamat:"", telp:"", tanggal:today(), buKey:"PPJ", bu:BU.PPJ.label, petugas:"", ttd:freshTtd(), ba:freshBa()},
-           opt:{gps:true, stampGal:true, empty:true, share:false}, bidang:templates(), cur:"konv", collapsed:{} };
+           opt:{gps:true, stampGal:true, empty:true, share:false, small:true}, bidang:templates(), cur:"konv", collapsed:{} };
 }
 /* Jenis isian khusus: luas ruang (m²) dan kendaraan (jenis / type) */
 const isLuas = it => /m²/.test(it.hint||"");
@@ -1007,9 +1019,10 @@ const IGAL = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-
 function renderSetup(){
   const v=state.visit;
   $("#f-perusahaan").value=v.perusahaan; $("#f-alamat").value=v.alamat; $("#f-tanggal").value=v.tanggal; $("#f-bu").value=curBu(); $("#f-petugas").value=v.petugas;
-  $("#o-gps").checked=state.opt.gps; $("#o-stampgal").checked=state.opt.stampGal; $("#o-empty").checked=state.opt.empty; $("#o-share").checked=!!state.opt.share;
+  $("#o-gps").checked=state.opt.gps; $("#o-stampgal").checked=state.opt.stampGal; $("#o-empty").checked=state.opt.empty; $("#o-share").checked=!!state.opt.share; $("#o-small").checked=state.opt.small!==false;
   document.querySelectorAll("[data-ttd]").forEach(el=>{ el.value = ttdGet(el.dataset.ttd); });
   document.querySelectorAll("[data-v]").forEach(el=>{ el.value = vGet(el.dataset.v); });
+  $("#baNoPrev").textContent = "Tercetak: Nomor : " + baNomor();
   const sub = document.querySelector('[data-v="ba.sub"]'); if(sub) sub.placeholder = "Otomatis:\n" + (autoSubbidang().join("\n") || "(pilih bidang dulu)");
   const list = buBidang();
   $("#bidangList").innerHTML = list.map(b=>{
@@ -1109,9 +1122,9 @@ document.querySelectorAll("[data-ttd]").forEach(el=>el.addEventListener("input",
 /* data-v="ba.nomor" → state.visit.ba.nomor ; data-v="telp" → state.visit.telp */
 function vGet(path){ return path.split(".").reduce((o,k)=>o==null?"":o[k], state.visit) ?? ""; }
 function vSet(path, val){ const ks=path.split("."), last=ks.pop(); const o=ks.reduce((o,k)=>(o[k]=o[k]||{}), state.visit); o[last]=val; }
-document.querySelectorAll("[data-v]").forEach(el=>{ const h=()=>{ vSet(el.dataset.v, el.value); save(); }; el.addEventListener("input",h); el.addEventListener("change",h); });
+document.querySelectorAll("[data-v]").forEach(el=>{ const h=()=>{ vSet(el.dataset.v, el.value); save(); if(/^ba\.(no|tahun)$/.test(el.dataset.v)) $("#baNoPrev").textContent = "Tercetak: Nomor : " + baNomor(); }; el.addEventListener("input",h); el.addEventListener("change",h); });
 $("#f-bu").addEventListener("change", e=>{ state.visit.buKey=e.target.value; state.visit.bu=BU[e.target.value].label; save(); renderSetup(); });
-[["o-gps","gps"],["o-stampgal","stampGal"],["o-empty","empty"],["o-share","share"]].forEach(([id,k])=>{
+[["o-gps","gps"],["o-stampgal","stampGal"],["o-empty","empty"],["o-share","share"],["o-small","small"]].forEach(([id,k])=>{
   document.getElementById(id).addEventListener("change",e=>{ state.opt[k]=e.target.checked; save(); if(k==="gps") startGPS(); });
 });
 document.addEventListener("change", e=>{
@@ -1179,9 +1192,11 @@ document.addEventListener("click", async e=>{
   else if(a==="reset"){
     if(!confirm("Hapus semua data & foto kunjungan ini dari HP?\nPastikan file sudah diunduh.")) return;
     for(const p of photos.values()) URL.revokeObjectURL(p.url); photos.clear();
-    const tim = state.visit.ttd && state.visit.ttd.tt, tahu = state.visit.ba && state.visit.ba.mengetahui;
+    // petugas (Tim Teknis & Pihak Pertama BA) tetap disimpan untuk kunjungan berikutnya
+    const tim = state.visit.ttd && state.visit.ttd.tt, b0 = state.visit.ba || {};
     await DB.clear("photos"); await DB.clear("kv"); state=freshState();
-    if(tim) state.visit.ttd.tt=tim; if(tahu) state.visit.ba.mengetahui=tahu;
+    if(tim) state.visit.ttd.tt=tim;
+    Object.assign(state.visit.ba, {p1nama:b0.p1nama||"", p1nip:b0.p1nip||"", p1jabatan:b0.p1jabatan||""});
     await flushSave(); showTab("setup"); toast("Data dihapus. Siap untuk kunjungan baru.");
   }
 });
@@ -1392,16 +1407,15 @@ const sectXml = m => `<w:sectPr><w:pgSz w:w="11906" w:h="16838"/><w:pgMar w:top=
 const sectBreak = m => `<w:p><w:pPr>${sectXml(m)}</w:pPr></w:p>`;
 
 /* ================= REKAP KEKURANGAN PERALATAN ================= */
-/* per bidang: ada tapi foto/dokumen disusul, tidak ada, dan belum diisi */
+/* per bidang/subbidang: hanya item berstatus Susul dan Tidak */
 function rekapData(b){
-  const susul=[], tidak=[], kosong=[];
+  const susul=[], tidak=[];
   for(const s of visSecs(b)) for(const it of s.items){
     const e = {kel:s.title, name:it.name, ket:String(it.ket||"").trim()};
     if(it.status==="tidak") tidak.push(e);
-    else if(it.status==="susul" || (it.status==="ada" && s.lamp && !it.photos.length)) susul.push(e);
-    else if(!it.status && !it.photos.length) kosong.push(e);
+    else if(it.status==="susul") susul.push(e);
   }
-  return [["Ada – foto/dokumen disusul", susul], ["Tidak ada", tidak], ["Belum diisi / belum diperiksa", kosong]];
+  return [["Ada – foto/dokumen disusul", susul], ["Tidak ada", tidak]];
 }
 function rekapXml(v, act){
   const TW=9638, C=[500,3700,2300,3138];
@@ -1412,7 +1426,7 @@ function rekapXml(v, act){
   for(const b of act){
     x += para(run("BIDANG "+docTitle(b).toUpperCase(),{b:true,sz:20,color:"1D5FBF"}), {before:200, after:60, keep:true});
     const grp = rekapData(b); const total = grp.reduce((a,g)=>a+g[1].length,0);
-    if(!total){ x += para(run("Tidak ada kekurangan: semua item ada dan terdokumentasi.",{i:true,sz:18})); continue; }
+    if(!total){ x += para(run("Tidak ada item berstatus Susul atau Tidak.",{i:true,sz:18})); continue; }
     const rows = [`<w:tr><w:trPr><w:tblHeader/><w:cantSplit/></w:trPr>${["No","Uraian","Kelompok","Keterangan"].map((h,i)=>cellXml(C[i], para(run(h,{b:true,sz:18}),{jc:"center",before:20,after:20}),{fill:"D9E2F3"})).join("")}</w:tr>`];
     for(const [judul, list] of grp){ if(!list.length) continue;
       rows.push(`<w:tr><w:trPr><w:cantSplit/></w:trPr>${cellXml(TW, para(run(`${judul} (${list.length})`,{b:true,sz:18}),{before:20,after:20}), {span:4, fill:"F2F2F2"})}</w:tr>`);
@@ -1427,9 +1441,34 @@ function rekapXml(v, act){
   return x;
 }
 
-/* ================= FORMULIR CEKLIS + DOKUMENTASI (+ rekap di halaman akhir) ================= */
+/* ================= FOTO UNTUK DOKUMEN: diperkecil agar file ringan (foto asli di HP tetap) ================= */
+const smallCache = new Map(); // id foto → {blob, w, h} versi dokumen
+async function prepPhotos(act){
+  const list = [...new Set(act.flatMap(b=>sectionsForExport(b).flatMap(x=>x.cells.filter(c=>c.p).map(c=>c.p))))];
+  if(state.opt.small===false) return;
+  let k = 0;
+  for(const p of list){
+    k++; if(smallCache.has(p.id)) continue;
+    if(k%3===1) busy(true, `Menyiapkan foto ${k}/${list.length}…`);
+    let r = {blob:p.blob, w:p.w, h:p.h};
+    if(Math.max(p.w,p.h) > 1024 || p.blob.size > 250000){
+      try{
+        const im = await loadImage(p.blob), sc = Math.min(1, 1024/Math.max(im.naturalWidth, im.naturalHeight));
+        const w = Math.round(im.naturalWidth*sc), h = Math.round(im.naturalHeight*sc);
+        const c = document.createElement("canvas"); c.width=w; c.height=h; c.getContext("2d").drawImage(im,0,0,w,h);
+        const b = await new Promise(res=>c.toBlob(res,"image/jpeg",0.8)); c.width=c.height=0;
+        if(b && b.size < p.blob.size) r = {blob:b, w, h};
+      }catch(_){ /* bila gagal, pakai foto asli */ }
+    }
+    smallCache.set(p.id, r);
+  }
+}
+const docPhoto = p => (state.opt.small!==false && smallCache.get(p.id)) || {blob:p.blob, w:p.w, h:p.h};
+
+/* ================= FORMULIR CEKLIS + DOKUMENTASI ================= */
 async function buildFormDocx(){
   const v = state.visit, act = activeBidang();
+  await prepPhotos(act);
   const media=[], rels=[], ridOf=new Map(); let n=0;
   const COL=[3212,3213,3213], TW=9638;
   const MAXW = 1880000, MAXH = 1750000; // EMU (~5,2 cm × 4,9 cm)
@@ -1456,11 +1495,11 @@ async function buildFormDocx(){
             n++; let rid = ridOf.get(c.p.id);
             if(!rid){ // foto bersama cukup disimpan sekali di dalam file
               rid = "rIdImg"+n; const fn = `image${n}.jpg`; ridOf.set(c.p.id, rid);
-              media.push({name:"word/media/"+fn, data:c.p.blob});
+              media.push({name:"word/media/"+fn, data:docPhoto(c.p).blob});
               rels.push(`<Relationship Id="${rid}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image" Target="media/${fn}"/>`);
             }
-            const sc = Math.min(MAXW/c.p.w, MAXH/c.p.h);
-            inner = para(drawingXml(rid, n, Math.round(c.p.w*sc), Math.round(c.p.h*sc)), {jc:"center", before:40, after:40, keep:true});
+            const dp = docPhoto(c.p), sc = Math.min(MAXW/dp.w, MAXH/dp.h);
+            inner = para(drawingXml(rid, n, Math.round(dp.w*sc), Math.round(dp.h*sc)), {jc:"center", before:40, after:40, keep:true});
           }
           rImg += cellXml(COL[ci], inner);
           rCap += cellXml(COL[ci], c ? para(run(c.name,{sz:17}),{jc:"center", before:20, after:c.ket?0:20}) + (c.ket? para(run(c.ket,{sz:15,i:true,color:"444444"}),{jc:"center",after:20}):"") : para(""));
@@ -1471,7 +1510,6 @@ async function buildFormDocx(){
       body += tblXml(COL, rows);
     }
   });
-  if(act.length) body += sectBreak(MRG_LAMP) + rekapXml(v, act); // halaman akhir: rekap kekurangan
   return {blob: await docxPackage(body, media, rels, "Formulir Ceklis dan Dokumentasi - "+v.perusahaan), count:n};
 }
 async function buildRekapDocx(){
@@ -1526,11 +1564,13 @@ function baValues(){
   const pt = (v.perusahaan||"").trim() || dots;
   const [y,m,d] = (v.tanggal||today()).split("-").map(Number); const dt = new Date(y, m-1, d);
   const jenis = curBu()==="PBPJ" ? "Penyedia Bahan" : "Pembuat";
-  const p1 = t.tt[0]||{}, p2 = t.wp[0]||{};
+  const tt1 = t.tt[0]||{}, p2 = t.wp[0]||{};
+  // Pihak Pertama: isian khusus di kartu BA; bila kosong pakai Tim Teknis 1
+  const p1 = {nama:(ba.p1nama||"").trim()||tt1.nama, nip:(ba.p1nip||"").trim()||tt1.nip, jabatan:(ba.p1jabatan||"").trim()||tt1.jabatan};
   const pengirim = (ba.pengirim||"").trim() || `Direktur ${pt}`;
   const sub = (ba.sub||"").split(/\r?\n/).map(s=>s.trim()).filter(Boolean);
   return {
-    NOMOR: (ba.nomor||"").trim() || `${dots} TAHUN ${y}`,
+    NOMOR: baNomor(),
     PT_UPPER: pt.toUpperCase(),
     HARI_TGL: `${HARI[dt.getDay()]} tanggal ${d} (${terbilang(d)}) bulan ${BULAN[m-1]} Tahun ${y}`,
     P1_NAMA: (p1.nama||"").trim() || dots, P1_KET: ` NIP. ${(p1.nip||"").trim()||dots}, ${(p1.jabatan||"").trim()||dots} `,
@@ -1540,7 +1580,7 @@ function baValues(){
     P23_0: `${pengirim} Nomor Permohonan ${(ba.noMohon||"").trim()||dots} tanggal ${ba.tglMohon?fmtTanggal(ba.tglMohon):dots} perihal Pengajuan Tanda Daftar Badan Usaha ${jenis} Perlengkapan Jalan.`,
     KOTA_TGL: `${(t.kota||"").trim()||dots}, ${fmtTanggal(v.tanggal)}`,
     P2_TTD: (p2.nama||"").trim() || dots, P1_TTD: (p1.nama||"").trim() || dots,
-    MENGETAHUI: (ba.mengetahui||"").trim() || dots,
+    MENGETAHUI: BA_MENGETAHUI,
     LIST: sub.length ? sub : autoSubbidang()
   };
 }
@@ -1575,8 +1615,8 @@ async function exportDoc(doc, fmt){
   if(!activeBidang().length){ toast("Belum ada bidang dipilih"); return; }
   if(doc==="ba"){
     const t=v.ttd||{}, kosong=[];
-    if(!(v.ba&&v.ba.nomor)) kosong.push("Nomor BA");
-    if(!(t.tt&&t.tt[0]&&t.tt[0].nama)) kosong.push("Pihak Pertama (Tim Teknis 1)");
+    if(!(v.ba&&String(v.ba.no||"").trim())) kosong.push("Nomor BA");
+    if(!((v.ba&&v.ba.p1nama) || (t.tt&&t.tt[0]&&t.tt[0].nama))) kosong.push("Pihak Pertama");
     if(!(t.wp&&t.wp[0]&&t.wp[0].nama)) kosong.push("Pihak Kedua (Wakil Perusahaan 1)");
     if(kosong.length) toast("Belum diisi: "+kosong.join(", ")+" — ditulis titik-titik.", 4500);
   }
@@ -1840,7 +1880,7 @@ async function pdfLampiran(pdf, b, v, cache){
         pdf.rect(x, y, colW, IMH); pdf.rect(x, y+IMH, colW, capH);
         if(c && c.p){
           let img = cache.get(c.p.id);
-          if(!img){ img = pdf.addJpeg(new Uint8Array(await c.p.blob.arrayBuffer())); cache.set(c.p.id, img); }
+          if(!img){ img = pdf.addJpeg(new Uint8Array(await docPhoto(c.p).blob.arrayBuffer())); cache.set(c.p.id, img); }
           const sc = Math.min(148/img.w, 137.8/img.h), iw = img.w*sc, ih = img.h*sc;
           pdf.image(img, x+(colW-iw)/2, y+(IMH-ih)/2, iw, ih);
         }
@@ -1882,7 +1922,7 @@ function pdfRekap(pdf, v, act){
     F.y += 10; F.need(60);
     F.para([{t:"BIDANG "+docTitle(b).toUpperCase(), f:"b", color:[29,95,191]}], {size:10, lead:13, after:4});
     const grp = rekapData(b), total = grp.reduce((a,g)=>a+g[1].length,0);
-    if(!total){ F.para([{t:"Tidak ada kekurangan: semua item ada dan terdokumentasi.", f:"i"}], {size:9, lead:12}); continue; }
+    if(!total){ F.para([{t:"Tidak ada item berstatus Susul atau Tidak.", f:"i"}], {size:9, lead:12}); continue; }
     header();
     for(const [judul, list] of grp){ if(!list.length) continue;
       pdfTableRow(F, [W], [{t:`${judul} (${list.length})`, f:"b"}], {fill:[242,242,242], onBreak:header});
@@ -1936,12 +1976,12 @@ async function buildBaPdf(){
 }
 async function buildFormPdf(){
   const v = state.visit, act = activeBidang(), out = new Pdf(), cache = new Map(); // cache: foto bersama disimpan sekali
+  await prepPhotos(act);
   for(let i=0;i<act.length;i++){
     if(i>0) out.newPage();
     pdfForm(out, act[i], v); out.newPage();          // formulir checklist
     await pdfLampiran(out, act[i], v, cache);        // lampiran dokumentasi foto
   }
-  out.newPage(); pdfRekap(out, v, act);              // halaman akhir: rekap kekurangan
   return out.output();
 }
 async function buildRekapPdf(){ const pdf = new Pdf(); pdfRekap(pdf, state.visit, activeBidang()); return pdf.output(); }
@@ -2003,9 +2043,11 @@ window.addEventListener("unhandledrejection", e=>{ const r=e && e.reason; if(r &
       v.bu = BU[v.buKey].label;
       if(!v.ttd) v.ttd = freshTtd();
       for(const m of v.ttd.tt) if(m.nip==null) m.nip = "";
-      if(!v.ba) v.ba = freshBa();
+      v.ba = Object.assign(freshBa(), v.ba||{});
+      if(v.ba.nomor){ const m = String(v.ba.nomor).match(/(\d+)\D+(\d{4})/); if(m){ v.ba.no = v.ba.no||m[1]; v.ba.tahun = v.ba.tahun||m[2]; } delete v.ba.nomor; }
+      delete v.ba.mengetahui;
       if(v.telp==null) v.telp = "";
-      state.opt = Object.assign({gps:true, stampGal:true, empty:true, share:false}, state.opt); delete state.opt.rekap;
+      state.opt = Object.assign({gps:true, stampGal:true, empty:true, share:false, small:true}, state.opt); delete state.opt.rekap;
       for(const b of state.bidang){ if(!b.bu) b.bu="PPJ"; if(!b.jenis) b.jenis={}; }
       const ada = new Set(state.bidang.map(b=>b.key));
       for(const t of templates()) if(!ada.has(t.key)) state.bidang.push(t);
@@ -2025,7 +2067,7 @@ window.addEventListener("unhandledrejection", e=>{ const r=e && e.reason; if(r &
 </script>
 <script>
 /* PWA: simpan aplikasi di HP agar bisa dibuka tanpa internet; versi baru dipasang & dimuat otomatis */
-(function(){ const v=document.getElementById("appVer"); if(v) v.textContent="Versi aplikasi: tdbu-v4.0";
+(function(){ const v=document.getElementById("appVer"); if(v) v.textContent="Versi aplikasi: tdbu-v4.1";
   if(!("serviceWorker" in navigator) || !window.isSecureContext) return;
   const adaLama = !!navigator.serviceWorker.controller; let sudah = false;
   navigator.serviceWorker.addEventListener("controllerchange", function muat(){
