@@ -224,7 +224,8 @@ body.camon #toast{bottom:auto;top:96px}
       </div>
       <p class="hint" id="baNoPrev" style="margin:-4px 0 10px"></p>
       <div class="sub3">Pihak Pertama (petugas pemeriksa)</div>
-      <label class="f"><span>Nama &amp; gelar</span><input data-v="ba.p1nama" placeholder="Kosong = Tim Teknis 1"></label>
+      <label class="f"><span>Nama &amp; gelar (pilih dari Tim Teknis atau ketik)</span><input data-v="ba.p1nama" list="dlTim" autocomplete="off" placeholder="Kosong = Tim Teknis 1"></label>
+      <datalist id="dlTim"></datalist>
       <div class="ttd">
         <label class="f"><span>NIP</span><input data-v="ba.p1nip" inputmode="numeric" placeholder="Kosong = NIP Tim Teknis 1"></label>
         <label class="f"><span>Jabatan</span><input data-v="ba.p1jabatan" placeholder="Kosong = jabatan Tim Teknis 1"></label>
@@ -273,9 +274,11 @@ body.camon #toast{bottom:auto;top:96px}
           <tr><td><b>Rekap Kekurangan Peralatan</b><small>Item "Susul" dan "Tidak" per bidang/subbidang</small></td><td><button class="btn" data-act="dl" data-doc="rekap" data-fmt="docx">Word</button></td><td><button class="btn" data-act="dl" data-doc="rekap" data-fmt="pdf">PDF</button></td></tr>
         </tbody>
       </table>
-      <label class="chk" style="margin-top:10px"><input type="checkbox" id="o-empty" checked><div><b>Tampilkan kotak kosong untuk item tanpa foto</b><small>Pada lampiran dokumentasi (kotak tetap ada, foto kosong).</small></div></label>
-      <label class="chk"><input type="checkbox" id="o-small" checked><div><b>Perkecil foto di dokumen (disarankan)</b><small>Ukuran file jauh lebih kecil, mudah dikirim lewat WhatsApp/email. Foto asli di HP tidak berubah.</small></div></label>
-      <label class="chk"><input type="checkbox" id="o-share"><div><b>Kirim lewat menu Bagikan</b><small>WhatsApp, Google Drive, Email, Simpan ke File. Di iPhone menu ini selalu dipakai.</small></div></label>
+      <label class="chk" style="margin-top:10px"><input type="checkbox" id="o-share"><div><b>Kirim lewat menu Bagikan</b><small>WhatsApp, Google Drive, Email, Simpan ke File. Di iPhone menu ini selalu dipakai.</small></div></label>
+      <p class="hint" style="margin:2px 0 10px">Lampiran foto otomatis memuat kotak kosong untuk item tanpa foto, dan foto di dokumen otomatis diperkecil agar file ringan (foto asli di HP tidak berubah).</p>
+      <div class="sub3">Cadangan foto</div>
+      <button class="btn ghost full" data-act="gallery" id="btnGal">Simpan semua foto ke Galeri HP</button>
+      <p class="hint" id="galInfo"></p>
       <p class="hint" id="inAppWarn" hidden style="color:var(--bad)">Anda membuka aplikasi dari browser di dalam aplikasi lain (mis. Instagram/Facebook). Unduhan bisa gagal — buka link di Chrome atau Safari.</p>
     </div>
     <div class="stack">
@@ -1019,7 +1022,8 @@ const IGAL = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-
 function renderSetup(){
   const v=state.visit;
   $("#f-perusahaan").value=v.perusahaan; $("#f-alamat").value=v.alamat; $("#f-tanggal").value=v.tanggal; $("#f-bu").value=curBu(); $("#f-petugas").value=v.petugas;
-  $("#o-gps").checked=state.opt.gps; $("#o-stampgal").checked=state.opt.stampGal; $("#o-empty").checked=state.opt.empty; $("#o-share").checked=!!state.opt.share; $("#o-small").checked=state.opt.small!==false;
+  $("#o-gps").checked=state.opt.gps; $("#o-stampgal").checked=state.opt.stampGal; $("#o-share").checked=!!state.opt.share;
+  $("#dlTim").innerHTML = (v.ttd.tt||[]).filter(m=>m.nama).map(m=>`<option value="${esc(m.nama)}">`).join("");
   document.querySelectorAll("[data-ttd]").forEach(el=>{ el.value = ttdGet(el.dataset.ttd); });
   document.querySelectorAll("[data-v]").forEach(el=>{ el.value = vGet(el.dataset.v); });
   $("#baNoPrev").textContent = "Tercetak: Nomor : " + baNomor();
@@ -1090,7 +1094,42 @@ function renderUnduh(){
   for(const b of act) for(const s of visSecs(b)) for(const it of s.items){ nf+=it.photos.length; if(it.photos.length) ni++; }
   $("#s-foto").textContent=nf; $("#s-item").textContent=ni; $("#s-bid").textContent=act.length;
   $("#inAppWarn").hidden = !IN_APP;
-  storeInfo();
+  storeInfo(); galInfo();
+}
+/* ================= CADANGAN FOTO KE GALERI HP ================= */
+let galIdx = 0; // iPhone: foto disimpan per 20 (tiap kali tombol diketuk)
+function galList(){ // foto unik (foto bersama hanya sekali), urut bidang → kelompok → item
+  const seen = new Set(), out = [], pt = safeName(state.visit.perusahaan||"Perusahaan");
+  for(const b of activeBidang()) for(const s of visSecs(b)) for(const it of s.items) it.photos.forEach((pid,i)=>{
+    const p = photos.get(pid); if(!p || seen.has(pid)) return; seen.add(pid);
+    out.push({p, name:`${pt}_${pad(out.length+1)}_${safeName(it.name)}${it.photos.length>1?"_"+(i+1):""}.jpg`});
+  });
+  return out;
+}
+function galInfo(){
+  const L = galList(), mb = L.reduce((a,x)=>a+x.p.blob.size,0)/1048576;
+  $("#btnGal").textContent = IS_IOS && galIdx>0 && galIdx<L.length ? `Lanjut simpan foto ${galIdx+1}–${Math.min(galIdx+20,L.length)} dari ${L.length}` : `Simpan semua foto ke Galeri HP (${L.length} foto, ±${mb.toFixed(0)} MB)`;
+  $("#galInfo").textContent = IS_IOS ? "iPhone: pilih \"Simpan Gambar\" di menu Bagikan; disimpan per 20 foto (ketuk tombol lagi untuk berikutnya)."
+    : "Android: foto tersimpan di folder Download dan tampil di aplikasi Galeri. Bila browser bertanya \"unduh beberapa file\", pilih Izinkan.";
+}
+async function saveToGallery(){
+  const L = galList(); if(!L.length){ toast("Belum ada foto"); return; }
+  if(IS_IOS && navigator.canShare){
+    if(galIdx>=L.length) galIdx = 0;
+    const part = L.slice(galIdx, galIdx+20), files = part.map(x=>new File([x.p.blob], x.name, {type:"image/jpeg"}));
+    if(!navigator.canShare({files})){ toast("Perangkat ini tidak mendukung simpan banyak foto sekaligus"); return; }
+    try{ await navigator.share({files}); }catch(e){ if(e && e.name!=="AbortError") toast("Gagal menyimpan: "+e.message); return; }
+    galIdx += part.length;
+    toast(galIdx<L.length ? `Tersimpan ${galIdx}/${L.length}. Ketuk tombol lagi untuk foto berikutnya.` : `Semua ${L.length} foto tersimpan`, 4000);
+    if(galIdx>=L.length) galIdx = 0;
+    galInfo(); return;
+  }
+  for(let i=0;i<L.length;i++){
+    busy(true, `Menyimpan foto ${i+1}/${L.length}…`);
+    download(L[i].p.blob, L[i].name);
+    await new Promise(r=>setTimeout(r, i%10===9 ? 1200 : 300)); // jeda agar browser tidak memblokir
+  }
+  busy(false); toast(`${L.length} foto disimpan ke folder Download (tampil di Galeri)`, 4500);
 }
 /* browser di dalam aplikasi lain (Instagram/Facebook/Line/TikTok) sering memblokir unduhan */
 const IN_APP = /FBAN|FBAV|Instagram|Line\/|TikTok|musical_ly|Snapchat|; wv\)/i.test(navigator.userAgent);
@@ -1118,13 +1157,23 @@ document.querySelectorAll(".tabs button").forEach(b=>b.addEventListener("click",
 /* data-ttd="wp.0.nama" → state.visit.ttd.wp[0].nama */
 function ttdGet(path){ return path.split(".").reduce((o,k)=>o==null?"":o[k], state.visit.ttd) ?? ""; }
 function ttdSet(path, val){ const ks=path.split("."), last=ks.pop(); const o=ks.reduce((o,k)=>o[k], state.visit.ttd); o[last]=val; }
-document.querySelectorAll("[data-ttd]").forEach(el=>el.addEventListener("input",()=>{ ttdSet(el.dataset.ttd, el.value); save(); }));
+document.querySelectorAll("[data-ttd]").forEach(el=>el.addEventListener("input",()=>{ ttdSet(el.dataset.ttd, el.value); save();
+  if(/^tt\.\d\.nama$/.test(el.dataset.ttd)) $("#dlTim").innerHTML = (state.visit.ttd.tt||[]).filter(m=>m.nama).map(m=>`<option value="${esc(m.nama)}">`).join(""); }));
 /* data-v="ba.nomor" → state.visit.ba.nomor ; data-v="telp" → state.visit.telp */
 function vGet(path){ return path.split(".").reduce((o,k)=>o==null?"":o[k], state.visit) ?? ""; }
 function vSet(path, val){ const ks=path.split("."), last=ks.pop(); const o=ks.reduce((o,k)=>(o[k]=o[k]||{}), state.visit); o[last]=val; }
-document.querySelectorAll("[data-v]").forEach(el=>{ const h=()=>{ vSet(el.dataset.v, el.value); save(); if(/^ba\.(no|tahun)$/.test(el.dataset.v)) $("#baNoPrev").textContent = "Tercetak: Nomor : " + baNomor(); }; el.addEventListener("input",h); el.addEventListener("change",h); });
+document.querySelectorAll("[data-v]").forEach(el=>{ const h=()=>{
+  vSet(el.dataset.v, el.value);
+  if(/^ba\.(no|tahun)$/.test(el.dataset.v)) $("#baNoPrev").textContent = "Tercetak: Nomor : " + baNomor();
+  if(el.dataset.v==="ba.p1nama"){ // nama Tim Teknis dikenali: NIP & jabatan langsung terisi
+    const m = timByName(el.value);
+    if(m){ state.visit.ba.p1nip = m.nip||""; state.visit.ba.p1jabatan = m.jabatan||"";
+      document.querySelector('[data-v="ba.p1nip"]').value = state.visit.ba.p1nip;
+      document.querySelector('[data-v="ba.p1jabatan"]').value = state.visit.ba.p1jabatan; }
+  }
+  save(); }; el.addEventListener("input",h); el.addEventListener("change",h); });
 $("#f-bu").addEventListener("change", e=>{ state.visit.buKey=e.target.value; state.visit.bu=BU[e.target.value].label; save(); renderSetup(); });
-[["o-gps","gps"],["o-stampgal","stampGal"],["o-empty","empty"],["o-share","share"],["o-small","small"]].forEach(([id,k])=>{
+[["o-gps","gps"],["o-stampgal","stampGal"],["o-share","share"]].forEach(([id,k])=>{
   document.getElementById(id).addEventListener("change",e=>{ state.opt[k]=e.target.checked; save(); if(k==="gps") startGPS(); });
 });
 document.addEventListener("change", e=>{
@@ -1187,6 +1236,7 @@ document.addEventListener("click", async e=>{
     $("#viewer").hidden=true; await flushSave(); renderItem(viewing.id); renderProgress(); if(cam.open) camUpdate(); viewing=null; toast("Foto dihapus");
   }
   else if(a==="dl"){ await exportDoc(el.dataset.doc, el.dataset.fmt); }
+  else if(a==="gallery"){ await saveToGallery(); }
   else if(a==="ba-auto"){ const t=autoSubbidang(); if(!t.length){ toast("Pilih bidang dulu"); return; } state.visit.ba.sub=t.join("\n"); save(); renderSetup(); toast("Bidang & subbidang terisi otomatis"); }
   else if(a==="zip"){ await exportZip(); }
   else if(a==="reset"){
@@ -1215,7 +1265,7 @@ function cellsOf(s, showEmpty){
 /* "Ruang Administrasi : 120 m²" untuk ruang yang luasnya diisi */
 function luasRows(s){ return s.items.filter(it=>isLuas(it) && String(it.ket).trim()).map(it=>[it.name, `${String(it.ket).trim()} m²`]); }
 function sectionsForExport(b){
-  const showEmpty = state.opt.empty;
+  const showEmpty = true; // selalu: kotak kosong untuk item tanpa foto
   return visSecs(b).map(s=>{
     const hasPhoto = s.items.some(i=>i.photos.length);
     if(!hasPhoto && !(s.lamp && showEmpty)) return null;
@@ -1445,7 +1495,6 @@ function rekapXml(v, act){
 const smallCache = new Map(); // id foto → {blob, w, h} versi dokumen
 async function prepPhotos(act){
   const list = [...new Set(act.flatMap(b=>sectionsForExport(b).flatMap(x=>x.cells.filter(c=>c.p).map(c=>c.p))))];
-  if(state.opt.small===false) return;
   let k = 0;
   for(const p of list){
     k++; if(smallCache.has(p.id)) continue;
@@ -1463,7 +1512,7 @@ async function prepPhotos(act){
     smallCache.set(p.id, r);
   }
 }
-const docPhoto = p => (state.opt.small!==false && smallCache.get(p.id)) || {blob:p.blob, w:p.w, h:p.h};
+const docPhoto = p => smallCache.get(p.id) || {blob:p.blob, w:p.w, h:p.h}; // selalu diperkecil
 
 /* ================= FORMULIR CEKLIS + DOKUMENTASI ================= */
 async function buildFormDocx(){
@@ -1559,6 +1608,12 @@ function autoSubbidang(){
 }
 const ANGKA = ["","Satu","Dua","Tiga","Empat","Lima","Enam","Tujuh","Delapan","Sembilan","Sepuluh","Sebelas"];
 function terbilang(n){ n=+n; if(n<12) return ANGKA[n]; if(n<20) return ANGKA[n-10]+" Belas"; const p=Math.floor(n/10), s=n%10; return ANGKA[p]+" Puluh"+(s?" "+ANGKA[s]:""); }
+/* cari anggota Tim Teknis dengan nama yang sama (abaikan besar-kecil huruf, spasi, tanda baca) */
+function timByName(nm){
+  const k = s => String(s||"").toLowerCase().replace(/[^a-z0-9]+/g,"");
+  const n = k(nm); if(!n) return null;
+  return ((state.visit.ttd||{}).tt||[]).find(m=>m.nama && k(m.nama)===n) || null;
+}
 function baValues(){
   const v = state.visit, t = v.ttd||freshTtd(), ba = v.ba||freshBa(), dots = "……………";
   const pt = (v.perusahaan||"").trim() || dots;
@@ -1566,7 +1621,10 @@ function baValues(){
   const jenis = curBu()==="PBPJ" ? "Penyedia Bahan" : "Pembuat";
   const tt1 = t.tt[0]||{}, p2 = t.wp[0]||{};
   // Pihak Pertama: isian khusus di kartu BA; bila kosong pakai Tim Teknis 1
-  const p1 = {nama:(ba.p1nama||"").trim()||tt1.nama, nip:(ba.p1nip||"").trim()||tt1.nip, jabatan:(ba.p1jabatan||"").trim()||tt1.jabatan};
+  // bila nama Pihak Pertama sama dengan salah satu Tim Teknis, NIP & jabatan diambil dari data Tim Teknis itu
+  const nm1 = (ba.p1nama||"").trim() || tt1.nama || "";
+  const src = timByName(nm1) || (!(ba.p1nama||"").trim() ? tt1 : {});
+  const p1 = {nama:nm1, nip:(ba.p1nip||"").trim()||src.nip, jabatan:(ba.p1jabatan||"").trim()||src.jabatan};
   const pengirim = (ba.pengirim||"").trim() || `Direktur ${pt}`;
   const sub = (ba.sub||"").split(/\r?\n/).map(s=>s.trim()).filter(Boolean);
   return {
@@ -2047,7 +2105,7 @@ window.addEventListener("unhandledrejection", e=>{ const r=e && e.reason; if(r &
       if(v.ba.nomor){ const m = String(v.ba.nomor).match(/(\d+)\D+(\d{4})/); if(m){ v.ba.no = v.ba.no||m[1]; v.ba.tahun = v.ba.tahun||m[2]; } delete v.ba.nomor; }
       delete v.ba.mengetahui;
       if(v.telp==null) v.telp = "";
-      state.opt = Object.assign({gps:true, stampGal:true, empty:true, share:false, small:true}, state.opt); delete state.opt.rekap;
+      state.opt = Object.assign({gps:true, stampGal:true, share:false}, state.opt); delete state.opt.rekap; delete state.opt.empty; delete state.opt.small;
       for(const b of state.bidang){ if(!b.bu) b.bu="PPJ"; if(!b.jenis) b.jenis={}; }
       const ada = new Set(state.bidang.map(b=>b.key));
       for(const t of templates()) if(!ada.has(t.key)) state.bidang.push(t);
@@ -2067,7 +2125,7 @@ window.addEventListener("unhandledrejection", e=>{ const r=e && e.reason; if(r &
 </script>
 <script>
 /* PWA: simpan aplikasi di HP agar bisa dibuka tanpa internet; versi baru dipasang & dimuat otomatis */
-(function(){ const v=document.getElementById("appVer"); if(v) v.textContent="Versi aplikasi: tdbu-v4.1";
+(function(){ const v=document.getElementById("appVer"); if(v) v.textContent="Versi aplikasi: tdbu-v4.2";
   if(!("serviceWorker" in navigator) || !window.isSecureContext) return;
   const adaLama = !!navigator.serviceWorker.controller; let sudah = false;
   navigator.serviceWorker.addEventListener("controllerchange", function muat(){
