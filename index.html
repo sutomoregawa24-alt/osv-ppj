@@ -274,7 +274,7 @@ body.camon #toast{bottom:auto;top:96px}
           <tr><td><b>Rekap Kekurangan Peralatan</b><small>Item "Susul" dan "Tidak" per bidang/subbidang</small></td><td><button class="btn" data-act="dl" data-doc="rekap" data-fmt="docx">Word</button></td><td><button class="btn" data-act="dl" data-doc="rekap" data-fmt="pdf">PDF</button></td></tr>
         </tbody>
       </table>
-      <label class="chk" style="margin-top:10px"><input type="checkbox" id="o-share"><div><b>Kirim lewat menu Bagikan</b><small>WhatsApp, Google Drive, Email, Simpan ke File. Di iPhone menu ini selalu dipakai.</small></div></label>
+      <label class="chk" style="margin-top:10px"><input type="checkbox" id="o-share"><div><b>Kirim lewat menu Bagikan</b><small>Bila dicentang: dokumen dikirim lewat WhatsApp, Google Drive, Email, Simpan ke File. Bila tidak: langsung diunduh.</small></div></label>
       <p class="hint" style="margin:2px 0 10px">Lampiran foto otomatis memuat kotak kosong untuk item tanpa foto, dan foto di dokumen otomatis diperkecil agar file ringan (foto asli di HP tidak berubah).</p>
       <div class="sub3">Cadangan foto</div>
       <button class="btn ghost full" data-act="gallery" id="btnGal">Simpan semua foto ke Galeri HP</button>
@@ -934,7 +934,7 @@ async function handleFiles(files, fromCam){
 const cam = {open:false, stream:null, track:null, list:[], idx:0, crop:null, timer:null, torch:false};
 function camItems(){
   const b = activeBidang().find(b=>b.key===state.cur); const out=[];
-  if(b) for(const s of visSecs(b)) for(const it of s.items) out.push(it.id);
+  if(b) for(const s of visSecs(b)) if(s.lamp) for(const it of s.items) out.push(it.id); // kamera hanya untuk item berfoto
   return out;
 }
 async function openCam(itemId){
@@ -1056,13 +1056,14 @@ function itemHTML(it, s){
     : `<input data-ket="${it.id}" value="${esc(it.ket)}" placeholder="${esc(isKend(it) ? "Jenis / Type, mis. Pickup / Grandmax" : (it.hint||"Keterangan"))}">`;
   return `<div class="item" id="it-${it.id}">
     <div class="r1"><div class="nm">${esc(it.name)}${it.photos.length?` <span style="color:var(--ok)">✓ ${it.photos.length}</span>`:""}${hint?`<small>${esc(hint)}</small>`:""}${shared}${it.custom?`<button class="del" data-act="delitem" data-id="${it.id}">hapus item</button>`:""}</div>
-      <div class="bt">${ex}<button class="ib" data-act="cam" data-id="${it.id}" aria-label="Kamera">${ICAM}</button><button class="ib g" data-act="gal" data-id="${it.id}" aria-label="Galeri">${IGAL}</button></div></div>
+      <div class="bt">${ex}${s && !s.lamp ? "" : `<button class="ib" data-act="cam" data-id="${it.id}" aria-label="Kamera">${ICAM}</button><button class="ib g" data-act="gal" data-id="${it.id}" aria-label="Galeri">${IGAL}</button>`}</div></div>
     <div class="thumbs">${th}</div>
     <div class="r2"><div class="seg"><button class="ada ${it.status==="ada"?"on":""}" data-act="st" data-v="ada" data-id="${it.id}">Ada</button><button class="susul ${it.status==="susul"?"on":""}" data-act="st" data-v="susul" data-id="${it.id}" title="Ada, foto/dokumen menyusul">Susul</button><button class="tidak ${it.status==="tidak"?"on":""}" data-act="st" data-v="tidak" data-id="${it.id}">Tidak</button></div>
       ${inp}</div>
   </div>`;
 }
-function secCount(s){ return s.items.filter(i=>i.photos.length).length; }
+/* kelompok lampiran dihitung dari foto; spesifikasi/administrasi/SDM dari centang (Ada/Susul/Tidak) */
+function secCount(s){ return s.items.filter(i=> s.lamp ? i.photos.length : i.status).length; }
 function renderFoto(){
   const act = activeBidang();
   if(!act.length){ $("#bidangTabs").innerHTML=""; $("#secList").innerHTML='<div class="empty">Belum ada bidang dipilih.<br>Pilih bidang di tab Kunjungan.</div>'; renderProgress(); return; }
@@ -1266,10 +1267,9 @@ function cellsOf(s, showEmpty){
 function luasRows(s){ return s.items.filter(it=>isLuas(it) && String(it.ket).trim()).map(it=>[it.name, `${String(it.ket).trim()} m²`]); }
 function sectionsForExport(b){
   const showEmpty = true; // selalu: kotak kosong untuk item tanpa foto
-  return visSecs(b).map(s=>{
-    const hasPhoto = s.items.some(i=>i.photos.length);
-    if(!hasPhoto && !(s.lamp && showEmpty)) return null;
-    const cells = cellsOf(s, showEmpty && (s.lamp || hasPhoto));
+  // hanya kelompok lampiran (gedung, peralatan, K3, kendaraan); spesifikasi bahan, administrasi & SDM cukup dicentang
+  return visSecs(b).filter(s=>s.lamp).map(s=>{
+    const cells = cellsOf(s, showEmpty);
     return cells.length ? {s, cells} : null;
   }).filter(Boolean);
 }
@@ -1304,6 +1304,8 @@ async function makeZip(files){ // files: [{name, data: Uint8Array|string|Blob}]
   return [...parts, ...central, new Uint8Array(e.buffer)];
 }
 function download(blob, name){
+  // PDF dikirim sebagai berkas biasa: Chrome Android tidak membuka penampil/menu "Buka dengan", langsung tersimpan
+  if(blob.type==="application/pdf") blob = new Blob([blob], {type:"application/octet-stream"});
   const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download=name; a.rel="noopener"; document.body.appendChild(a); a.click();
   setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); }, 60000); // HP lambat: beri waktu cukup sebelum URL dilepas
 }
@@ -1311,7 +1313,7 @@ function download(blob, name){
 async function deliver(blob, name){
   const file = (()=>{ try{ return new File([blob], name, {type: blob.type}); }catch(_){ return null; } })();
   const canShare = file && navigator.canShare && navigator.canShare({files:[file]});
-  if(canShare && (IS_IOS || state.opt.share)){
+  if(canShare && state.opt.share===true){ // menu Bagikan hanya bila kotak "Kirim lewat menu Bagikan" dicentang
     try{ await navigator.share({files:[file], title:name}); return "dibagikan"; }
     catch(e){ if(e && e.name==="AbortError") return "batal"; }
   }
@@ -1522,15 +1524,12 @@ async function buildFormDocx(){
   const COL=[3212,3213,3213], TW=9638;
   const MAXW = 1880000, MAXH = 1750000; // EMU (~5,2 cm × 4,9 cm)
   let body = "";
-  const metaRows = [["Perusahaan", v.perusahaan],["Alamat", v.alamat],["Tanggal", fmtTanggal(v.tanggal)]].map(([k,val])=>
-    `<w:tr>${cellXml(1600, para(run(k,{b:true})), {v:"top"})}${cellXml(300, para(run(":",{b:true})), {v:"top"})}${cellXml(TW-1900, para(run(val||"")), {v:"top"})}</w:tr>`);
   act.forEach((b, bi)=>{
     // formulir & lampiran masing-masing satu section (margin berbeda); section baru selalu mulai di halaman baru
     if(bi>0) body += sectBreak(MRG_LAMP);
     body += formXml(b, v) + sectBreak(MRG_FORM);
     body += para(run("PERLENGKAPAN DAN PERALATAN ",{b:true,sz:22}) + run(docTitle(b).toUpperCase(),{b:true,sz:22,color:"1D5FBF"}), {jc:"center"});
     body += para(run(v.bu.toUpperCase(),{b:true,sz:22}), {jc:"center", after:120, border:true});
-    body += tblXml([1600,300,TW-1900], metaRows, false);
     body += para("", {after:80});
     for(const {s, cells} of sectionsForExport(b)){
       body += para(run(s.title.toUpperCase(),{sz:20}), {before:160, after:60, keep:true});
@@ -1918,12 +1917,7 @@ async function pdfLampiran(pdf, b, v, cache){
   const M=56.7, F=new Flow(pdf, {top:56.7, bottom:56.7, left:M, right:M}), W=F.w, colW=W/3, IMH=153;
   F.para([{t:"PERLENGKAPAN DAN PERALATAN ", f:"b"}, {t:docTitle(b).toUpperCase(), f:"b", color:[29,95,191]}], {size:11, lead:13, align:"center"});
   F.para([{t:v.bu.toUpperCase(), f:"b"}], {size:11, lead:13, align:"center"});
-  pdf.line(M, F.y+3, M+W, F.y+3, 1.2); F.y += 12;
-  for(const [k,val] of [["Perusahaan",v.perusahaan],["Alamat",v.alamat],["Tanggal",fmtTanggal(v.tanggal)]]){
-    pdf.text(M, F.y+9, k, {f:"b", size:10}); pdf.text(M+80, F.y+9, ":", {f:"b", size:10});
-    F.para(val||"", {x:M+95, size:10, lead:12});
-  }
-  F.y += 6;
+  pdf.line(M, F.y+3, M+W, F.y+3, 1.2); F.y += 14;
   for(const {s, cells} of sectionsForExport(b)){
     for(let i=0;i<cells.length;i+=3){
       const grp = cells.slice(i,i+3); while(grp.length<3) grp.push(null);
@@ -2125,7 +2119,7 @@ window.addEventListener("unhandledrejection", e=>{ const r=e && e.reason; if(r &
 </script>
 <script>
 /* PWA: simpan aplikasi di HP agar bisa dibuka tanpa internet; versi baru dipasang & dimuat otomatis */
-(function(){ const v=document.getElementById("appVer"); if(v) v.textContent="Versi aplikasi: tdbu-v4.2";
+(function(){ const v=document.getElementById("appVer"); if(v) v.textContent="Versi aplikasi: tdbu-v4.3";
   if(!("serviceWorker" in navigator) || !window.isSecureContext) return;
   const adaLama = !!navigator.serviceWorker.controller; let sudah = false;
   navigator.serviceWorker.addEventListener("controllerchange", function muat(){
